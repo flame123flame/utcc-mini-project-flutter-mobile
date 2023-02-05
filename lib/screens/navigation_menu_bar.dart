@@ -8,6 +8,7 @@ import 'package:utcc_mobile/screens/bus/list_bus.dart';
 
 import '../constants/constant_color.dart';
 import '../utils/size_config.dart';
+import 'bus/test.dart';
 import 'home.dart';
 
 class NavigationMenuBar extends StatefulWidget {
@@ -53,11 +54,19 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
         inactiveColorPrimary: CupertinoColors.white,
         textStyle: TextStyle(fontSize: 25, color: Colors.amber),
       ),
+      PersistentBottomNavBarItem(
+        inactiveColorSecondary: CupertinoColors.black,
+        icon: Icon(CupertinoIcons.settings_solid),
+        title: ("ทดสอบ"),
+        activeColorPrimary: CupertinoColors.white,
+        inactiveColorPrimary: CupertinoColors.white,
+        textStyle: TextStyle(fontSize: 25, color: Colors.amber),
+      ),
     ];
   }
 
   List<Widget> _buildScreens() {
-    return [Home(), ListBus(), Setting()];
+    return [Home(), ListBus(), Setting(), Test()];
   }
 
   @override

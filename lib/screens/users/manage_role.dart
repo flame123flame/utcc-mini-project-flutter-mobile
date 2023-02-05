@@ -139,7 +139,7 @@ class _ManageRoleState extends State<ManageRole> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: colorBar,
-        title: const Text('จัดการสิทธ์การใช้งาน'),
+        title: Text('จัดการสิทธ์การใช้งาน'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
@@ -159,7 +159,7 @@ class _ManageRoleState extends State<ManageRole> {
             onPressed: () {
               ValidateForm(context);
             },
-          )
+          ),
         ],
       ),
       body: Container(
