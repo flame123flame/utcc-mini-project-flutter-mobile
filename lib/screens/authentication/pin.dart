@@ -10,11 +10,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:utcc_mobile/screens/navigation_menu_bar.dart';
 
 import '../../constants/constant_color.dart';
 import '../../model/user.dart';
+import '../../provider/user_login_provider.dart';
 import '../../service/api_service.dart';
+import 'login.dart';
 import 'num_pad.dart';
 
 class Pin extends StatefulWidget {
@@ -26,9 +29,10 @@ class Pin extends StatefulWidget {
 
 class _PinState extends State<Pin> {
   static FlutterSecureStorage storageToken = new FlutterSecureStorage();
-
+  UserLoginProvider? userLoginProvider;
   @override
   void initState() {
+    userLoginProvider = Provider.of<UserLoginProvider>(context, listen: false);
     super.initState();
     initialize();
   }
@@ -167,6 +171,21 @@ class _PinState extends State<Pin> {
         });
   }
 
+  logout() async {
+    await storageToken.delete(key: 'jwttoken');
+    await storageToken.delete(key: 'username');
+    await storageToken.delete(key: 'password');
+
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return Login();
+        },
+      ),
+      (_) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,7 +195,9 @@ class _PinState extends State<Pin> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.close),
-            onPressed: () {},
+            onPressed: () {
+              logout();
+            },
           )
         ],
       ),

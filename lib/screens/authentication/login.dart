@@ -551,7 +551,7 @@ class _LoginState extends State<Login> {
                         top: 20,
                       ),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(32),
                           color: Color.fromRGBO(255, 255, 255, 0.7)),
                       child: Text(
                         'ระบบบัตรโดยสารรถเมล์อิเล็กทรอนิกส์',

@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'prompt',
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,

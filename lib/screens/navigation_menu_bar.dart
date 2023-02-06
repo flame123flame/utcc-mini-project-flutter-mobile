@@ -54,19 +54,11 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
         inactiveColorPrimary: CupertinoColors.white,
         textStyle: TextStyle(fontSize: 25, color: Colors.amber),
       ),
-      PersistentBottomNavBarItem(
-        inactiveColorSecondary: CupertinoColors.black,
-        icon: Icon(CupertinoIcons.settings_solid),
-        title: ("ทดสอบ"),
-        activeColorPrimary: CupertinoColors.white,
-        inactiveColorPrimary: CupertinoColors.white,
-        textStyle: TextStyle(fontSize: 25, color: Colors.amber),
-      ),
     ];
   }
 
   List<Widget> _buildScreens() {
-    return [Home(), ListBus(), Setting(), Test()];
+    return [Home(), ListBus(), Setting()];
   }
 
   @override
@@ -83,8 +75,6 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       hideNavigationBarWhenKeyboardShows: true,
-      // floatingActionButton: Icon(CupertinoIcons.add_circled),
-      // backgroundColor: Colors.black12,
       decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(0),
           gradient: LinearGradient(
