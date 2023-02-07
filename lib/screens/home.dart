@@ -171,7 +171,7 @@ class _HomeState extends State<Home> {
                                       padding:
                                           EdgeInsets.only(top: 6, bottom: 5),
                                       child: Text(
-                                        "  ${value.getUserLogin.firstName} ${value.getUserLogin.lastName}",
+                                        "  ${value.getUserLogin.firstName} ${value.getUserLogin.lastName} ${value.getUserLogin.position}",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w800,
