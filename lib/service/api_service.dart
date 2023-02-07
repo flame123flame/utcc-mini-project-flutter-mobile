@@ -9,6 +9,7 @@ import 'package:utcc_mobile/model/bus_model.dart';
 import '../model/role_model.dart';
 import '../model/user.dart';
 import '../model/users_login.dart';
+import '../model/weather_main.dart';
 import '../provider/user_login_provider.dart';
 import 'configDio.dart';
 
@@ -137,6 +138,29 @@ class ApiService {
       EasyLoading.dismiss();
 
       throw e;
+    }
+  }
+
+  static Future<WeatherMain> apiGetCurrentWeather() async {
+    showLoadding();
+    try {
+      // Bangkok
+      String city = "Bangkok";
+      String apiKey = "341c061275afe0918b8b600975aeceb6";
+      var response = await Dio().get(
+          'https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=th');
+      if (response.statusCode == 200) {
+        WeatherMain result = WeatherMain.fromJson(response.data);
+        EasyLoading.dismiss();
+        return result;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      EasyLoading.dismiss();
+      print(error);
+      throw error;
     }
   }
 

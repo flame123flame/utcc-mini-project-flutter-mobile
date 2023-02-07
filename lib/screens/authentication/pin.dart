@@ -37,13 +37,20 @@ class _PinState extends State<Pin> {
     initialize();
   }
 
+  String pinText = 'ตั้งรหัสผ่านใหม่';
   void initialize() async {
+    await getPin("xxxxxx");
+    if (checkStatus == "NOT_SUCCESS") {
+      setState(() {
+        pinText = "กรุณาใส่รหัสผ่าน";
+      });
+    }
     await Future.delayed(Duration(seconds: 4));
     FlutterNativeSplash.remove();
   }
 
   int length = 6;
-  String pinText = 'กรอกรหัสผ่านของท่าน';
+
   String pinError = '';
   List<String> listCheck = [];
   String checkStatus = ''; // NOT_DATA , NOT_SUCCESS , SUCCESS

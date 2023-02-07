@@ -90,7 +90,7 @@ class _ListBusState extends State<ListBus> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xffEFF3F8),
+        backgroundColor: Color.fromARGB(255, 235, 240, 244),
         appBar: AppBar(
           backgroundColor: colorBar,
           title: const Text('รถเมล์ในระบบ'),
@@ -290,18 +290,28 @@ class _ListBusState extends State<ListBus> {
                                       left: SizeConfig.defaultSize! * 1.5,
                                       right: SizeConfig.defaultSize! * 1.5),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        spreadRadius: 0,
-                                        blurRadius: 0,
-                                        offset: Offset(0,
-                                            2.2), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
+                                      borderRadius: BorderRadius.circular(6),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.14),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: Offset(0,
+                                              3), // changes position of shadow
+                                        ),
+                                      ],
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color.fromARGB(255, 255, 255, 255)
+                                                .withOpacity(0.40),
+                                            Color.fromARGB(255, 255, 255, 255)
+                                                .withOpacity(0.60),
+                                            Color.fromARGB(255, 255, 255, 255)
+                                                .withOpacity(0.80)
+                                          ])),
                                   padding: EdgeInsets.all(
                                       SizeConfig.defaultSize! * 1),
                                   child: Stack(

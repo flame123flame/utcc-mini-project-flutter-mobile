@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:utcc_mobile/screens/supervisor/overview.dart';
@@ -11,6 +13,7 @@ import 'package:utcc_mobile/screens/users/list_user.dart';
 import 'package:utcc_mobile/screens/users/manage_user.dart';
 import '../constants/constant_color.dart';
 import '../model/users_login.dart';
+import '../model/weather_main.dart';
 import '../model_components/deather.dart';
 import '../model_components/main_menu.dart';
 import '../provider/user_login_provider.dart';
@@ -18,41 +21,21 @@ import '../service/api_service.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  getDataDropdownFarmer() async {
-    try {
-      UserLogin temp = await ApiService.apiGetUserById(11);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  // Future getCurrentWeather() async {
-  //   Weather weather;
-  //   String city = "calgary";
-  //   String apiKey = "YOUR API KEY";
-  //   var url =
-  //       "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric";
-
-  //   final response = await Uri.https(url);
-  //   print(response);
-
-  // }
+  WeatherMain? weather;
 
   getCurrentWeather() async {
-    String city = "calgary";
-    String apiKey = "d1416ca41c9f44ee6512f540d55b4e69";
     try {
-      var response = await Dio().get(
-          'https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric');
-      print(response);
+      WeatherMain temp = await ApiService.apiGetCurrentWeather();
+      setState(() {
+        weather = temp;
+      });
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 
@@ -120,17 +103,33 @@ class _HomeState extends State<Home> {
         navigate: ListRole()),
   ];
   List<MainMenu> listMenuDisplay = [];
-
+  String? _timeString;
   @override
   void initState() {
+    _timeString = _formatDateTime(DateTime.now());
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     userLoginProvider = Provider.of<UserLoginProvider>(context, listen: false);
     List<String> list = userLoginProvider!.getUserLogin.roleCode!.split(",");
     for (var i = 0; i < list.length; i++) {
       listMenuDisplay.addAll(
           listMenu.where((element) => element.role == list[i].toString()));
     }
-    // getCurrentWeather();
+    getCurrentWeather();
     super.initState();
+  }
+
+  void _getTime() {
+    final DateTime now = DateTime.now();
+    final String formattedDateTime = _formatDateTime(now);
+    setState(() {
+      _timeString = formattedDateTime;
+    });
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    return dateTime.hour.toString().length == 1
+        ? "0" + dateTime.hour.toString() + ":" + dateTime.minute.toString()
+        : dateTime.hour.toString() + ":" + dateTime.minute.toString();
   }
 
   @override
@@ -144,7 +143,7 @@ class _HomeState extends State<Home> {
               children: [
                 GradientContainer(size),
                 Positioned(
-                    top: size.height * .09,
+                    top: size.height * .084,
                     left: 30,
                     child: Column(
                       children: [
@@ -184,119 +183,180 @@ class _HomeState extends State<Home> {
                         ),
                       ],
                     )),
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(left: 17, right: 17, top: 168),
-                  height: 185,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        // Color.fromARGB(255, 100, 180, 238),
-                        // Color(0xff2c79c1),
-                        Color.fromARGB(255, 36, 145, 223),
-                        Color.fromARGB(255, 12, 54, 151),
+                if (weather != null)
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(left: 17, right: 17, top: 165),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          opacity: 0.12,
+                          image: AssetImage('assets/images/weather.png'),
+                          fit: BoxFit.contain),
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color.fromARGB(255, 34, 154, 239),
+                          Color.fromARGB(255, 19, 69, 185),
+                        ],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 0,
+                        ),
                       ],
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: Text(
-                              'สภาพอากาศกรุงเทพมหานครวันนี้',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 15),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text("${weather!.main!.temp!.toInt()}°",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
+                                                fontFamily: 'promptw',
+                                                fontSize: 40)),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                            "${weather!.weather![0].description}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white,
+                                                fontSize: 15)),
+                                      ],
+                                    )),
+                              ],
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 30),
-                                child: Image(
-                                  image:
-                                      AssetImage("assets/images/weather.png"),
-                                  fit: BoxFit.fill,
-                                  width: 100,
+                          Divider(
+                              color: Color.fromARGB(255, 198, 196, 196),
+                              height: 1,
+                              indent: 10,
+                              endIndent: 10),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8, right: 8, top: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "กรุงเทพมหานคร",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.white,
+                                          fontSize: 14),
+                                    ),
+                                    // Text(
+                                    //   ' Feel like : ',
+                                    //   style: TextStyle(
+                                    //       color: Color.fromARGB(
+                                    //           255, 236, 235, 235),
+                                    //       fontSize: 13),
+                                    // ),
+                                    // Text(
+                                    //   "${weather!.main!.tempMin!.toInt()}°",
+                                    //   style: TextStyle(
+                                    //       fontWeight: FontWeight.w900,
+                                    //       color: Colors.white,
+                                    //       fontSize: 15),
+                                    // ),
+                                  ],
                                 ),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("27",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white,
-                                              fontSize: 52)),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 17),
-                                        child: Icon(CupertinoIcons.circle,
-                                            color: Colors.white,
-                                            weight: 0.5,
-                                            size: 15,
-                                            grade: 30,
-                                            textDirection: TextDirection.rtl),
-                                      )
-                                    ],
-                                  )),
-                            ],
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      ' สูงสุด: ',
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 238, 238, 238),
+                                          fontSize: 13),
+                                    ),
+                                    Text(
+                                      "${weather!.main!.tempMin!.toInt()}°",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                          fontSize: 15),
+                                    ),
+                                    Text(
+                                      '  ต่ำสุด: ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: Color.fromARGB(
+                                              255, 238, 238, 238),
+                                          fontSize: 13),
+                                    ),
+                                    Text(
+                                      "${weather!.main!.tempMin!.toInt()}°",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                          fontSize: 15),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'สูงสุด: 32',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Icon(CupertinoIcons.circle,
-                                    color: Colors.white,
-                                    weight: 10.0,
-                                    size: 8,
-                                    textDirection: TextDirection.rtl),
-                              ),
-                              Text(
-                                '  ต่ำสุด: 24',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Icon(CupertinoIcons.circle,
-                                    color: Colors.white,
-                                    weight: 0.5,
-                                    size: 8,
-                                    textDirection: TextDirection.rtl),
-                              ),
-                            ],
+                          Container(
+                            margin: EdgeInsets.only(top: 4),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "${_timeString}",
+                                  style: TextStyle(
+                                      fontFamily: "aa",
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                      fontSize: 50),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "13 มกราคม 2566",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                )
+                  )
               ],
             ),
             SizedBox(
@@ -407,16 +467,16 @@ class _HomeState extends State<Home> {
       width: size.width,
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16)),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)),
           image: DecorationImage(
               image: AssetImage('assets/images/logo-car.jpg'),
               fit: BoxFit.cover)),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(16),
-                bottomRight: Radius.circular(16)),
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)),
             boxShadow: [
               BoxShadow(
                   color: Color.fromARGB(255, 25, 67, 144).withOpacity(.20),
