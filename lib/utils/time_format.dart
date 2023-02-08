@@ -178,13 +178,23 @@ class Time {
     'ธันวาคม'
   ];
 
-  String thaiDateTextFormat(DateTime date, bool bcDate) {
+  String thaiDateTextFormat(DateTime date) {
     var daySplitTime = date.toString().split(' ')[0];
     var daySplitDate = daySplitTime.toString().split('-');
     var day = daySplitDate[2];
     var month = monthThai[int.parse(daySplitDate[1]) - 1];
     var year = daySplitDate[0];
     return '${day}' + ' ' + '${month}' + ' ' + '${year}';
+  }
+
+  String thaiDateTextFormatThai() {
+    DateTime date = DateTime.now();
+    var daySplitTime = date.toString().split(' ')[0];
+    var daySplitDate = daySplitTime.toString().split('-');
+    var day = daySplitDate[2];
+    var month = monthThai[int.parse(daySplitDate[1]) - 1];
+    var year = daySplitDate[0];
+    return '${day}' + ' ' + '${month}' + ' ' + '${int.parse(year) + 543}';
   }
 
   String StringToDatetime(String date) {

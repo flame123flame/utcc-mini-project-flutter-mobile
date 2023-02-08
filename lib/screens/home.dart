@@ -11,6 +11,7 @@ import 'package:utcc_mobile/screens/supervisor/overview.dart';
 import 'package:utcc_mobile/screens/users/list_role.dart';
 import 'package:utcc_mobile/screens/users/list_user.dart';
 import 'package:utcc_mobile/screens/users/manage_user.dart';
+import 'package:utcc_mobile/utils/time_format.dart';
 import '../constants/constant_color.dart';
 import '../model/users_login.dart';
 import '../model/weather_main.dart';
@@ -127,9 +128,12 @@ class _HomeState extends State<Home> {
   }
 
   String _formatDateTime(DateTime dateTime) {
+    var minute = dateTime.minute.toString().length == 0
+        ? "0" + dateTime.minute.toString()
+        : dateTime.minute.toString();
     return dateTime.hour.toString().length == 1
-        ? "0" + dateTime.hour.toString() + ":" + dateTime.minute.toString()
-        : dateTime.hour.toString() + ":" + dateTime.minute.toString();
+        ? "0" + dateTime.hour.toString() + ":" + minute
+        : dateTime.hour.toString() + ":" + minute;
   }
 
   @override
@@ -143,7 +147,7 @@ class _HomeState extends State<Home> {
               children: [
                 GradientContainer(size),
                 Positioned(
-                    top: size.height * .084,
+                    top: size.height * .10,
                     left: 30,
                     child: Column(
                       children: [
@@ -186,7 +190,7 @@ class _HomeState extends State<Home> {
                 if (weather != null)
                   Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(left: 17, right: 17, top: 165),
+                    margin: EdgeInsets.only(left: 17, right: 17, top: 185),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -198,8 +202,8 @@ class _HomeState extends State<Home> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color.fromARGB(255, 34, 154, 239),
-                          Color.fromARGB(255, 19, 69, 185),
+                          Color.fromARGB(255, 71, 171, 242),
+                          Color.fromARGB(255, 19, 99, 185),
                         ],
                       ),
                       boxShadow: [
@@ -266,20 +270,6 @@ class _HomeState extends State<Home> {
                                           color: Colors.white,
                                           fontSize: 14),
                                     ),
-                                    // Text(
-                                    //   ' Feel like : ',
-                                    //   style: TextStyle(
-                                    //       color: Color.fromARGB(
-                                    //           255, 236, 235, 235),
-                                    //       fontSize: 13),
-                                    // ),
-                                    // Text(
-                                    //   "${weather!.main!.tempMin!.toInt()}°",
-                                    //   style: TextStyle(
-                                    //       fontWeight: FontWeight.w900,
-                                    //       color: Colors.white,
-                                    //       fontSize: 15),
-                                    // ),
                                   ],
                                 ),
                                 Row(
@@ -294,7 +284,7 @@ class _HomeState extends State<Home> {
                                           fontSize: 13),
                                     ),
                                     Text(
-                                      "${weather!.main!.tempMin!.toInt()}°",
+                                      "${weather!.main!.tempMax!.toInt()}°",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w900,
                                           color: Colors.white,
@@ -344,11 +334,11 @@ class _HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "13 มกราคม 2566",
+                                  "${Time().thaiDateTextFormatThai()}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
-                                      fontSize: 16),
+                                      fontSize: 16.5),
                                 ),
                               ],
                             ),

@@ -78,8 +78,7 @@ class _PopupDatePickerState extends State<PopupDatePicker> {
                   child: Text(
                     null != dateSelected
                         ? (CupertinoDatePickerMode.date == widget.mode
-                                ? Time()
-                                    .thaiDateTextFormat(dateSelected!, false)
+                                ? Time().thaiDateTextFormat(dateSelected!)
                                 : DateFormat.Hm().format(dateSelected!))
                             .toString()
                         : CupertinoDatePickerMode.date != widget.mode
