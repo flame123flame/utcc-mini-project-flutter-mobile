@@ -33,6 +33,7 @@ class _ManageRoleState extends State<ManageRole> {
     MenuRole(name: "เก็บค่าโดยสาร", value: 0, code: "FARECOLLECT"),
     MenuRole(name: "รถที่ต้องขับ", value: 0, code: "DRIVER"),
     MenuRole(name: "ผู้จัดการสาย", value: 0, code: "BUSSUPERVISOR"),
+    MenuRole(name: "เพิ่มข่าวสาร", value: 0, code: "NEWS"),
     MenuRole(name: "ผู้ใช้งานในระบบ", value: 0, code: "USER"),
     MenuRole(name: "สิทธ์การใช้งานในระบบ", value: 0, code: "ROLE")
   ];

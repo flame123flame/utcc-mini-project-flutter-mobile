@@ -1,24 +1,20 @@
 import 'dart:async';
-import 'dart:developer';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:utcc_mobile/screens/supervisor/overview.dart';
 import 'package:utcc_mobile/screens/users/list_role.dart';
 import 'package:utcc_mobile/screens/users/list_user.dart';
 import 'package:utcc_mobile/screens/users/manage_user.dart';
+import 'package:utcc_mobile/screens/work/work_list.dart';
 import 'package:utcc_mobile/utils/time_format.dart';
 import '../constants/constant_color.dart';
-import '../model/users_login.dart';
 import '../model/weather_main.dart';
-import '../model_components/deather.dart';
 import '../model_components/main_menu.dart';
 import '../provider/user_login_provider.dart';
 import '../service/api_service.dart';
+import 'fare/fare_list.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -51,7 +47,7 @@ class _HomeState extends State<Home> {
           Icons.book,
           color: Colors.white,
         ),
-        navigate: ManageUser()),
+        navigate: WorkList()),
     MainMenu(
         menu: 'เก็บค่าโดยสาร',
         subMenu: 'พนักงานเก็บค่าโดยสาร (กระเป๋า)',
@@ -61,7 +57,7 @@ class _HomeState extends State<Home> {
           Icons.money,
           color: Colors.white,
         ),
-        navigate: ManageUser()),
+        navigate: FareList()),
     MainMenu(
         menu: 'รถที่ต้องขับ',
         subMenu: 'พนักงานขับรถ',
@@ -78,7 +74,17 @@ class _HomeState extends State<Home> {
         role: 'BUSSUPERVISOR',
         color: Color.fromARGB(255, 2, 71, 161),
         icon: Icon(
-          CupertinoIcons.chart_bar,
+          CupertinoIcons.group,
+          color: Colors.white,
+        ),
+        navigate: Overview()),
+    MainMenu(
+        menu: 'เพิ่มข่าวสาร',
+        subMenu: 'เพิ่มข่าวสาร',
+        role: 'NEWS',
+        color: Color.fromARGB(255, 50, 148, 37),
+        icon: Icon(
+          CupertinoIcons.news,
           color: Colors.white,
         ),
         navigate: Overview()),
@@ -128,7 +134,7 @@ class _HomeState extends State<Home> {
   }
 
   String _formatDateTime(DateTime dateTime) {
-    var minute = dateTime.minute.toString().length == 0
+    var minute = dateTime.minute.toString().length == 1
         ? "0" + dateTime.minute.toString()
         : dateTime.minute.toString();
     return dateTime.hour.toString().length == 1
@@ -141,7 +147,7 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Builder(builder: (context) {
       return Scaffold(
-          backgroundColor: Color.fromARGB(255, 235, 240, 244),
+          backgroundColor: Color.fromARGB(235, 235, 244, 255),
           body: Column(children: [
             Stack(
               children: [
@@ -194,7 +200,7 @@ class _HomeState extends State<Home> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          opacity: 0.12,
+                          opacity: 0.15,
                           image: AssetImage('assets/images/weather.png'),
                           fit: BoxFit.contain),
                       borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -373,7 +379,7 @@ class _HomeState extends State<Home> {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   crossAxisCount: 2,
-                  childAspectRatio: 2.25,
+                  childAspectRatio: 2.4,
                   children: [
                     ...List.generate(listMenuDisplay.length, (index) {
                       return Container(

@@ -229,7 +229,12 @@ class _LoginState extends State<Login> {
         body: SlidingUpPanel(
             defaultPanelState: PanelState.CLOSED,
             isDraggable: false,
+            renderPanelSheet: true,
+            backdropTapClosesPanel: true,
             controller: _panelController,
+            slideDirection: SlideDirection.UP,
+            parallaxEnabled: true,
+            panelSnapping: true,
             onPanelOpened: () {
               setState(() {
                 isOpen = false;

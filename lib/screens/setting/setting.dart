@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -50,11 +51,34 @@ class _SettingState extends State<Setting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: colorBar,
-        title: const Text('การตั้งค่า'),
-        centerTitle: true,
-        actions: <Widget>[],
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color.fromARGB(255, 235, 240, 244),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70.0),
+        child: AppBar(
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(20),
+            ),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: <Color>[
+                    Color.fromARGB(255, 34, 50, 174),
+                    Color.fromARGB(255, 37, 43, 99),
+                  ]),
+            ),
+          ),
+          // backgroundColor: colorBar,
+          title: const Text('การตั้งค่า'),
+          centerTitle: true,
+          actions: <Widget>[],
+        ),
       ),
       body: Container(
         color: Colors.amber,

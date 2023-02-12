@@ -91,33 +91,54 @@ class _ListBusState extends State<ListBus> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Color.fromARGB(255, 235, 240, 244),
-        appBar: AppBar(
-          backgroundColor: colorBar,
-          title: const Text('รถเมล์ในระบบ'),
-          centerTitle: true,
-          actions: <Widget>[
-            PopupFilterBottom(
-              validate: false,
-              list: listMenu,
-              onSelected: (index, code, value) {
-                setState(() {
-                  activeSearch = code.toString();
-                });
-                log('message ' + code.toString());
-              },
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: AppBar(
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(20),
+              ),
             ),
-            IconButton(
-              icon: Icon(Icons.add_outlined),
-              onPressed: () {
-                PersistentNavBarNavigator.pushNewScreen(
-                  context,
-                  screen: ManageBus(),
-                  withNavBar: false,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                ).then((value) => {GetListBus()});
-              },
-            )
-          ],
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[
+                      Color.fromARGB(255, 34, 50, 174),
+                      Color.fromARGB(255, 37, 43, 99),
+                    ]),
+              ),
+            ),
+            // backgroundColor: colorBar,
+            title: const Text('รถเมล์ในระบบ'),
+            centerTitle: true,
+            actions: <Widget>[
+              PopupFilterBottom(
+                validate: false,
+                list: listMenu,
+                onSelected: (index, code, value) {
+                  setState(() {
+                    activeSearch = code.toString();
+                  });
+                  log('message ' + code.toString());
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.add_outlined),
+                onPressed: () {
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: ManageBus(),
+                    withNavBar: false,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  ).then((value) => {GetListBus()});
+                },
+              )
+            ],
+          ),
         ),
         body: Container(
             child: Column(
