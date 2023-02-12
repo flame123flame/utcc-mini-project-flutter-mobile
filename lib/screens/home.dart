@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
         role: 'BUSSUPERVISOR',
         color: Color.fromARGB(255, 2, 71, 161),
         icon: Icon(
-          CupertinoIcons.group,
+          CupertinoIcons.person,
           color: Colors.white,
         ),
         navigate: Overview()),
@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
         role: 'USER',
         color: Color.fromARGB(255, 232, 95, 32),
         icon: Icon(
-          Icons.person,
+          Icons.group,
           color: Colors.white,
         ),
         navigate: ListUser()),

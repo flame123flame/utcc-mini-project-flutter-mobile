@@ -37,7 +37,7 @@ class _PinState extends State<Pin> {
     initialize();
   }
 
-  String pinText = 'ตั้งรหัสผ่านใหม่';
+  String pinText = 'กรุณากรอกรหัสผ่าน';
   void initialize() async {
     // await getPin("xxxxxx");
     // if (checkStatus == "NOT_SUCCESS") {

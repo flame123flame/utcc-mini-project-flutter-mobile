@@ -2,21 +2,31 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../model_components/article.dart';
+import 'news_detail.dart';
+
 class NewsTile extends StatelessWidget {
   final String? imgUrl, title, desc, content, posturl;
-
+  final Article item;
   NewsTile(
       {this.imgUrl,
       this.desc,
       this.title,
       this.content,
+      required this.item,
       @required this.posturl});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("xsxs");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NewsDetail(
+                      item: item,
+                    )));
+        print(item.articleUrl);
       },
       child: Container(
           margin: EdgeInsets.only(bottom: 24),
@@ -49,6 +59,7 @@ class NewsTile extends StatelessWidget {
                     maxLines: 2,
                     style: TextStyle(
                         color: Colors.black87,
+                        height: 1.3,
                         fontSize: 19,
                         fontWeight: FontWeight.w500),
                   ),
