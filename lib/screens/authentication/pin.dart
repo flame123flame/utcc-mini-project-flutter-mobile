@@ -195,39 +195,60 @@ class _PinState extends State<Pin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: colorBar,
-        title: Text(pinText),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              logout();
-            },
-          )
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              child: Center(
-                  child: Container(
-                padding: EdgeInsets.only(bottom: 1.3),
-                margin: EdgeInsets.only(left: 7, right: 7),
-                child: SvgPicture.asset(
-                  'assets/images/Logo1.svg',
-                  width: 120,
-                ),
-              )),
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   // title: Text(pinText),
+        //   actions: <Widget>[
+        //     IconButton(
+        //       icon: Icon(Icons.close),
+        //       onPressed: () {
+        //         logout();
+        //       },
+        //     )
+        //   ],
+        // ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: IconButton(
+                icon: Icon(Icons.close),
+                iconSize: 30,
+                onPressed: () {
+                  logout();
+                },
+              ),
             ),
-            Numpad(
-              textError: pinError,
-              length: length,
-              onChange: onChange,
-            )
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: Center(
+                        child: Container(
+                      padding: EdgeInsets.only(bottom: 1.3),
+                      margin: EdgeInsets.only(left: 7, right: 7),
+                      child: SvgPicture.asset(
+                        'assets/images/Logo1.svg',
+                        width: 120,
+                      ),
+                    )),
+                  ),
+                  Text(pinText),
+                  Numpad(
+                    textError: pinError,
+                    length: length,
+                    onChange: onChange,
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

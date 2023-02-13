@@ -102,7 +102,8 @@ class _SettingState extends State<Setting> {
                     'รายละเอียดบัญชี',
                     style: TextStyle(
                       fontFamily: 'prompt',
-                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
                     ),
                   ),
                   value: Text(''),
@@ -128,7 +129,11 @@ class _SettingState extends State<Setting> {
                   ),
                   title: Text(
                     'แก้ไขข้อมูลส่วนตัว',
-                    style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                    style: TextStyle(
+                      fontFamily: 'prompt',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
                   ),
                   value: Text(''),
                   trailing: Icon(
@@ -153,7 +158,11 @@ class _SettingState extends State<Setting> {
                   ),
                   title: Text(
                     'เปลี่ยนรหัสผ่าน',
-                    style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                    style: TextStyle(
+                      fontFamily: 'prompt',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
                   ),
                   value: Text(''),
                   trailing: Icon(
@@ -185,7 +194,11 @@ class _SettingState extends State<Setting> {
                   ),
                   title: Text(
                     'เปิดใช้งาน Touch ID/Face ID',
-                    style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                    style: TextStyle(
+                      fontFamily: 'prompt',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ],
@@ -201,7 +214,11 @@ class _SettingState extends State<Setting> {
                   ),
                   title: Text(
                     'ข้อตกลงและเงื่อนไข',
-                    style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                    style: TextStyle(
+                      fontFamily: 'prompt',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
                   ),
                   value: Text(''),
                   trailing: Icon(
@@ -218,7 +235,11 @@ class _SettingState extends State<Setting> {
                   ),
                   title: Text(
                     'คู่มือการใช้งาน',
-                    style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                    style: TextStyle(
+                      fontFamily: 'prompt',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
                   ),
                   value: Text(''),
                   trailing: Icon(
@@ -235,7 +256,11 @@ class _SettingState extends State<Setting> {
                   ),
                   title: Text(
                     'ติดต่อเรา',
-                    style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                    style: TextStyle(
+                      fontFamily: 'prompt',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
                   ),
                   value: Text(''),
                   trailing: Icon(
@@ -252,13 +277,18 @@ class _SettingState extends State<Setting> {
                   ),
                   title: Text(
                     'เวอร์ชันแอปพลิเคชัน',
-                    style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                    style: TextStyle(
+                      fontFamily: 'prompt',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
                   ),
                   trailing: Text(
                     '1.0.0',
                     style: TextStyle(
                       fontFamily: 'prompt',
-                      fontSize: 14,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
                       color: colorBar,
                     ),
                   ),
@@ -275,7 +305,10 @@ class _SettingState extends State<Setting> {
                   title: Text(
                     'ออกจากระบบ',
                     style: TextStyle(
-                        fontFamily: 'prompt', fontSize: 14, color: Colors.red),
+                        fontFamily: 'prompt',
+                        fontWeight: FontWeight.w800,
+                        fontSize: 12,
+                        color: Colors.red),
                   ),
                   trailing: Text(
                     '',

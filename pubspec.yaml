@@ -154,7 +154,7 @@ flutter:
   fonts:
     - family: prompt
       fonts:
-        - asset: assets/fonts/SukhumvitSet-SemiBold.ttf
+        - asset: assets/fonts/SukhumvitSet-Medium.ttf
           # style: regular
   #   - family: Trajan Pro
   #     fonts:

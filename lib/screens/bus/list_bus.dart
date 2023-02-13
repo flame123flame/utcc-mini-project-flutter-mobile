@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:utcc_mobile/screens/bus/manage_bus.dart';
@@ -71,6 +72,9 @@ class _ListBusState extends State<ListBus> {
           return BusModel(
             id: temp[index].id,
             busNo: temp[index].busNo,
+            busType: temp[index].busType,
+            fare: temp[index].fare,
+            discountFare: temp[index].discountFare,
             createDate: temp[index].createDate,
           );
         }));
@@ -84,6 +88,161 @@ class _ListBusState extends State<ListBus> {
   void initState() {
     GetListBus();
     super.initState();
+  }
+
+  getPopupDetail(BuildContext context, BusModel busModel) {
+    showModalBottomSheet<void>(
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(13),
+        ),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 4, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CupertinoButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      '',
+                      style: TextStyle(
+                          fontFamily: 'prompt',
+                          color: Color.fromARGB(255, 12, 54, 151),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Text('รายละเอียด'),
+                  CupertinoButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: Color.fromARGB(255, 12, 54, 151),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "เลขข้างรถ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        busModel.busNo.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ทะเบียนรถ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        "ยังไม่มี",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ประเภทรถ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        busModel.busType.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "จังหวัด",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        "กรุงเทพมหานคร",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ราคาเต็ม",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        busModel.fare.toString() + " บาท",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ราคาลดหย่อน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        busModel.discountFare.toString() + " บาท",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 30,
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -302,187 +461,216 @@ class _ListBusState extends State<ListBus> {
                         ...List.generate(listUser.length, (index) {
                           return Container(
                             child: InkWell(
-                                onTap: () => {},
-                                child: Container(
-                                  height: SizeConfig.defaultSize! * 8,
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.defaultSize! * 0.5,
-                                      bottom: SizeConfig.defaultSize! * 0.5,
-                                      left: SizeConfig.defaultSize! * 1.5,
-                                      right: SizeConfig.defaultSize! * 1.5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.14),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: Offset(0,
-                                              3), // changes position of shadow
-                                        ),
-                                      ],
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Color.fromARGB(255, 255, 255, 255)
-                                                .withOpacity(0.40),
-                                            Color.fromARGB(255, 255, 255, 255)
-                                                .withOpacity(0.60),
-                                            Color.fromARGB(255, 255, 255, 255)
-                                                .withOpacity(0.80)
-                                          ])),
-                                  padding: EdgeInsets.all(
-                                      SizeConfig.defaultSize! * 1),
-                                  child: Stack(
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            child: Column(
-                                              children: [
-                                                Row(children: [
-                                                  Container(
-                                                    width: 40,
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: colorBar,
-                                                    ),
-                                                    margin: EdgeInsets.only(
-                                                        right: 6, left: 6),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          int.parse((index + 1)
-                                                                  .toString())
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              "  วันที่สร้าง : ",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          48,
-                                                                          47,
-                                                                          47),
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                            Text(
-                                                              Time().DatetimeToDateThaiString(
-                                                                  listUser[
-                                                                          index]
-                                                                      .createDate!),
-                                                              //  "${listUser[index].createDate}",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color:
-                                                                      colorBar,
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              "  เลขรถเมล์ : ",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          48,
-                                                                          47,
-                                                                          47),
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                            Text(
-                                                              "${listUser[index].busNo}",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color:
-                                                                      colorBar,
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ])
-                                                ])
-                                              ],
+                                onTap: () =>
+                                    {getPopupDetail(context, listUser[index])},
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: SizeConfig.defaultSize! * 10,
+                                      margin: EdgeInsets.only(
+                                          top: SizeConfig.defaultSize! * 0.5,
+                                          bottom: SizeConfig.defaultSize! * 0.5,
+                                          left: SizeConfig.defaultSize! * 1.5,
+                                          right: SizeConfig.defaultSize! * 1.5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.14),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: Offset(0,
+                                                  3), // changes position of shadow
                                             ),
-                                          )
+                                          ],
+                                          gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                Color.fromARGB(
+                                                        255, 255, 255, 255)
+                                                    .withOpacity(0.40),
+                                                Color.fromARGB(
+                                                        255, 255, 255, 255)
+                                                    .withOpacity(0.60),
+                                                Color.fromARGB(
+                                                        255, 255, 255, 255)
+                                                    .withOpacity(0.80)
+                                              ])),
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.defaultSize! * 1),
+                                      child: Stack(
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Column(
+                                                  children: [
+                                                    Row(children: [
+                                                      Container(
+                                                        width: 40,
+                                                        height: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: colorBar,
+                                                        ),
+                                                        margin: EdgeInsets.only(
+                                                            right: 6, left: 6),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              int.parse((index +
+                                                                          1)
+                                                                      .toString())
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "  เลขข้างรถ : ",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                      fontSize:
+                                                                          SizeConfig.defaultSize! *
+                                                                              1.6,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                Text(
+                                                                  // Time().DatetimeToDateThaiString(
+                                                                  //     listUser[
+                                                                  //             index]
+                                                                  //         .busNo!),
+                                                                  "${listUser[index].busNo}",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color:
+                                                                          colorBar,
+                                                                      fontSize:
+                                                                          SizeConfig.defaultSize! *
+                                                                              1.6,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "  ประเภทรถ : ",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                      fontSize:
+                                                                          SizeConfig.defaultSize! *
+                                                                              1.6,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                Text(
+                                                                  "${listUser[index].busType}",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color:
+                                                                          colorBar,
+                                                                      fontSize:
+                                                                          SizeConfig.defaultSize! *
+                                                                              1.6,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ])
+                                                    ])
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Positioned(
+                                      top: 10,
+                                      right: 20.0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          log("message");
+                                        },
+                                        child: Align(
+                                          alignment: Alignment.topRight,
+                                          child: CircleAvatar(
+                                            radius: 17.0,
+                                            backgroundColor: Colors.white,
+                                            child: Icon(
+                                              Icons.edit_note,
+                                              color: Color.fromARGB(
+                                                  255, 227, 171, 4),
+                                              size: 30,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 )),
                           );
                         })

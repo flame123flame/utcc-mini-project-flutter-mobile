@@ -83,15 +83,6 @@ class _PopupFilterBottomState extends State<PopupFilterBottom> {
                             CupertinoButton(
                               onPressed: () {
                                 widget.validate = false;
-                                // if (widget.list.isNotEmpty) {
-                                //   indexSelect = tempIndexSelect ?? 0;
-                                //   widget.onSelected.call(
-                                //       indexSelect,
-                                //       widget.list[indexSelect!].split('::')[0],
-                                //       widget.list[indexSelect!].split('::')[1],
-                                //       widget.list[indexSelect!].split('::')[2]);
-                                //   setState(() {});
-                                // }
                                 Navigator.pop(context);
                               },
                               child: Icon(
@@ -134,7 +125,7 @@ class _PopupFilterBottomState extends State<PopupFilterBottom> {
           setState(() {
             data = title;
           });
-          Navigator.pop(context);
+          Navigator.of(context).pop('cancel');
         },
         child: Container(
             decoration: BoxDecoration(

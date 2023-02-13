@@ -178,9 +178,9 @@ class Wind {
   Wind({this.speed, this.deg, this.gust});
 
   Wind.fromJson(Map<String, dynamic> json) {
-    speed = json['speed'];
-    deg = json['deg'];
-    gust = json['gust'].toString().length == 1 ? 0.0 : json['gust'];
+    // speed = json['speed'].toString().length == 1 ? 0.0 : json['speed'];
+    // deg = json['deg'].toString().length == 1 ? 0 : json['speed'];
+    // gust = json['gust'].toString().length == 1 ? 0.0 : json['gust'];
   }
 
   Map<String, dynamic> toJson() {
