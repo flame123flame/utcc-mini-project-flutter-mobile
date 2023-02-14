@@ -105,7 +105,13 @@ class _NewsListState extends State<NewsList> {
             ),
           ),
           // backgroundColor: colorBar,
-          title: const Text('ข่าวสาร'),
+          title: const Text(
+            'ข่าวสาร',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
           centerTitle: true,
           actions: <Widget>[],
         ),

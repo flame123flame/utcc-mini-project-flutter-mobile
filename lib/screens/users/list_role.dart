@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -12,7 +13,9 @@ import 'package:utcc_mobile/components/popup_bottom.dart';
 
 import '../../components/popup_date_picker.dart';
 import '../../constants/constant_color.dart';
+import '../../constants/constant_menu.dart';
 import '../../model/role_model.dart';
+import '../../model_components/main_menu.dart';
 import '../../model_components/popup_bottom_model.dart';
 import '../../provider/user_login_provider.dart';
 import '../../service/api_service.dart';
@@ -92,6 +95,8 @@ class _ListRoleState extends State<ListRole> {
             createDate: temp[index].createDate,
             roleCode: temp[index].roleCode,
             roleName: temp[index].roleName,
+            munuList: temp[index].munuList,
+            roleDescription: temp[index].roleDescription,
           );
         }));
       });
@@ -114,6 +119,163 @@ class _ListRoleState extends State<ListRole> {
     }
   }
 
+  List<MainMenu> listMenuData = listMenuConstant;
+
+  getPopupDetail(BuildContext context, RoleModel roleModel) {
+    List<MainMenu> listMenuDisplay = [];
+    List<String> list = roleModel.munuList!;
+    for (var i = 0; i < list.length; i++) {
+      listMenuDisplay.addAll(
+          listMenuData.where((element) => element.role == list[i].toString()));
+    }
+    log(listMenuDisplay.length.toString());
+    showModalBottomSheet<void>(
+      useSafeArea: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(13),
+        ),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 4, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CupertinoButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      '',
+                      style: TextStyle(
+                          fontFamily: 'prompt',
+                          color: Color.fromARGB(255, 12, 54, 151),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Text('รายละเอียด'),
+                  CupertinoButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: Color.fromARGB(255, 12, 54, 151),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Code ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        roleModel.roleCode.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "สิทธ์การใช้งาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        roleModel.roleName.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "รายละเอียด",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        roleModel.roleDescription.toString() == "null"
+                            ? "-"
+                            : roleModel.roleDescription.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "เมนูแสดงหน้าจอ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900, fontSize: 13.5),
+                      ),
+                      Text(
+                        '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ...List.generate(listMenuDisplay.length, (index) {
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "เมนูที่ " + (index + 1).toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 13.5),
+                            ),
+                            Text(
+                              listMenuDisplay[index].menu,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w800, fontSize: 13.5),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }),
+                  SizedBox(
+                    height: 40,
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +283,13 @@ class _ListRoleState extends State<ListRole> {
         backgroundColor: Color.fromARGB(255, 235, 240, 244),
         appBar: AppBar(
           backgroundColor: colorBar,
-          title: const Text('สิทธ์การใช้งาน'),
+          title: Text(
+            'สิทธ์การใช้งาน',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
@@ -277,8 +445,10 @@ class _ListRoleState extends State<ListRole> {
                     if (listRole.length > 0)
                       Text(
                         'รายการผู้ใช้งาน ${listRole.length} รายการ',
-                        style:
-                            TextStyle(fontSize: SizeConfig.defaultSize! * 1.7),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     // Text('data')
                   ],
@@ -294,237 +464,257 @@ class _ListRoleState extends State<ListRole> {
                       crossAxisSpacing: 2,
                       mainAxisSpacing: 2,
                       crossAxisCount: 1,
-                      childAspectRatio: 3.3,
+                      childAspectRatio: 4,
                       children: [
                         ...List.generate(listRole.length, (index) {
                           return Container(
                             child: InkWell(
-                                onTap: () => {},
-                                child: Container(
-                                  height: SizeConfig.defaultSize! * 8,
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.defaultSize! * 0.5,
-                                      bottom: SizeConfig.defaultSize! * 0.5,
-                                      left: SizeConfig.defaultSize! * 1.5,
-                                      right: SizeConfig.defaultSize! * 1.5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.14),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: Offset(0,
-                                              3), // changes position of shadow
-                                        ),
-                                      ],
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Color.fromARGB(255, 255, 255, 255)
-                                                .withOpacity(0.40),
-                                            Color.fromARGB(255, 255, 255, 255)
-                                                .withOpacity(0.60),
-                                            Color.fromARGB(255, 255, 255, 255)
-                                                .withOpacity(0.80)
-                                          ])),
-                                  padding: EdgeInsets.all(
-                                      SizeConfig.defaultSize! * 1),
-                                  child: Stack(
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            child: Column(
-                                              children: [
-                                                Row(children: [
-                                                  Container(
-                                                    width: 40,
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: colorBar,
-                                                    ),
-                                                    margin: EdgeInsets.only(
-                                                        right: 6, left: 6),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          int.parse((index + 1)
-                                                                  .toString())
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              "  วันที่สร้าง : ",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          48,
-                                                                          47,
-                                                                          47),
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                            Text(
-                                                              Time().DatetimeToDateThaiString(
-                                                                  listRole[
-                                                                          index]
-                                                                      .createDate!),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color:
-                                                                      colorBar,
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              "  สิทธ์การใช้ : ",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          48,
-                                                                          47,
-                                                                          47),
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                            Text(
-                                                              "${listRole[index].roleName}",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color:
-                                                                      colorBar,
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              "  Code : ",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          48,
-                                                                          47,
-                                                                          47),
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                            Text(
-                                                              "${listRole[index].roleCode}",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  color:
-                                                                      colorBar,
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .defaultSize! *
-                                                                          1.6,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ])
-                                                ])
-                                              ],
+                                onTap: () =>
+                                    {getPopupDetail(context, listRole[index])},
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: SizeConfig.defaultSize! * 10,
+                                      margin: EdgeInsets.only(
+                                          top: SizeConfig.defaultSize! * 0.5,
+                                          bottom: SizeConfig.defaultSize! * 0.5,
+                                          left: SizeConfig.defaultSize! * 1.5,
+                                          right: SizeConfig.defaultSize! * 1.5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.14),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: Offset(0,
+                                                  3), // changes position of shadow
                                             ),
-                                          )
+                                          ],
+                                          gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                Color.fromARGB(
+                                                        255, 255, 255, 255)
+                                                    .withOpacity(0.40),
+                                                Color.fromARGB(
+                                                        255, 255, 255, 255)
+                                                    .withOpacity(0.60),
+                                                Color.fromARGB(
+                                                        255, 255, 255, 255)
+                                                    .withOpacity(0.80)
+                                              ])),
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.defaultSize! * 1),
+                                      child: Stack(
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Column(
+                                                  children: [
+                                                    Row(children: [
+                                                      Container(
+                                                        width: 40,
+                                                        height: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: colorBar,
+                                                        ),
+                                                        margin: EdgeInsets.only(
+                                                            right: 6, left: 6),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              int.parse((index +
+                                                                          1)
+                                                                      .toString())
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "  วันที่สร้าง : ",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                                Text(
+                                                                  Time().DatetimeToDateThaiString(
+                                                                      listRole[
+                                                                              index]
+                                                                          .createDate!),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color:
+                                                                          colorBar,
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "  สิทธ์การใช้ : ",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                                Text(
+                                                                  "${listRole[index].roleName}",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color:
+                                                                          colorBar,
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "  Code : ",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                                Text(
+                                                                  "${listRole[index].roleCode}",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: TextStyle(
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      color:
+                                                                          colorBar,
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ])
+                                                    ])
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Positioned(
+                                      top: 10,
+                                      right: 20.0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          log("message");
+                                        },
+                                        child: Align(
+                                          alignment: Alignment.topRight,
+                                          child: CircleAvatar(
+                                            radius: 17.0,
+                                            backgroundColor: Colors.white,
+                                            child: Icon(
+                                              Icons.edit_note,
+                                              color: Color.fromARGB(
+                                                  255, 227, 171, 4),
+                                              size: 30,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 )),
                           );
                         })

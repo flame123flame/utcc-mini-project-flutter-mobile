@@ -67,13 +67,15 @@ class _WorkListState extends State<WorkList> {
                 Tab(
                     child: Text('รายการล่าสุด',
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
                           fontFamily: 'prompt',
                         ))),
                 Tab(
                     child: Text('รายการย้อนหลัง',
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
                           fontFamily: 'prompt',
                         ))),
               ],
@@ -81,6 +83,8 @@ class _WorkListState extends State<WorkList> {
             title: Text(
               'รายการจ่ายงาน',
               style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
                 fontFamily: 'prompt',
               ),
             ),

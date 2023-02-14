@@ -39,8 +39,8 @@ class _NewsDetailState extends State<NewsDetail> {
                         widget.item.title.toString(),
                         style: TextStyle(
                             height: 1.3,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w700),
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w800),
                       ),
                     ),
                     SizedBox(
@@ -51,7 +51,7 @@ class _NewsDetailState extends State<NewsDetail> {
                       child: Text(
                         widget.item.content.toString(),
                         style: TextStyle(
-                            fontSize: 14.0, fontWeight: FontWeight.w100),
+                            fontSize: 13.0, fontWeight: FontWeight.w100),
                       ),
                     ),
                     SizedBox(
@@ -62,7 +62,7 @@ class _NewsDetailState extends State<NewsDetail> {
                       child: Text(
                         widget.item.description.toString(),
                         style: TextStyle(
-                            fontSize: 14.0, fontWeight: FontWeight.normal),
+                            fontSize: 13.0, fontWeight: FontWeight.w100),
                       ),
                     ),
                     SizedBox(

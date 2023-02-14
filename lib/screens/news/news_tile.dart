@@ -60,8 +60,8 @@ class NewsTile extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.black87,
                         height: 1.3,
-                        fontSize: 19,
-                        fontWeight: FontWeight.w500),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     height: 4,
@@ -69,7 +69,10 @@ class NewsTile extends StatelessWidget {
                   Text(
                     desc!,
                     maxLines: 2,
-                    style: TextStyle(color: Colors.black54, fontSize: 14),
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800),
                   )
                 ],
               ),

@@ -75,7 +75,13 @@ class _SettingState extends State<Setting> {
             ),
           ),
           // backgroundColor: colorBar,
-          title: const Text('การตั้งค่า'),
+          title: const Text(
+            'การตั้งค่า',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
           centerTitle: true,
           actions: <Widget>[],
         ),

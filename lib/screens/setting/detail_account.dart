@@ -82,13 +82,18 @@ class _DetailAccountState extends State<DetailAccount> {
                       leading: null,
                       title: Text(
                         'ชื่อ - นามสกุล',
-                        style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                        style: TextStyle(
+                          fontFamily: 'prompt',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                       trailing: Text(
                         "${value.getUserLogin.prefix}${value.getUserLogin.firstName} ${value.getUserLogin.lastName}",
                         style: TextStyle(
                             fontFamily: 'prompt',
-                            fontSize: 14,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
                             color: colorBar),
                       ),
                     ),
@@ -96,13 +101,18 @@ class _DetailAccountState extends State<DetailAccount> {
                       leading: null,
                       title: Text(
                         'ผู้ใช้งาน',
-                        style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                        style: TextStyle(
+                          fontFamily: 'prompt',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                       trailing: Text(
                         "${value.getUserLogin.username}",
                         style: TextStyle(
                             fontFamily: 'prompt',
-                            fontSize: 14,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
                             color: colorBar),
                       ),
                     ),
@@ -110,13 +120,18 @@ class _DetailAccountState extends State<DetailAccount> {
                       leading: null,
                       title: Text(
                         'ตำแหน่ง',
-                        style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                        style: TextStyle(
+                          fontFamily: 'prompt',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                       trailing: Text(
                         "${value.getUserLogin.position}",
                         style: TextStyle(
                             fontFamily: 'prompt',
-                            fontSize: 14,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
                             color: colorBar),
                       ),
                     ),
@@ -124,13 +139,18 @@ class _DetailAccountState extends State<DetailAccount> {
                       leading: null,
                       title: Text(
                         'เบอร์โทรศัพท์',
-                        style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                        style: TextStyle(
+                          fontFamily: 'prompt',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                       trailing: Text(
                         "${value.getUserLogin.phoneNumber!} ",
                         style: TextStyle(
                             fontFamily: 'prompt',
-                            fontSize: 14,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
                             color: colorBar),
                       ),
                     ),
@@ -138,13 +158,18 @@ class _DetailAccountState extends State<DetailAccount> {
                       leading: null,
                       title: Text(
                         'อีเมล',
-                        style: TextStyle(fontFamily: 'prompt', fontSize: 14),
+                        style: TextStyle(
+                          fontFamily: 'prompt',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                       trailing: Text(
                         "${value.getUserLogin.email}",
                         style: TextStyle(
                             fontFamily: 'prompt',
-                            fontSize: 14,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
                             color: colorBar,
                             overflow: TextOverflow.fade),
                       ),

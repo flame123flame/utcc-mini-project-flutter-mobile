@@ -240,7 +240,13 @@ class _PinState extends State<Pin> {
                       ),
                     )),
                   ),
-                  Text(pinText),
+                  Text(
+                    pinText,
+                    style: TextStyle(
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
                   Numpad(
                     textError: pinError,
                     length: length,

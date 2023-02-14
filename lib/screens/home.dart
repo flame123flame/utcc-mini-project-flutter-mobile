@@ -10,6 +10,7 @@ import 'package:utcc_mobile/screens/users/manage_user.dart';
 import 'package:utcc_mobile/screens/work/work_list.dart';
 import 'package:utcc_mobile/utils/time_format.dart';
 import '../constants/constant_color.dart';
+import '../constants/constant_menu.dart';
 import '../model/weather_main.dart';
 import '../model_components/main_menu.dart';
 import '../provider/user_login_provider.dart';
@@ -37,78 +38,7 @@ class _HomeState extends State<Home> {
   }
 
   UserLoginProvider? userLoginProvider;
-  List<MainMenu> listMenu = [
-    MainMenu(
-        menu: 'จ่ายงาน',
-        subMenu: 'ผู้จ่ายงาน',
-        role: 'DISPATCHER',
-        color: Colors.amber,
-        icon: Icon(
-          Icons.book,
-          color: Colors.white,
-        ),
-        navigate: WorkList()),
-    MainMenu(
-        menu: 'เก็บค่าโดยสาร',
-        subMenu: 'พนักงานเก็บค่าโดยสาร (กระเป๋า)',
-        role: 'FARECOLLECT',
-        color: Color.fromARGB(255, 56, 223, 53),
-        icon: Icon(
-          Icons.money,
-          color: Colors.white,
-        ),
-        navigate: FareList()),
-    MainMenu(
-        menu: 'รถที่ต้องขับ',
-        subMenu: 'พนักงานขับรถ',
-        role: 'DRIVER',
-        color: Color.fromARGB(255, 163, 46, 37),
-        icon: Icon(
-          CupertinoIcons.bus,
-          color: Colors.white,
-        ),
-        navigate: ManageUser()),
-    MainMenu(
-        menu: 'ผู้จัดการสาย',
-        subMenu: 'อนุมัตจบใบงาน',
-        role: 'BUSSUPERVISOR',
-        color: Color.fromARGB(255, 2, 71, 161),
-        icon: Icon(
-          CupertinoIcons.person,
-          color: Colors.white,
-        ),
-        navigate: Overview()),
-    MainMenu(
-        menu: 'เพิ่มข่าวสาร',
-        subMenu: 'เพิ่มข่าวสาร',
-        role: 'NEWS',
-        color: Color.fromARGB(255, 50, 148, 37),
-        icon: Icon(
-          CupertinoIcons.news,
-          color: Colors.white,
-        ),
-        navigate: Overview()),
-    MainMenu(
-        menu: 'ผู้ใช้งานในระบบ',
-        subMenu: 'จัดการผู้ใช้งานในระบบ',
-        role: 'USER',
-        color: Color.fromARGB(255, 232, 95, 32),
-        icon: Icon(
-          Icons.group,
-          color: Colors.white,
-        ),
-        navigate: ListUser()),
-    MainMenu(
-        menu: 'สิทธ์การใช้งานในระบบ',
-        subMenu: 'จัดการสิทธ์การใช้งานในระบบ',
-        role: 'ROLE',
-        color: Color.fromARGB(255, 30, 215, 187),
-        icon: Icon(
-          Icons.roller_shades,
-          color: Colors.white,
-        ),
-        navigate: ListRole()),
-  ];
+  List<MainMenu> listMenu = listMenuConstant;
   List<MainMenu> listMenuDisplay = [];
   String? _timeString;
   @override
@@ -248,9 +178,9 @@ class _HomeState extends State<Home> {
                                         Text(
                                             "${weather!.weather![0].description}",
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w400,
+                                                fontWeight: FontWeight.w800,
                                                 color: Colors.white,
-                                                fontSize: 15)),
+                                                fontSize: 13)),
                                       ],
                                     )),
                               ],
@@ -272,9 +202,9 @@ class _HomeState extends State<Home> {
                                     Text(
                                       "กรุงเทพมหานคร",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w300,
+                                          fontWeight: FontWeight.w800,
                                           color: Colors.white,
-                                          fontSize: 14),
+                                          fontSize: 13),
                                     ),
                                   ],
                                 ),
@@ -285,6 +215,7 @@ class _HomeState extends State<Home> {
                                     Text(
                                       ' สูงสุด: ',
                                       style: TextStyle(
+                                          fontWeight: FontWeight.w800,
                                           color: Color.fromARGB(
                                               255, 238, 238, 238),
                                           fontSize: 13),
@@ -299,7 +230,7 @@ class _HomeState extends State<Home> {
                                     Text(
                                       '  ต่ำสุด: ',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.w800,
                                           color: Color.fromARGB(
                                               255, 238, 238, 238),
                                           fontSize: 13),
@@ -342,7 +273,7 @@ class _HomeState extends State<Home> {
                                 Text(
                                   "${Time().thaiDateTextFormatThai()}",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w800,
                                       color: Colors.white,
                                       fontSize: 16.5),
                                 ),

@@ -62,13 +62,13 @@ class _ListBusState extends State<ListBus> {
       ),
     ),
   ];
-  List<BusModel> listUser = [];
+  List<BusModel> listBus = [];
 
   GetListBus() async {
     try {
       List<BusModel> temp = await ApiService.apiGetListBus();
       setState(() {
-        listUser = List.generate(temp.length, ((index) {
+        listBus = List.generate(temp.length, ((index) {
           return BusModel(
             id: temp[index].id,
             busNo: temp[index].busNo,
@@ -272,7 +272,13 @@ class _ListBusState extends State<ListBus> {
               ),
             ),
             // backgroundColor: colorBar,
-            title: const Text('รถเมล์ในระบบ'),
+            title: const Text(
+              'รถเมล์ในระบบ',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
             centerTitle: true,
             actions: <Widget>[
               PopupFilterBottom(
@@ -436,16 +442,18 @@ class _ListBusState extends State<ListBus> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (listUser.length > 0)
+                    if (listBus.length > 0)
                       Text(
-                        'รายการรถเมล์ในระบบ ${listUser.length} รายการ',
-                        style:
-                            TextStyle(fontSize: SizeConfig.defaultSize! * 1.7),
+                        'รายการรถเมล์ในระบบ ${listBus.length} รายการ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     // Text('data')
                   ],
                 )),
-            if (listUser.length > 0)
+            if (listBus.length > 0)
               Expanded(
                 flex: 1,
                 child: Container(
@@ -456,13 +464,13 @@ class _ListBusState extends State<ListBus> {
                       crossAxisSpacing: 2,
                       mainAxisSpacing: 2,
                       crossAxisCount: 1,
-                      childAspectRatio: 4,
+                      childAspectRatio: 4.2,
                       children: [
-                        ...List.generate(listUser.length, (index) {
+                        ...List.generate(listBus.length, (index) {
                           return Container(
                             child: InkWell(
                                 onTap: () =>
-                                    {getPopupDetail(context, listUser[index])},
+                                    {getPopupDetail(context, listBus[index])},
                                 child: Stack(
                                   children: [
                                     Container(
@@ -565,18 +573,17 @@ class _ListBusState extends State<ListBus> {
                                                                           47,
                                                                           47),
                                                                       fontSize:
-                                                                          SizeConfig.defaultSize! *
-                                                                              1.6,
+                                                                          13,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w400),
+                                                                              .w800),
                                                                 ),
                                                                 Text(
                                                                   // Time().DatetimeToDateThaiString(
-                                                                  //     listUser[
+                                                                  //     listBus[
                                                                   //             index]
                                                                   //         .busNo!),
-                                                                  "${listUser[index].busNo}",
+                                                                  "${listBus[index].busNo}",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .left,
@@ -587,11 +594,10 @@ class _ListBusState extends State<ListBus> {
                                                                       color:
                                                                           colorBar,
                                                                       fontSize:
-                                                                          SizeConfig.defaultSize! *
-                                                                              1.6,
+                                                                          13,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w400),
+                                                                              .w800),
                                                                 ),
                                                               ],
                                                             ),
@@ -612,14 +618,13 @@ class _ListBusState extends State<ListBus> {
                                                                           47,
                                                                           47),
                                                                       fontSize:
-                                                                          SizeConfig.defaultSize! *
-                                                                              1.6,
+                                                                          13,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w400),
+                                                                              .w800),
                                                                 ),
                                                                 Text(
-                                                                  "${listUser[index].busType}",
+                                                                  "${listBus[index].busType}",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .left,
@@ -630,11 +635,10 @@ class _ListBusState extends State<ListBus> {
                                                                       color:
                                                                           colorBar,
                                                                       fontSize:
-                                                                          SizeConfig.defaultSize! *
-                                                                              1.6,
+                                                                          13,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w400),
+                                                                              .w800),
                                                                 ),
                                                               ],
                                                             ),
