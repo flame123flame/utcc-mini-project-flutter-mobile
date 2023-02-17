@@ -73,7 +73,10 @@ class _EditAccountState extends State<EditAccount> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: colorBar,
-        title: const Text('แก้ไขข้อมูลส่วนตัว'),
+        title: const Text(
+          'แก้ไขข้อมูลส่วนตัว',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+        ),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
@@ -87,7 +90,6 @@ class _EditAccountState extends State<EditAccount> {
       ),
       body: Container(
         width: double.infinity,
-        height: 660,
         margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
         padding: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
@@ -116,22 +118,22 @@ class _EditAccountState extends State<EditAccount> {
                       'ข้อมูลส่วนตัว',
                       style: TextStyle(
                           color: Color.fromARGB(255, 48, 48, 48),
-                          fontSize: 19,
-                          fontWeight: FontWeight.w600),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 2, top: 10),
+                padding: EdgeInsets.only(bottom: 1, left: 2, top: 10),
                 child: Row(
                   children: [
                     Text(
                       'คำนำหน้า',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontLableInput,
-                          fontWeight: FontWeight.w600),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
                     ),
                     Text(
                       ' *',
@@ -156,15 +158,15 @@ class _EditAccountState extends State<EditAccount> {
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 2),
+                padding: EdgeInsets.only(bottom: 1, left: 2),
                 child: Row(
                   children: [
                     Text(
                       'ชื่อ',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontLableInput,
-                          fontWeight: FontWeight.w600),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
                     ),
                     Text(
                       ' *',
@@ -199,15 +201,15 @@ class _EditAccountState extends State<EditAccount> {
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 2),
+                padding: EdgeInsets.only(bottom: 1, left: 2),
                 child: Row(
                   children: [
                     Text(
                       'นามสกุล',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontLableInput,
-                          fontWeight: FontWeight.w600),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
                     ),
                     Text(
                       ' *',
@@ -242,13 +244,13 @@ class _EditAccountState extends State<EditAccount> {
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 2),
+                padding: EdgeInsets.only(bottom: 1, left: 2),
                 child: Text(
                   'ตำแหน่ง',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: fontLableInput,
-                      fontWeight: FontWeight.w600),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800),
                 ),
               ),
               Container(
@@ -274,13 +276,13 @@ class _EditAccountState extends State<EditAccount> {
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 2),
+                padding: EdgeInsets.only(bottom: 1, left: 2),
                 child: Text(
                   'เบอร์โทรศัพท์',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: fontLableInput,
-                      fontWeight: FontWeight.w600),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800),
                 ),
               ),
               Container(
@@ -308,13 +310,13 @@ class _EditAccountState extends State<EditAccount> {
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 2),
+                padding: EdgeInsets.only(bottom: 1, left: 2),
                 child: Text(
                   'อีเมล',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: fontLableInput,
-                      fontWeight: FontWeight.w600),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800),
                 ),
               ),
               Container(
