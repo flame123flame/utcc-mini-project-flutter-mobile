@@ -10,6 +10,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:utcc_mobile/components/custom_radio.dart';
 import 'package:utcc_mobile/constants/constant_color.dart';
 
+import '../../constants/constant_menu.dart';
 import '../../model/users_login.dart';
 import '../../model_components/menu_role.dart';
 import '../../service/api_service.dart';
@@ -28,16 +29,7 @@ class _ManageRoleState extends State<ManageRole> {
   TextEditingController role = new TextEditingController();
   TextEditingController detail = new TextEditingController();
 
-  List<MenuRole>? listCheckbox = [
-    MenuRole(name: "จ่ายงาน", value: 0, code: "DISPATCHER"),
-    MenuRole(name: "เก็บค่าโดยสาร", value: 0, code: "FARECOLLECT"),
-    MenuRole(name: "รถที่ต้องขับ", value: 0, code: "DRIVER"),
-    MenuRole(name: "ผู้จัดการสาย", value: 0, code: "BUSSUPERVISOR"),
-    MenuRole(name: "เพิ่มข่าวสาร", value: 0, code: "NEWS"),
-    MenuRole(name: "ผู้ใช้งานในระบบ", value: 0, code: "USER"),
-    MenuRole(name: "สิทธ์การใช้งานในระบบ", value: 0, code: "ROLE")
-  ];
-
+  List<MenuRole>? listCheckbox = listCheckboxRole;
   ValidateForm(
     BuildContext context,
   ) {

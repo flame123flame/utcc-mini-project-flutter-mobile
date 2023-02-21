@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:shaky_animated_listview/animators/grid_animator.dart';
 import 'package:utcc_mobile/screens/supervisor/overview.dart';
 import 'package:utcc_mobile/screens/users/list_role.dart';
 import 'package:utcc_mobile/screens/users/list_user.dart';
@@ -126,7 +127,7 @@ class _HomeState extends State<Home> {
                 if (weather != null)
                   Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(left: 17, right: 17, top: 185),
+                    margin: EdgeInsets.only(left: 17, right: 17, top: 180),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -303,86 +304,78 @@ class _HomeState extends State<Home> {
             Expanded(
               flex: 1,
               child: Container(
-                child: GridView.count(
-                  primary: false,
-                  padding:
-                      EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 2,
-                  childAspectRatio: 2.4,
-                  children: [
-                    ...List.generate(listMenuDisplay.length, (index) {
-                      return Container(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(9)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.14),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                              gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Color.fromARGB(255, 255, 255, 255)
-                                        .withOpacity(0.40),
-                                    Color.fromARGB(255, 255, 255, 255)
-                                        .withOpacity(0.60),
-                                    Color.fromARGB(255, 255, 255, 255)
-                                        .withOpacity(0.80)
-                                  ])),
-                          child: InkWell(
-                            onTap: () => {
-                              PersistentNavBarNavigator.pushNewScreen(
-                                context,
-                                screen: listMenuDisplay[index].navigate,
-                                withNavBar: false,
-                                pageTransitionAnimation:
-                                    PageTransitionAnimation.cupertino,
-                              )
-                            },
-                            child: ClipPath(
-                              child: Container(
-                                child: Center(
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                        backgroundColor:
-                                            listMenuDisplay[index].color,
-                                        child: listMenuDisplay[index].icon),
-                                    title: Text(
-                                      '${listMenuDisplay[index].menu.toString()}',
-                                      style: const TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 59, 58, 58),
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 13),
+                  child: GridView.count(
+                      primary: false,
+                      padding: EdgeInsets.only(
+                          left: 14, right: 14, top: 10, bottom: 10),
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: 2,
+                      childAspectRatio: 2.4,
+                      children: List.generate(
+                        listMenuDisplay.length,
+                        (index) => GridAnimatorWidget(
+                            child: Container(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(9)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.14),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromARGB(255, 255, 255, 255)
+                                          .withOpacity(0.40),
+                                      Color.fromARGB(255, 255, 255, 255)
+                                          .withOpacity(0.60),
+                                      Color.fromARGB(255, 255, 255, 255)
+                                          .withOpacity(0.80)
+                                    ])),
+                            child: InkWell(
+                              onTap: () => {
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: listMenuDisplay[index].navigate,
+                                  withNavBar: false,
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino,
+                                )
+                              },
+                              child: ClipPath(
+                                child: Container(
+                                  child: Center(
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                          backgroundColor:
+                                              listMenuDisplay[index].color,
+                                          child: listMenuDisplay[index].icon),
+                                      title: Text(
+                                        '${listMenuDisplay[index].menu.toString()}',
+                                        style: const TextStyle(
+                                            color:
+                                                Color.fromARGB(255, 59, 58, 58),
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 13),
+                                      ),
                                     ),
-                                    // subtitle: Text(
-                                    //   '${listMenuDisplay[index].subMenu.toString()}',
-                                    //   style: const TextStyle(
-                                    //       color: Color.fromARGB(
-                                    //           255, 12, 54, 151),
-                                    //       fontWeight: FontWeight.w700,
-                                    //       fontSize: 13.5),
-                                    // ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    })
-                  ],
-                ),
-              ),
+                        )),
+                      ).toList())),
+            ),
+            SizedBox(
+              height: 20,
             ),
           ]));
     });

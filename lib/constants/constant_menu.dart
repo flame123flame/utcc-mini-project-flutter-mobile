@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../model_components/main_menu.dart';
+import '../model_components/menu_role.dart';
 import '../screens/fare/fare_list.dart';
+import '../screens/news/news_list_manage.dart';
 import '../screens/supervisor/overview.dart';
 import '../screens/users/list_role.dart';
 import '../screens/users/list_user.dart';
@@ -59,6 +61,16 @@ List<MainMenu> listMenuConstant = [
         CupertinoIcons.news,
         color: Colors.white,
       ),
+      navigate: NewsListManage()),
+  MainMenu(
+      menu: 'ประเภทรถเมล์',
+      subMenu: 'ประเภทรถเมล์',
+      role: 'BUSTYPE',
+      color: Color.fromARGB(255, 170, 92, 32),
+      icon: Icon(
+        CupertinoIcons.rectangle_grid_2x2,
+        color: Colors.white,
+      ),
       navigate: Overview()),
   MainMenu(
       menu: 'ผู้ใช้งานในระบบ',
@@ -80,4 +92,15 @@ List<MainMenu> listMenuConstant = [
         color: Colors.white,
       ),
       navigate: ListRole()),
+];
+
+List<MenuRole>? listCheckboxRole = [
+  MenuRole(name: "จ่ายงาน", value: 0, code: "DISPATCHER"),
+  MenuRole(name: "เก็บค่าโดยสาร", value: 0, code: "FARECOLLECT"),
+  MenuRole(name: "รถที่ต้องขับ", value: 0, code: "DRIVER"),
+  MenuRole(name: "ผู้จัดการสาย", value: 0, code: "BUSSUPERVISOR"),
+  MenuRole(name: "เพิ่มข่าวสาร", value: 0, code: "NEWS"),
+  MenuRole(name: "ประเภทรถเมล์", value: 0, code: "BUSTYPE"),
+  MenuRole(name: "ผู้ใช้งานในระบบ", value: 0, code: "USER"),
+  MenuRole(name: "สิทธ์การใช้งานในระบบ", value: 0, code: "ROLE")
 ];

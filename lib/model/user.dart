@@ -3,6 +3,7 @@ class User {
   String? username;
   String? firstName;
   String? lastName;
+  String? fullName;
   String? email;
   String? phoneNumber;
   String? employeeCode;
@@ -16,6 +17,7 @@ class User {
       this.username,
       this.firstName,
       this.lastName,
+      this.fullName,
       this.email,
       this.phoneNumber,
       this.employeeCode,
@@ -29,6 +31,7 @@ class User {
     username = json['username'];
     firstName = json['firstName'];
     lastName = json['lastName'];
+    fullName = json['firstName'] + " " + json['lastName'];
     email = json['email'];
     phoneNumber = json['phoneNumber'];
     employeeCode = json['employeeCode'];

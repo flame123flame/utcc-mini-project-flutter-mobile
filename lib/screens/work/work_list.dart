@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:utcc_mobile/screens/work/work_assign.dart';
 
 import '../../components/popup_bottom.dart';
 import '../../constants/constant_color.dart';
@@ -41,7 +43,14 @@ class _WorkListState extends State<WorkList> {
               ),
               IconButton(
                 icon: Icon(Icons.add_outlined),
-                onPressed: () {},
+                onPressed: () {
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: WorkAssign(),
+                    withNavBar: false,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  ).then((value) => {});
+                },
               )
             ],
             flexibleSpace: Container(

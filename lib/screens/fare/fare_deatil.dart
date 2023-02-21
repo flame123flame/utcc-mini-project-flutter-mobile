@@ -16,171 +16,397 @@ class FareDeatil extends StatefulWidget {
 class _FareDeatilState extends State<FareDeatil> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromARGB(255, 235, 240, 244),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(180.0),
-        child: AppBar(
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20),
-            ),
-          ),
-          flexibleSpace: Center(
-            child: Stack(
+    Size size = MediaQuery.of(context).size;
+    return Builder(builder: (context) {
+      return Scaffold(
+          backgroundColor: Color.fromARGB(235, 235, 244, 255),
+          body: Column(children: [
+            Stack(
+              alignment: AlignmentDirectional.topCenter,
               children: [
-                Container(
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: <Color>[
-                          Color.fromARGB(255, 34, 50, 174),
-                          Color.fromARGB(255, 37, 43, 99),
-                        ]),
-                  ),
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
+                GradientContainerHeader(size, context),
+                Positioned(
+                    top: size.height * .10,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(''),
-                              Text(
-                                '฿2,783.00',
-                                style: TextStyle(
-                                    fontFamily: '11',
-                                    color: Colors.white,
-                                    fontSize: 42,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              Text(''),
-                            ],
+                          Text(
+                            "฿3,904.00",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: '11',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 43),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 40, right: 40),
-                            child: Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'เต็มราคา',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w800),
-                                      ),
-                                      Text(
-                                        '฿300',
-                                        style: TextStyle(
-                                            fontFamily: '11',
-                                            color: Colors.white,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'ลดหย่อน',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w800),
-                                      ),
-                                      Text(
-                                        '฿58',
-                                        style: TextStyle(
-                                            fontFamily: '11',
-                                            color: Colors.white,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'เต็ม/ลดหย่อน(ใบ)',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w800),
-                                      ),
-                                      Text(
-                                        '534/43',
-                                        style: TextStyle(
-                                            fontFamily: '11',
-                                            color: Colors.white,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          )
-                        ],
-                      ),
+                        ])),
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(left: 25, right: 25, top: 155),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(11)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white,
+                        Colors.white,
+                      ],
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 0,
+                      ),
+                    ],
                   ),
-                ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "รอบการวิ่ง",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'ยอดตั๋วรวม',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "test",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "test",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "test",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "test",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "test",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "test",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ' test ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                      fontSize: 13),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
-          ),
-          // backgroundColor: colorBar,
-          title: const Text(
-            '',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
+            Expanded(
+              child: Container(
+                child: GridView.count(
+                  primary: false,
+                  padding:
+                      EdgeInsets.only(left: 3, right: 3, top: 10, bottom: 3),
+                  crossAxisSpacing: 2,
+                  mainAxisSpacing: 1,
+                  crossAxisCount: 1,
+                  childAspectRatio: 2.2,
+                  children: [
+                    ...List.generate(3, (index) {
+                      return cardDetail();
+                    })
+                  ],
+                ),
+                // child: ListView.builder(
+                //     itemCount: 3,
+                //     shrinkWrap: true,
+                //     scrollDirection: Axis.vertical,
+                //     // physics: ClampingScrollPhysics(),
+                //     itemBuilder: (context, index) {
+                //       return cardDetail();
+                //     }),
+              ),
             ),
-          ),
-          centerTitle: true,
-          actions: <Widget>[],
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 1),
-            child: Container(
-              margin: EdgeInsets.only(top: 2),
-              child: ListView.builder(
-                  itemCount: 4,
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return test();
-                  }),
-            ),
-          ),
-        ),
-      ),
-    );
+          ]));
+    });
   }
 
-  Widget test() {
+  Widget cardDetail() {
     return Container(
       margin: EdgeInsets.only(
           top: SizeConfig.defaultSize! * 0.5,
@@ -296,57 +522,57 @@ class _FareDeatilState extends State<FareDeatil> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "ตั๋วเต็มราคา",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 35, 35, 35),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800),
-                    ),
-                    Text(
-                      "300 ใบ",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 35, 35, 35),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         "ตั๋วเต็มราคา",
+              //         style: TextStyle(
+              //             color: Color.fromARGB(255, 35, 35, 35),
+              //             fontSize: 13,
+              //             fontWeight: FontWeight.w800),
+              //       ),
+              //       Text(
+              //         "300 ใบ",
+              //         style: TextStyle(
+              //             color: Color.fromARGB(255, 35, 35, 35),
+              //             fontSize: 13,
+              //             fontWeight: FontWeight.w800),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 10, right: 10),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         "ตั๋วลดหย่อน",
+              //         style: TextStyle(
+              //             color: Color.fromARGB(255, 35, 35, 35),
+              //             fontSize: 13,
+              //             fontWeight: FontWeight.w800),
+              //       ),
+              //       Text(
+              //         "34 ใบ",
+              //         style: TextStyle(
+              //             color: Color.fromARGB(255, 35, 35, 35),
+              //             fontSize: 13,
+              //             fontWeight: FontWeight.w800),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "ตั๋วลดหย่อน",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 35, 35, 35),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800),
-                    ),
-                    Text(
-                      "34 ใบ",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 35, 35, 35),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "รวม",
+                      "ตั๋วรวม",
                       style: TextStyle(
                           color: Color.fromARGB(255, 35, 35, 35),
                           fontSize: 13,
@@ -366,4 +592,53 @@ class _FareDeatilState extends State<FareDeatil> {
       ),
     );
   }
+}
+
+Container GradientContainerHeader(Size size, BuildContext context) {
+  return Container(
+    height: size.height * 0.28,
+    width: size.width,
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+    ),
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(0), bottomRight: Radius.circular(30)),
+        boxShadow: [
+          BoxShadow(
+              color: Color.fromARGB(255, 25, 67, 144).withOpacity(.20),
+              offset: Offset(0, 10),
+              blurRadius: 20,
+              spreadRadius: 2)
+        ],
+        gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: <Color>[
+              Color.fromARGB(255, 34, 50, 174),
+              Color.fromARGB(255, 37, 43, 99),
+            ]),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(top: 43, left: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                size: 23,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

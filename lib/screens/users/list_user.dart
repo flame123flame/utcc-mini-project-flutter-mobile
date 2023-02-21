@@ -68,7 +68,6 @@ class _ListUserState extends State<ListUser> {
   getUser() async {
     try {
       List<User> temp = await ApiService.apiGetUser();
-
       if (temp.length == 0) {
         return;
       }
