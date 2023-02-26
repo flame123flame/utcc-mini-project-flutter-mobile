@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -5,9 +6,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../components/dropdown_bus.dart';
 import '../../components/dropdown_user.dart';
 import '../../components/popup_bottom.dart';
 import '../../components/popup_date_picker.dart';
+import '../../components/text_input.dart';
 import '../../utils/size_config.dart';
 
 class WorkAssign extends StatefulWidget {
@@ -18,6 +21,8 @@ class WorkAssign extends StatefulWidget {
 }
 
 class _WorkAssignState extends State<WorkAssign> {
+  TextEditingController type = new TextEditingController(text: '');
+  String busTypeDisplay = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,6 +117,102 @@ class _WorkAssignState extends State<WorkAssign> {
                   child: PopupDatePicker(
                     validate: false,
                     onSelected: (datetime) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'เวลารับงานจริง',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
+                    ),
+                    Text(
+                      ' *',
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: SizeConfig.defaultSize! * 0.1,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.white,
+                  ),
+                  child: PopupDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    validate: false,
+                    onSelected: (datetime) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5, left: 2),
+                  child: Row(
+                    children: [
+                      Text(
+                        'เลขข้างรถ',
+                        style: TextStyle(
+                            fontFamily: 'prompt',
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        ' *',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(child: DropdownBus(
+                  onSelect: (id, busNo, busType) {
+                    setState(() {
+                      type.text = busType;
+                    });
+                  },
+                )),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5, left: 2),
+                  child: Row(
+                    children: [
+                      Text(
+                        'ประเภทรถ',
+                        style: TextStyle(
+                            fontFamily: 'prompt',
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.white,
+                  ),
+                  child: TextInput(
+                    validate: false,
+                    enabled: false,
+                    controller: type,
                   ),
                 ),
                 SizedBox(

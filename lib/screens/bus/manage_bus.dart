@@ -106,7 +106,7 @@ class _ManageBusState extends State<ManageBus> {
   ];
 
   var maskFormatterBusNo = new MaskTextInputFormatter(
-      mask: '#-##### / ##-#####', type: MaskAutoCompletionType.eager);
+      mask: '#-#####', type: MaskAutoCompletionType.eager);
   var maskFormatterBusPlate = new MaskTextInputFormatter(
       mask: '##-####', type: MaskAutoCompletionType.eager);
   var maskFormatterMoney = new MaskTextInputFormatter(

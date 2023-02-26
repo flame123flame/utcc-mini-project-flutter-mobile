@@ -123,8 +123,8 @@ class _PopupDatePickerState extends State<PopupDatePicker> {
                                 style: TextStyle(
                                     fontFamily: 'prompt',
                                     color: Color.fromARGB(255, 12, 54, 151),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w900),
                               ),
                             ),
                             CupertinoButton(
@@ -160,8 +160,8 @@ class _PopupDatePickerState extends State<PopupDatePicker> {
                                 style: TextStyle(
                                     fontFamily: 'prompt',
                                     color: Color.fromARGB(255, 12, 54, 151),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w900),
                               ),
                             ),
                           ],

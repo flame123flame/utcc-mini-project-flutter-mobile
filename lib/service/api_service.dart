@@ -182,7 +182,8 @@ class ApiService {
     showLoadding();
     try {
       // Bangkok
-      String city = "Bangkok";
+      // String city = "Bangkok";
+      String city = "Huai Khwang";
       String apiKey = "341c061275afe0918b8b600975aeceb6";
       var response = await Dio().get(
           'https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=th');

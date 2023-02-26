@@ -101,12 +101,29 @@ class _WorkListState extends State<WorkList> {
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              Text('data'),
-              Text('data'),
+              TabWorkList1(),
+              TabWorkList2(),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget TabWorkList1() {
+  return Container(
+    child: Text('test'),
+  );
+}
+
+Widget TabWorkList2() {
+  return Center(
+    child: Container(
+      child: Text(
+        'Coming Soon',
+        style: TextStyle(fontSize: 30),
+      ),
+    ),
+  );
 }
