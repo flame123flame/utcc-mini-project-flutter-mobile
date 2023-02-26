@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -89,6 +90,16 @@ class _ListUserState extends State<ListUser> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  deleteRole(String username) async {
+    try {
+      Response temp = await ApiService.apiDeleteUser(username);
+      if (temp.statusCode == 200) {
+        getUser();
+        Navigator.pop(context);
+      }
+    } on DioError catch (error) {}
   }
 
   @override
@@ -239,6 +250,35 @@ class _ListUserState extends State<ListUser> {
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () => {deleteRole(user.username!)},
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(6)),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromARGB(255, 216, 6, 6)
+                                    .withOpacity(0.80),
+                                Color.fromARGB(255, 216, 6, 6)
+                                    .withOpacity(0.80),
+                                Color.fromARGB(255, 216, 6, 6).withOpacity(0.80)
+                              ])),
+                      height: 40,
+                      width: double.infinity,
+                      child: Text(
+                        'ลบข้อมูล',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w800),
+                      ),
+                    ),
                   ),
                 ],
               ),

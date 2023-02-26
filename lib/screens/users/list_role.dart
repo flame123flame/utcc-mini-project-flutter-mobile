@@ -11,6 +11,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:utcc_mobile/components/popup_bottom.dart';
 
+import '../../components/notification.dart';
 import '../../components/popup_date_picker.dart';
 import '../../constants/constant_color.dart';
 import '../../constants/constant_menu.dart';
@@ -119,8 +120,32 @@ class _ListRoleState extends State<ListRole> {
     }
   }
 
-  List<MainMenu> listMenuData = listMenuConstant;
+  deleteRole(String code) async {
+    try {
+      Response temp = await ApiService.apiDeleteRole(code);
+      if (temp.statusCode == 200) {
+        getRole();
+        Navigator.pop(context);
+      }
+    } on DioError catch (error) {
+      if (error.response!.statusCode == 401) {
+        await storage.delete(key: 'jwttoken');
+        await storage.delete(key: 'username');
+        await storage.delete(key: 'password');
+        userLoginProvider!.clearUserLogin();
+        Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return Login();
+            },
+          ),
+          (_) => false,
+        );
+      }
+    }
+  }
 
+  List<MainMenu> listMenuData = listMenuConstant;
   getPopupDetail(BuildContext context, RoleModel roleModel) {
     List<MainMenu> listMenuDisplay = [];
     List<String> list = roleModel.munuList!;
@@ -128,7 +153,6 @@ class _ListRoleState extends State<ListRole> {
       listMenuDisplay.addAll(
           listMenuData.where((element) => element.role == list[i].toString()));
     }
-    log(listMenuDisplay.length.toString());
     showModalBottomSheet<void>(
       useSafeArea: false,
       shape: const RoundedRectangleBorder(
@@ -265,8 +289,37 @@ class _ListRoleState extends State<ListRole> {
                     );
                   }),
                   SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () => {deleteRole(roleModel.roleCode!)},
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(6)),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromARGB(255, 216, 6, 6)
+                                    .withOpacity(0.80),
+                                Color.fromARGB(255, 216, 6, 6)
+                                    .withOpacity(0.80),
+                                Color.fromARGB(255, 216, 6, 6).withOpacity(0.80)
+                              ])),
+                      height: 40,
+                      width: double.infinity,
+                      child: Text(
+                        'ลบข้อมูล',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
                     height: 40,
-                  )
+                  ),
                 ],
               ),
             ),

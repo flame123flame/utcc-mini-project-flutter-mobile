@@ -141,6 +141,43 @@ class ApiService {
     }
   }
 
+  static Future<Response> apiDeleteUser(String username) async {
+    try {
+      showLoadding();
+      Response response =
+          await dioClient!.get('/api/user/delete-user/' + username);
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+      throw e;
+    }
+  }
+
+  static Future<Response> apiDeleteRole(String code) async {
+    try {
+      showLoadding();
+      Response response = await dioClient!.get('/api/role/delete-role/' + code);
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+      throw e;
+    }
+  }
+
   static Future<WeatherMain> apiGetCurrentWeather() async {
     showLoadding();
     try {
