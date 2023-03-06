@@ -20,9 +20,89 @@ class WorkAssign extends StatefulWidget {
   State<WorkAssign> createState() => _WorkAssignState();
 }
 
+class WorkAssignModel {
+  String? worksheetDate;
+  String? worksheetTimeBegin;
+  String? worksheetTimeEnd;
+  String? busVehiclePlateNo;
+  String? worksheetDispatcher;
+  String? worksheetDriver;
+  String? worksheetFarecollect;
+
+  String get getWorksheetDate {
+    return worksheetDate!;
+  }
+
+  set setWorksheetDate(String date) {
+    worksheetDate = date;
+  }
+
+  String get getWorksheetTimeBegin {
+    return worksheetTimeBegin!;
+  }
+
+  set setWorksheetTimeBegin(String data) {
+    worksheetTimeBegin = data;
+  }
+
+  String get getWorksheetTimeEnd {
+    return worksheetTimeEnd!;
+  }
+
+  set setWorksheetTimeEnd(String data) {
+    worksheetTimeEnd = data;
+  }
+
+  String get getBusVehiclePlateNo {
+    return busVehiclePlateNo!;
+  }
+
+  set setBusVehiclePlateNo(String data) {
+    busVehiclePlateNo = data;
+  }
+
+  String get getWorksheetDispatcher {
+    return worksheetDispatcher!;
+  }
+
+  set setWorksheetDispatcher(String data) {
+    worksheetDispatcher = data;
+  }
+
+  String get getWorksheetDriver {
+    return worksheetDriver!;
+  }
+
+  set setWorksheetDriver(String data) {
+    worksheetDriver = data;
+  }
+
+  String get getWorksheetFarecollect {
+    return worksheetFarecollect!;
+  }
+
+  set setWorksheetFarecollect(String data) {
+    worksheetFarecollect = data;
+  }
+}
+
 class _WorkAssignState extends State<WorkAssign> {
   TextEditingController type = new TextEditingController(text: '');
   String busTypeDisplay = "";
+  WorkAssignModel? form = new WorkAssignModel();
+  DateTime? worksheetDate = DateTime.now();
+  String? worksheetTimeBegin;
+  String? worksheetTimeEnd;
+  String? busVehiclePlateNo;
+  String? worksheetDispatcher;
+  String? worksheetDriver;
+  String? worksheetFarecollect;
+  getData() {
+    // WorkAssignModel? form = new WorkAssignModel();
+    form!.busVehiclePlateNo = "sdd";
+    form!.setWorksheetDate = "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +196,9 @@ class _WorkAssignState extends State<WorkAssign> {
                   ),
                   child: PopupDatePicker(
                     validate: false,
-                    onSelected: (datetime) {},
+                    onSelected: (datetime) {
+                      worksheetDate = datetime;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -151,7 +233,10 @@ class _WorkAssignState extends State<WorkAssign> {
                   child: PopupDatePicker(
                     mode: CupertinoDatePickerMode.time,
                     validate: false,
-                    onSelected: (datetime) {},
+                    onSelected: (datetime) {
+                      print(datetime!.hour);
+                      print(datetime!.minute);
+                    },
                   ),
                 ),
                 SizedBox(

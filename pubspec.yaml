@@ -59,6 +59,8 @@ dependencies:
   group_button: ^5.2.2
   shaky_animated_listview: ^0.0.5
   get: ^4.6.5
+  flutter_local_notifications: ^13.0.0
+  rxdart: ^0.27.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
