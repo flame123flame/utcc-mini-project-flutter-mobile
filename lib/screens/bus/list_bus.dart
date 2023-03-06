@@ -70,13 +70,13 @@ class _ListBusState extends State<ListBus> {
       setState(() {
         listBus = List.generate(temp.length, ((index) {
           return BusModel(
-            id: temp[index].id,
-            busNo: temp[index].busNo,
-            busType: temp[index].busType,
-            fare: temp[index].fare,
-            discountFare: temp[index].discountFare,
-            createDate: temp[index].createDate,
-          );
+              // id: temp[index].id,
+              // busNo: temp[index].busNo,
+              // busType: temp[index].busType,
+              // fare: temp[index].fare,
+              // discountFare: temp[index].discountFare,
+              // createDate: temp[index].createDate,
+              );
         }));
       });
     } catch (e) {
@@ -151,7 +151,7 @@ class _ListBusState extends State<ListBus> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        busModel.busNo.toString(),
+                        "busModel.busNo.toString()",
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -181,7 +181,7 @@ class _ListBusState extends State<ListBus> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        busModel.busType.toString(),
+                        "busModel.busType.toString(),",
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -211,7 +211,7 @@ class _ListBusState extends State<ListBus> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        busModel.fare.toString() + " บาท",
+                        "busModel.fare.toString() +  บาท",
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -226,7 +226,7 @@ class _ListBusState extends State<ListBus> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        busModel.discountFare.toString() + " บาท",
+                        "busModel.discountFare.toString()",
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -487,7 +487,7 @@ class _ListBusState extends State<ListBus> {
                                           boxShadow: [
                                             BoxShadow(
                                               color:
-                                                  Colors.grey.withOpacity(0.14),
+                                                  Colors.grey.withOpacity(0.10),
                                               spreadRadius: 5,
                                               blurRadius: 7,
                                               offset: Offset(0,
@@ -583,7 +583,7 @@ class _ListBusState extends State<ListBus> {
                                                                   //     listBus[
                                                                   //             index]
                                                                   //         .busNo!),
-                                                                  "${listBus[index].busNo}",
+                                                                  "",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .left,
@@ -624,7 +624,7 @@ class _ListBusState extends State<ListBus> {
                                                                               .w800),
                                                                 ),
                                                                 Text(
-                                                                  "${listBus[index].busType}",
+                                                                  "",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .left,

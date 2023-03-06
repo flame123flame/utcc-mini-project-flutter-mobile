@@ -45,7 +45,7 @@ List<MainMenu> listMenuConstant = [
   MainMenu(
       menu: 'ผู้จัดการสาย',
       subMenu: 'อนุมัตจบใบงาน',
-      role: 'BUSSUPERVISOR',
+      role: 'BUSLINESMANAGER',
       color: Color.fromARGB(255, 2, 71, 161),
       icon: Icon(
         CupertinoIcons.person,
@@ -98,7 +98,7 @@ List<MenuRole>? listCheckboxRole = [
   MenuRole(name: "จ่ายงาน", value: 0, code: "DISPATCHER"),
   MenuRole(name: "เก็บค่าโดยสาร", value: 0, code: "FARECOLLECT"),
   MenuRole(name: "รถที่ต้องขับ", value: 0, code: "DRIVER"),
-  MenuRole(name: "ผู้จัดการสาย", value: 0, code: "BUSSUPERVISOR"),
+  MenuRole(name: "ผู้จัดการสาย", value: 0, code: "BUSLINESMANAGER"),
   MenuRole(name: "เพิ่มข่าวสาร", value: 0, code: "NEWS"),
   MenuRole(name: "ประเภทรถเมล์", value: 0, code: "BUSTYPE"),
   MenuRole(name: "ผู้ใช้งานในระบบ", value: 0, code: "USER"),

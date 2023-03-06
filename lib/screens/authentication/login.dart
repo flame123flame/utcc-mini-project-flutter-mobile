@@ -297,8 +297,8 @@ class _LoginState extends State<Login> {
                                           'ผู้ใช้งาน',
                                           style: TextStyle(
                                               color: colorBar,
-                                              fontSize: fontLableInput,
-                                              fontWeight: FontWeight.w600),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w800),
                                         ),
                                       ),
                                       Container(
@@ -360,8 +360,8 @@ class _LoginState extends State<Login> {
                                           'รหัสผ่าน',
                                           style: TextStyle(
                                               color: colorBar,
-                                              fontSize: fontLableInput,
-                                              fontWeight: FontWeight.w600),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w800),
                                         ),
                                       ),
                                       Container(

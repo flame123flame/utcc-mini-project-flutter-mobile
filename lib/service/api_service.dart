@@ -11,6 +11,7 @@ import '../model/user.dart';
 import '../model/users_login.dart';
 import '../model/weather_main.dart';
 import '../provider/user_login_provider.dart';
+import '../screens/work/model/worksheet.dart';
 import 'configDio.dart';
 
 class ApiService {
@@ -245,7 +246,8 @@ class ApiService {
   static Future<List<BusModel>> apiGetListBus() async {
     try {
       showLoadding();
-      final servicesRes = await dioClient!.get('/api/bus/get-list');
+      final servicesRes =
+          await dioClient!.get('/api/bus-vehicle/get-list-dropdown');
       if (servicesRes.statusCode == 200) {
         List<BusModel> response = [];
         servicesRes.data['data'].forEach((element) {
@@ -293,6 +295,56 @@ class ApiService {
       }
     } catch (error) {
       throw error;
+    }
+  }
+
+  static Future<Response> apiSaveWorksheet(
+    DateTime worksheetDate,
+    String worksheetTimeBegin,
+    String busVehiclePlateNo,
+    String worksheetDriver,
+    String worksheetFarecollect,
+  ) async {
+    try {
+      Response response = await dioClient!.post('/api/worksheet/save', data: {
+        "worksheetDate": worksheetDate.toString().split(".")[0],
+        "worksheetTimeBegin": worksheetTimeBegin,
+        "busVehiclePlateNo": busVehiclePlateNo,
+        "worksheetDriver": worksheetDriver,
+        "worksheetFarecollect": worksheetFarecollect,
+      });
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static Future<List<Worksheet>> apiGetListWorksheet() async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(seconds: 1));
+      final servicesRes = await dioClient!.get('/api/worksheet/get-list');
+      if (servicesRes.statusCode == 200) {
+        List<Worksheet> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(Worksheet.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
     }
   }
 

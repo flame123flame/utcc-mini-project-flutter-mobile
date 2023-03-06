@@ -5,7 +5,7 @@ import '../model/user.dart';
 import '../service/api_service.dart';
 
 class DropdownBus extends StatefulWidget {
-  final Function(int, String, String) onSelect;
+  final Function(String, String, String) onSelect;
   const DropdownBus({Key? key, required this.onSelect}) : super(key: key);
 
   @override
@@ -24,12 +24,11 @@ class _DropdownBusState extends State<DropdownBus> {
       setState(() {
         listBus = List.generate(temp.length, ((index) {
           return BusModel(
-              id: temp[index].id,
-              busNo: temp[index].busNo,
-              busType: temp[index].busType,
-              fare: temp[index].fare,
-              discountFare: temp[index].discountFare,
-              createDate: temp[index].createDate);
+            busVehiclePlateProv: temp[index].busVehiclePlateProv,
+            busVehicleNumber: temp[index].busVehicleNumber,
+            busVehiclePlateNo: temp[index].busVehiclePlateNo,
+            typeName: temp[index].typeName,
+          );
         }));
       });
     } catch (e) {
@@ -53,14 +52,15 @@ class _DropdownBusState extends State<DropdownBus> {
           borderRadius: BorderRadius.circular(6.0),
           border: Border.all(color: Color.fromARGB(255, 221, 219, 218))),
       child: Autocomplete<BusModel>(
+        optionsMaxHeight: 50,
         optionsBuilder: (TextEditingValue textEditingValue) {
           return listBus
-              .where((BusModel user) => user.busNo!
+              .where((BusModel user) => user.busVehicleNumber!
                   .toLowerCase()
                   .startsWith(textEditingValue.text.toLowerCase()))
               .toList();
         },
-        displayStringForOption: (BusModel option) => option.busNo!,
+        displayStringForOption: (BusModel option) => option.busVehicleNumber!,
         fieldViewBuilder: (BuildContext context,
             TextEditingController fieldTextEditingController,
             FocusNode fieldFocusNode,
@@ -85,9 +85,8 @@ class _DropdownBusState extends State<DropdownBus> {
           );
         },
         onSelected: (BusModel selection) {
-          widget.onSelect
-              .call(selection.id!, selection.busNo!, selection.busType!);
-          print('Selected: ${selection.busNo}');
+          widget.onSelect.call(selection.busVehicleNumber!,
+              selection.busVehiclePlateNo!, selection.typeName!);
         },
         optionsViewBuilder: (BuildContext context,
             AutocompleteOnSelected<BusModel> onSelected,
@@ -95,7 +94,6 @@ class _DropdownBusState extends State<DropdownBus> {
           return Padding(
             padding: const EdgeInsets.only(top: 0),
             child: Container(
-              margin: EdgeInsets.only(right: 78, top: 10),
               decoration: BoxDecoration(
                 border: Border.all(color: Color.fromARGB(255, 221, 219, 218)),
                 borderRadius: BorderRadius.circular(6),
@@ -111,7 +109,8 @@ class _DropdownBusState extends State<DropdownBus> {
               ),
               child: ListView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.all(0.0),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 400),
                 itemCount: options.length,
                 itemBuilder: (BuildContext context, int index) {
                   final BusModel option = options.elementAt(index);
@@ -134,7 +133,7 @@ class _DropdownBusState extends State<DropdownBus> {
                                       color: Color.fromARGB(255, 184, 182, 181),
                                     ),
                                     Text(
-                                      '   ${option.busNo}',
+                                      '   ${option.busVehicleNumber}',
                                       style: TextStyle(fontSize: 13),
                                     ),
                                   ],

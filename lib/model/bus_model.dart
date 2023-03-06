@@ -1,36 +1,28 @@
 class BusModel {
-  int? id;
-  String? busNo;
-  double? fare;
-  double? discountFare;
-  String? busType;
-  String? createDate;
+  String? busVehiclePlateNo;
+  String? busVehiclePlateProv;
+  String? busVehicleNumber;
+  String? typeName;
 
   BusModel(
-      {this.id,
-      this.busNo,
-      this.fare,
-      this.discountFare,
-      this.busType,
-      this.createDate});
+      {this.busVehiclePlateNo,
+      this.busVehiclePlateProv,
+      this.busVehicleNumber,
+      this.typeName});
 
   BusModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    busNo = json['busNo'];
-    fare = json['fare'];
-    discountFare = json['discountFare'];
-    busType = json['busType'];
-    createDate = json['createDate'];
+    busVehiclePlateNo = json['busVehiclePlateNo'];
+    busVehiclePlateProv = json['busVehiclePlateProv'];
+    busVehicleNumber = json['busVehicleNumber'];
+    typeName = json['typeName'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['busNo'] = this.busNo;
-    data['fare'] = this.fare;
-    data['discountFare'] = this.discountFare;
-    data['busType'] = this.busType;
-    data['createDate'] = this.createDate;
+    data['busVehiclePlateNo'] = this.busVehiclePlateNo;
+    data['busVehiclePlateProv'] = this.busVehiclePlateProv;
+    data['busVehicleNumber'] = this.busVehicleNumber;
+    data['typeName'] = this.typeName;
     return data;
   }
 }

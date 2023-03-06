@@ -3,7 +3,8 @@ import '../model/user.dart';
 import '../service/api_service.dart';
 
 class DropdownUser extends StatefulWidget {
-  const DropdownUser({Key? key}) : super(key: key);
+  final Function(String, String) onSelect;
+  const DropdownUser({Key? key, required this.onSelect}) : super(key: key);
 
   @override
   State<DropdownUser> createState() => _DropdownUserState();
@@ -86,7 +87,7 @@ class _DropdownUserState extends State<DropdownUser> {
           );
         },
         onSelected: (User selection) {
-          print('Selected: ${selection.fullName}');
+          widget.onSelect.call(selection.username!, selection.firstName!);
         },
         optionsViewBuilder: (BuildContext context,
             AutocompleteOnSelected<User> onSelected, Iterable<User> options) {
@@ -109,7 +110,8 @@ class _DropdownUserState extends State<DropdownUser> {
               ),
               child: ListView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.all(0.0),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 400),
                 itemCount: options.length,
                 itemBuilder: (BuildContext context, int index) {
                   final User option = options.elementAt(index);

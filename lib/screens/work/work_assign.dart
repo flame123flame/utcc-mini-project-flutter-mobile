@@ -1,16 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 
 import '../../components/dropdown_bus.dart';
 import '../../components/dropdown_user.dart';
-import '../../components/popup_bottom.dart';
 import '../../components/popup_date_picker.dart';
 import '../../components/text_input.dart';
+import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
 
 class WorkAssign extends StatefulWidget {
@@ -20,76 +19,11 @@ class WorkAssign extends StatefulWidget {
   State<WorkAssign> createState() => _WorkAssignState();
 }
 
-class WorkAssignModel {
-  String? worksheetDate;
-  String? worksheetTimeBegin;
-  String? worksheetTimeEnd;
-  String? busVehiclePlateNo;
-  String? worksheetDispatcher;
-  String? worksheetDriver;
-  String? worksheetFarecollect;
-
-  String get getWorksheetDate {
-    return worksheetDate!;
-  }
-
-  set setWorksheetDate(String date) {
-    worksheetDate = date;
-  }
-
-  String get getWorksheetTimeBegin {
-    return worksheetTimeBegin!;
-  }
-
-  set setWorksheetTimeBegin(String data) {
-    worksheetTimeBegin = data;
-  }
-
-  String get getWorksheetTimeEnd {
-    return worksheetTimeEnd!;
-  }
-
-  set setWorksheetTimeEnd(String data) {
-    worksheetTimeEnd = data;
-  }
-
-  String get getBusVehiclePlateNo {
-    return busVehiclePlateNo!;
-  }
-
-  set setBusVehiclePlateNo(String data) {
-    busVehiclePlateNo = data;
-  }
-
-  String get getWorksheetDispatcher {
-    return worksheetDispatcher!;
-  }
-
-  set setWorksheetDispatcher(String data) {
-    worksheetDispatcher = data;
-  }
-
-  String get getWorksheetDriver {
-    return worksheetDriver!;
-  }
-
-  set setWorksheetDriver(String data) {
-    worksheetDriver = data;
-  }
-
-  String get getWorksheetFarecollect {
-    return worksheetFarecollect!;
-  }
-
-  set setWorksheetFarecollect(String data) {
-    worksheetFarecollect = data;
-  }
-}
-
 class _WorkAssignState extends State<WorkAssign> {
-  TextEditingController type = new TextEditingController(text: '');
+  TextEditingController busVehiclePlateNoInput =
+      new TextEditingController(text: '');
+  TextEditingController typeNameInput = new TextEditingController(text: '');
   String busTypeDisplay = "";
-  WorkAssignModel? form = new WorkAssignModel();
   DateTime? worksheetDate = DateTime.now();
   String? worksheetTimeBegin;
   String? worksheetTimeEnd;
@@ -97,10 +31,29 @@ class _WorkAssignState extends State<WorkAssign> {
   String? worksheetDispatcher;
   String? worksheetDriver;
   String? worksheetFarecollect;
-  getData() {
-    // WorkAssignModel? form = new WorkAssignModel();
-    form!.busVehiclePlateNo = "sdd";
-    form!.setWorksheetDate = "";
+
+  SaveForm() async {
+    try {
+      EasyLoading.show(
+        indicator: Image.asset(
+          'assets/images/Loading_2.gif',
+          height: 70,
+        ),
+      );
+      await Future.delayed(Duration(seconds: 1));
+      Response data = await ApiService.apiSaveWorksheet(
+          worksheetDate!,
+          worksheetTimeBegin!,
+          busVehiclePlateNo!,
+          worksheetDriver!,
+          worksheetFarecollect!);
+      if (data.statusCode == 200) {
+        Navigator.of(context).pop();
+      }
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.dismiss();
+    }
   }
 
   @override
@@ -122,7 +75,9 @@ class _WorkAssignState extends State<WorkAssign> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.save),
-              onPressed: () {},
+              onPressed: () {
+                SaveForm();
+              },
             )
           ],
           flexibleSpace: Container(
@@ -234,8 +189,10 @@ class _WorkAssignState extends State<WorkAssign> {
                     mode: CupertinoDatePickerMode.time,
                     validate: false,
                     onSelected: (datetime) {
-                      print(datetime!.hour);
-                      print(datetime!.minute);
+                      setState(() {
+                        worksheetTimeBegin =
+                            DateFormat.Hm().format(datetime!).toString();
+                      });
                     },
                   ),
                 ),
@@ -265,12 +222,45 @@ class _WorkAssignState extends State<WorkAssign> {
                   ),
                 ),
                 Container(child: DropdownBus(
-                  onSelect: (id, busNo, busType) {
+                  onSelect: (busVehicleNumberParam, busVehiclePlateNoParam,
+                      typeNameParam) {
                     setState(() {
-                      type.text = busType;
+                      typeNameInput.text = typeNameParam;
+                      busVehiclePlateNoInput.text = busVehiclePlateNoParam;
+                      busVehiclePlateNo = busVehiclePlateNoParam;
                     });
                   },
                 )),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5, left: 2),
+                  child: Row(
+                    children: [
+                      Text(
+                        'เลขทะเบียนรถ',
+                        style: TextStyle(
+                            fontFamily: 'prompt',
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.white,
+                  ),
+                  child: TextInput(
+                    hint: '',
+                    validate: false,
+                    enabled: false,
+                    controller: busVehiclePlateNoInput,
+                  ),
+                ),
                 SizedBox(
                   height: 16,
                 ),
@@ -295,9 +285,10 @@ class _WorkAssignState extends State<WorkAssign> {
                     color: Colors.white,
                   ),
                   child: TextInput(
+                    hint: '',
                     validate: false,
                     enabled: false,
-                    controller: type,
+                    controller: typeNameInput,
                   ),
                 ),
                 SizedBox(
@@ -325,7 +316,14 @@ class _WorkAssignState extends State<WorkAssign> {
                     ],
                   ),
                 ),
-                Container(child: DropdownUser()),
+                Container(
+                    child: DropdownUser(
+                  onSelect: (username, fullName) => {
+                    setState(() {
+                      worksheetDriver = username;
+                    })
+                  },
+                )),
                 SizedBox(
                   height: 16,
                 ),
@@ -351,7 +349,17 @@ class _WorkAssignState extends State<WorkAssign> {
                     ],
                   ),
                 ),
-                Container(child: DropdownUser()),
+                Container(
+                    child: DropdownUser(
+                  onSelect: (username, fullName) => {
+                    setState(() {
+                      worksheetFarecollect = username;
+                    })
+                  },
+                )),
+                Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 10))
               ],
             ),
           ),
