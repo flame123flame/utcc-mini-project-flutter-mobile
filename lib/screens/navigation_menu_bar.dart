@@ -40,12 +40,12 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
           title: ("ข่าวสาร"),
           activeColorPrimary: colorBar,
           inactiveColorPrimary: unActiveColor),
-      // PersistentBottomNavBarItem(
-      //     inactiveColorSecondary: CupertinoColors.black,
-      //     icon: Icon(CupertinoIcons.bus),
-      //     title: ("รถเมล์"),
-      //     activeColorPrimary: colorBar,
-      //     inactiveColorPrimary: unActiveColor),
+      PersistentBottomNavBarItem(
+          inactiveColorSecondary: CupertinoColors.black,
+          icon: Icon(CupertinoIcons.bus),
+          title: ("รถเมล์"),
+          activeColorPrimary: colorBar,
+          inactiveColorPrimary: unActiveColor),
       PersistentBottomNavBarItem(
           inactiveColorSecondary: CupertinoColors.black,
           icon: Icon(CupertinoIcons.settings_solid),
@@ -56,7 +56,7 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
   }
 
   List<Widget> _buildScreens() {
-    return [Home(), NewsList(), Setting()];
+    return [Home(), NewsList(), ListBus(), Setting()];
   }
 
   @override

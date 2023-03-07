@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -13,6 +14,7 @@ import '../../model_components/popup_bottom_model.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
 import '../../utils/time_format.dart';
+import 'model/bus_vehicle.dart';
 
 class ListBus extends StatefulWidget {
   const ListBus({Key? key}) : super(key: key);
@@ -62,22 +64,13 @@ class _ListBusState extends State<ListBus> {
       ),
     ),
   ];
-  List<BusModel> listBus = [];
+  List<BusVehicle> listBus = [];
 
   GetListBus() async {
     try {
-      List<BusModel> temp = await ApiService.apiGetListBus();
+      List<BusVehicle> temp = await ApiService.apiListBus();
       setState(() {
-        listBus = List.generate(temp.length, ((index) {
-          return BusModel(
-              // id: temp[index].id,
-              // busNo: temp[index].busNo,
-              // busType: temp[index].busType,
-              // fare: temp[index].fare,
-              // discountFare: temp[index].discountFare,
-              // createDate: temp[index].createDate,
-              );
-        }));
+        listBus = temp;
       });
     } catch (e) {
       print(e.toString());
@@ -90,7 +83,19 @@ class _ListBusState extends State<ListBus> {
     super.initState();
   }
 
-  getPopupDetail(BuildContext context, BusModel busModel) {
+  deleteRole(int id) async {
+    try {
+      Response temp = await ApiService.apiDeleteBusVehicle(id);
+      if (temp.statusCode == 200) {
+        GetListBus();
+        Navigator.pop(context);
+      }
+    } on DioError catch (error) {
+      print(error);
+    }
+  }
+
+  getPopupDetail(BuildContext context, BusVehicle busModel) {
     showModalBottomSheet<void>(
       useSafeArea: true,
       shape: const RoundedRectangleBorder(
@@ -135,9 +140,6 @@ class _ListBusState extends State<ListBus> {
                 ],
               ),
             ),
-            // SizedBox(
-            //   height: 20,
-            // ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               child: Column(
@@ -151,7 +153,7 @@ class _ListBusState extends State<ListBus> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        "busModel.busNo.toString()",
+                        '${busModel.busVehicleNumber}',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -166,22 +168,7 @@ class _ListBusState extends State<ListBus> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        "ยังไม่มี",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 13.5),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "ประเภทรถ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 13.5),
-                      ),
-                      Text(
-                        "busModel.busType.toString(),",
+                        '${busModel.busVehiclePlateNo}',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -196,46 +183,44 @@ class _ListBusState extends State<ListBus> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        "กรุงเทพมหานคร",
+                        '${busModel.busVehiclePlateProv}',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "ราคาเต็ม",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 13.5),
-                      ),
-                      Text(
-                        "busModel.fare.toString() +  บาท",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 13.5),
-                      ),
-                    ],
+                  SizedBox(
+                    height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "ราคาลดหย่อน",
+                  InkWell(
+                    onTap: () => {deleteRole(busModel.busVehicleId!)},
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(6)),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromARGB(255, 216, 6, 6)
+                                    .withOpacity(0.80),
+                                Color.fromARGB(255, 216, 6, 6)
+                                    .withOpacity(0.80),
+                                Color.fromARGB(255, 216, 6, 6).withOpacity(0.80)
+                              ])),
+                      height: 40,
+                      width: double.infinity,
+                      child: Text(
+                        'ลบข้อมูล',
                         style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                            color: Colors.white, fontWeight: FontWeight.w800),
                       ),
-                      Text(
-                        "busModel.discountFare.toString()",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 13.5),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
             ),
-
             SizedBox(
               height: 30,
             ),
@@ -579,11 +564,7 @@ class _ListBusState extends State<ListBus> {
                                                                               .w800),
                                                                 ),
                                                                 Text(
-                                                                  // Time().DatetimeToDateThaiString(
-                                                                  //     listBus[
-                                                                  //             index]
-                                                                  //         .busNo!),
-                                                                  "",
+                                                                  '${listBus[index].busVehicleNumber}',
                                                                   textAlign:
                                                                       TextAlign
                                                                           .left,
@@ -604,7 +585,7 @@ class _ListBusState extends State<ListBus> {
                                                             Row(
                                                               children: [
                                                                 Text(
-                                                                  "  ประเภทรถ : ",
+                                                                  "  เลขทะเบียนรถ : ",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .left,
@@ -624,7 +605,7 @@ class _ListBusState extends State<ListBus> {
                                                                               .w800),
                                                                 ),
                                                                 Text(
-                                                                  "",
+                                                                  '${listBus[index].busVehiclePlateNo}',
                                                                   textAlign:
                                                                       TextAlign
                                                                           .left,

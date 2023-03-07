@@ -11,6 +11,7 @@ import '../model/user.dart';
 import '../model/users_login.dart';
 import '../model/weather_main.dart';
 import '../provider/user_login_provider.dart';
+import '../screens/bus/model/bus_vehicle.dart';
 import '../screens/work/model/worksheet.dart';
 import 'configDio.dart';
 
@@ -243,6 +244,29 @@ class ApiService {
     }
   }
 
+  static Future<List<BusVehicle>> apiListBus() async {
+    try {
+      showLoadding();
+      final servicesRes = await dioClient!.get('/api/bus-vehicle/get-list');
+      if (servicesRes.statusCode == 200) {
+        List<BusVehicle> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(BusVehicle.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
   static Future<List<BusModel>> apiGetListBus() async {
     try {
       showLoadding();
@@ -267,25 +291,31 @@ class ApiService {
     }
   }
 
-  static Future<Response> apiSaveBus(
-      String busNo,
-      String fare,
-      String discountFare,
-      String busType,
-      String busPlate,
-      String busProvince) async {
+  static Future<Response> apiDeleteBusVehicle(int id) async {
     try {
-      print(fare.split("."));
-      Response response = await dioClient!.post('/api/bus/save', data: {
-        "busNo": busNo,
-        "fare":
-            fare.split(".").length == 1 ? int.parse(fare) : double.parse(fare),
-        "discountFare": discountFare.split(".").length == 1
-            ? int.parse(discountFare)
-            : double.parse(discountFare),
-        "busType": busType,
-        "busPlate": busPlate,
-        "busProvince": busProvince,
+      showLoadding();
+      Response response = await dioClient!.get('/api/bus-vehicle/delete/${id}');
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+      throw e;
+    }
+  }
+
+  static Future<Response> apiSaveBus(String busVehicleNumber,
+      String busVehiclePlateNo, String busVehiclePlateProv) async {
+    try {
+      Response response = await dioClient!.post('/api/bus-vehicle/save', data: {
+        "busVehicleNumber": busVehicleNumber,
+        "busVehiclePlateNo": busVehiclePlateNo,
+        "busVehiclePlateProv": busVehiclePlateProv,
       });
 
       if (response.statusCode == 200) {

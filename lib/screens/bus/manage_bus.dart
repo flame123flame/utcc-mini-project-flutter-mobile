@@ -21,56 +21,13 @@ class ManageBus extends StatefulWidget {
 }
 
 class _ManageBusState extends State<ManageBus> {
-  TextEditingController busNo = new TextEditingController();
-  TextEditingController busPlate = new TextEditingController();
-  TextEditingController fare = new TextEditingController();
-  TextEditingController discountFare = new TextEditingController();
-  String busType = '';
-  String busProvince = '';
-  bool validateBusNo = false;
-  bool validateFare = false;
-  bool validateDiscountFare = false;
-  bool validateBusType = false;
-  bool validateBusPlate = false;
-  bool validateBusProvince = false;
+  TextEditingController busVehiclePlateNo = new TextEditingController();
+  TextEditingController busVehicleNumber = new TextEditingController();
+  String busVehiclePlateProv = '';
 
-  List<PopupModel> listPrefix = [
-    PopupModel(
-      id: 0,
-      lable: "ปอ.ก๊าซ BONLUCK",
-      code: "001",
-    ),
-    PopupModel(
-      id: 1,
-      lable: "ครีมแดง HINO",
-      code: "002",
-    ),
-    PopupModel(
-      id: 2,
-      lable: "ปอ.ยูโรทู HINO 44",
-      code: "003",
-    ),
-    PopupModel(
-      id: 3,
-      lable: "ปอ.ยูโรทู HINO 45",
-      code: "004",
-    ),
-    PopupModel(
-      id: 4,
-      lable: "ปอ.ยูโรทู ISUZU 55",
-      code: "005",
-    ),
-    PopupModel(
-      id: 4,
-      lable: "ปอ.ยูโรทู ISUZU 56",
-      code: "005",
-    ),
-    PopupModel(
-      id: 5,
-      lable: "ครีมแดง ISUZU",
-      code: "006",
-    ),
-  ];
+  bool validateBusVehiclePlateNo = false;
+  bool validateBusVehicleNumber = false;
+  bool validateBusVehiclePlateProv = false;
 
   List<PopupModel> listProvince = [
     PopupModel(
@@ -113,52 +70,30 @@ class _ManageBusState extends State<ManageBus> {
       filter: {"#": RegExp(r'[0-9]')}, type: MaskAutoCompletionType.lazy);
 
   ValidateForm() {
-    if (busNo.text.trim().isEmpty) {
-      validateBusNo = true;
+    if (busVehicleNumber.text.trim().isEmpty) {
+      validateBusVehicleNumber = true;
       setState(() {});
       return;
     } else {
-      validateBusNo = false;
+      validateBusVehicleNumber = false;
       setState(() {});
     }
-    if (busPlate.text.trim().isEmpty) {
-      validateBusPlate = true;
+
+    if (busVehiclePlateNo.text.trim().isEmpty) {
+      validateBusVehiclePlateNo = true;
       setState(() {});
       return;
     } else {
-      validateBusPlate = false;
+      validateBusVehiclePlateNo = false;
       setState(() {});
     }
-    if (busProvince.trim().isEmpty) {
-      validateBusProvince = true;
+
+    if (busVehiclePlateProv.trim().isEmpty) {
+      validateBusVehiclePlateProv = true;
       setState(() {});
       return;
     } else {
-      validateBusProvince = false;
-      setState(() {});
-    }
-    if (busType.trim().isEmpty) {
-      validateBusType = true;
-      setState(() {});
-      return;
-    } else {
-      validateBusType = false;
-      setState(() {});
-    }
-    if (fare.text.trim().isEmpty) {
-      validateFare = true;
-      setState(() {});
-      return;
-    } else {
-      validateFare = false;
-      setState(() {});
-    }
-    if (discountFare.text.trim().isEmpty) {
-      validateDiscountFare = true;
-      setState(() {});
-      return;
-    } else {
-      validateDiscountFare = false;
+      validateBusVehiclePlateProv = false;
       setState(() {});
     }
 
@@ -174,8 +109,8 @@ class _ManageBusState extends State<ManageBus> {
         ),
       );
       await Future.delayed(Duration(seconds: 1));
-      Response data = await ApiService.apiSaveBus(busNo.text, fare.text,
-          discountFare.text, busType, busPlate.text, busProvince);
+      Response data = await ApiService.apiSaveBus(
+          busVehicleNumber.text, busVehiclePlateNo.text, busVehiclePlateProv);
       if (data.statusCode == 200) {
         Navigator.of(context).pop();
       }
@@ -254,7 +189,7 @@ class _ManageBusState extends State<ManageBus> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 13,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w900),
                       ),
                       Text(
                         ' *',
@@ -273,24 +208,24 @@ class _ManageBusState extends State<ManageBus> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6.0),
                         border: Border.all(
-                            color: validateBusNo
+                            color: validateBusVehicleNumber
                                 ? Colors.red
                                 : Color.fromARGB(255, 221, 219, 218))),
                     child: Focus(
                       onFocusChange: (hasFocus) {},
                       child: TextFormField(
-                        controller: busNo,
+                        controller: busVehicleNumber,
                         onChanged: (value) => {
                           if (value.isEmpty)
                             {
                               setState(() {
-                                validateBusNo = true;
+                                validateBusVehicleNumber = true;
                               })
                             }
                           else
                             {
                               setState(() {
-                                validateBusNo = false;
+                                validateBusVehicleNumber = false;
                               })
                             }
                         },
@@ -314,7 +249,7 @@ class _ManageBusState extends State<ManageBus> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 13,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w900),
                       ),
                       Text(
                         ' *',
@@ -333,22 +268,22 @@ class _ManageBusState extends State<ManageBus> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6.0),
                         border: Border.all(
-                            color: validateBusPlate
+                            color: validateBusVehiclePlateNo
                                 ? Colors.red
                                 : Color.fromARGB(255, 221, 219, 218))),
                     child: TextFormField(
-                      controller: busPlate,
+                      controller: busVehiclePlateNo,
                       onChanged: (value) => {
                         if (value.isEmpty)
                           {
                             setState(() {
-                              validateBusNo = true;
+                              validateBusVehiclePlateNo = true;
                             })
                           }
                         else
                           {
                             setState(() {
-                              validateBusNo = false;
+                              validateBusVehiclePlateNo = false;
                             })
                           }
                       },
@@ -371,7 +306,7 @@ class _ManageBusState extends State<ManageBus> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 13,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w900),
                       ),
                       Text(
                         ' *',
@@ -384,174 +319,23 @@ class _ManageBusState extends State<ManageBus> {
                   ),
                 ),
                 PopupPicker(
-                  validate: validateBusProvince,
+                  validate: validateBusVehiclePlateProv,
                   list: listProvince,
                   onSelected: (index, id, code, value) {
                     if (value!.isEmpty) {
                       setState(() {
-                        validateBusProvince = true;
+                        validateBusVehiclePlateProv = true;
                       });
                     } else {
                       setState(() {
-                        busProvince = value;
-                        validateBusProvince = false;
+                        busVehiclePlateProv = value;
+                        validateBusVehiclePlateProv = false;
                       });
                     }
                   },
                 ),
                 SizedBox(
                   height: 20,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 2),
-                  child: Row(
-                    children: [
-                      Text(
-                        'ประเภทรถ',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        ' *',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                PopupPicker(
-                  validate: validateBusType,
-                  list: listPrefix,
-                  onSelected: (index, id, code, value) {
-                    setState(() {
-                      busType = value!;
-                      validateBusType = false;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 2),
-                  child: Row(
-                    children: [
-                      Text(
-                        'ราคาเต็ม',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        ' *',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    width: double.infinity,
-                    height: 42,
-                    padding: EdgeInsets.only(left: 5, right: 1, bottom: 5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.0),
-                        border: Border.all(
-                            color: validateFare
-                                ? Colors.red
-                                : Color.fromARGB(255, 221, 219, 218))),
-                    child: TextFormField(
-                      controller: fare,
-                      onChanged: (value) => {
-                        if (value.isEmpty)
-                          {
-                            setState(() {
-                              validateFare = true;
-                            })
-                          }
-                        else
-                          {
-                            setState(() {
-                              validateFare = false;
-                            })
-                          }
-                      },
-                      textInputAction: TextInputAction.next,
-                      inputFormatters: [maskFormatterMoney],
-                      keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                      ),
-                    )),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 2),
-                  child: Row(
-                    children: [
-                      Text(
-                        'ราคาลดหย่อน',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        ' *',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    width: double.infinity,
-                    height: 42,
-                    padding: EdgeInsets.only(left: 5, right: 1, bottom: 5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.0),
-                        border: Border.all(
-                            color: validateDiscountFare
-                                ? Colors.red
-                                : Color.fromARGB(255, 221, 219, 218))),
-                    child: Focus(
-                      onFocusChange: (hasFocus) {},
-                      child: TextFormField(
-                        controller: discountFare,
-                        inputFormatters: [maskFormatterMoney],
-                        keyboardType: TextInputType.datetime,
-                        textInputAction: TextInputAction.done,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        onChanged: (value) => {
-                          if (value.isEmpty)
-                            {
-                              setState(() {
-                                validateDiscountFare = true;
-                              })
-                            }
-                          else
-                            {
-                              setState(() {
-                                validateDiscountFare = false;
-                              })
-                            }
-                        },
-                      ),
-                    )),
-                SizedBox(
-                  height: 16,
                 ),
               ],
             ),

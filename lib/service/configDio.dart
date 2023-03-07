@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 Dio getDio() {
-  // var uri = "http://baiwa.ddns.net:9440/utcc-api";
-  var uri = "http://192.168.201.24:9000/utcc-mini-project-mobile";
+  // var uri = "http://baiwa.ddns.net:9440/utcc-mini-project-mobile";
+  var uri = "http://169.254.11.210:9000/utcc-mini-project-mobile";
 
   FlutterSecureStorage storageToken = new FlutterSecureStorage();
   var _dio = Dio();
