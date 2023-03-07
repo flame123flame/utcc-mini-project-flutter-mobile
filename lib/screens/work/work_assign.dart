@@ -204,6 +204,72 @@ class _WorkAssignState extends State<WorkAssign> {
                   child: Row(
                     children: [
                       Text(
+                        'พนักงานขับรถ',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'prompt',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        ' *',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                    child: DropdownUser(
+                  onSelect: (username, fullName) => {
+                    setState(() {
+                      worksheetDriver = username;
+                    })
+                  },
+                )),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5, left: 2),
+                  child: Row(
+                    children: [
+                      Text(
+                        'พนักงานเก็บค่าโดยสาร',
+                        style: TextStyle(
+                            fontFamily: 'prompt',
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        ' *',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                    child: DropdownUser(
+                  onSelect: (username, fullName) => {
+                    setState(() {
+                      worksheetFarecollect = username;
+                    })
+                  },
+                )),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5, left: 2),
+                  child: Row(
+                    children: [
+                      Text(
                         'เลขข้างรถ',
                         style: TextStyle(
                             fontFamily: 'prompt',
@@ -294,69 +360,6 @@ class _WorkAssignState extends State<WorkAssign> {
                 SizedBox(
                   height: 16,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 2),
-                  child: Row(
-                    children: [
-                      Text(
-                        'พนักงานขับรถ',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'prompt',
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800),
-                      ),
-                      Text(
-                        ' *',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    child: DropdownUser(
-                  onSelect: (username, fullName) => {
-                    setState(() {
-                      worksheetDriver = username;
-                    })
-                  },
-                )),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 2),
-                  child: Row(
-                    children: [
-                      Text(
-                        'พนักงานเก็บค่าโดยสาร',
-                        style: TextStyle(
-                            fontFamily: 'prompt',
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800),
-                      ),
-                      Text(
-                        ' *',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    child: DropdownUser(
-                  onSelect: (username, fullName) => {
-                    setState(() {
-                      worksheetFarecollect = username;
-                    })
-                  },
-                )),
                 Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom + 10))
