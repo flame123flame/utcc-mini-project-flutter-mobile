@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../model_components/main_menu.dart';
 import '../model_components/menu_role.dart';
+import '../screens/driver/driver_list.dart';
 import '../screens/fare/fare_list.dart';
 import '../screens/news/news_list_manage.dart';
 import '../screens/supervisor/overview.dart';
@@ -41,7 +42,7 @@ List<MainMenu> listMenuConstant = [
         CupertinoIcons.bus,
         color: Colors.white,
       ),
-      navigate: ManageUser()),
+      navigate: DriverList()),
   MainMenu(
       menu: 'ผู้จัดการสาย',
       subMenu: 'อนุมัตจบใบงาน',

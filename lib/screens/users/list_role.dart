@@ -154,7 +154,6 @@ class _ListRoleState extends State<ListRole> {
           listMenuData.where((element) => element.role == list[i].toString()));
     }
     showModalBottomSheet<void>(
-      useSafeArea: false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(13),

@@ -61,6 +61,7 @@ dependencies:
   get: ^4.6.5
   flutter_local_notifications: ^13.0.0
   rxdart: ^0.27.7
+  webview_flutter: ^4.0.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -143,6 +144,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/icon-menu/
     - assets/files/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

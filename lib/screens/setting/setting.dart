@@ -36,7 +36,7 @@ class _SettingState extends State<Setting> {
     await storage.delete(key: 'jwttoken');
     await storage.delete(key: 'username');
     await storage.delete(key: 'password');
-    userLoginProvider!.clearUserLogin();
+    // userLoginProvider!.clearUserLogin();
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (BuildContext context) {

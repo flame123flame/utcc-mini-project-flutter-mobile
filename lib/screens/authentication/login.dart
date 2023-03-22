@@ -78,6 +78,9 @@ class _LoginState extends State<Login> {
   }
 
   ValidateFrom() async {
+    setState(() {
+      isClick = true;
+    });
     if (usernameController.text.trim().isEmpty) {
       setState(() {
         validateUsername = true;
@@ -118,7 +121,7 @@ class _LoginState extends State<Login> {
     } catch (e) {
       EasyLoading.dismiss();
       log(e.toString());
-      _delete(context, 'username หรือ password ไม่ถูกต้อง!');
+      notifacontionCustom(context, 'username หรือ password ไม่ถูกต้อง!');
     }
   }
 
@@ -139,7 +142,7 @@ class _LoginState extends State<Login> {
     } catch (e) {
       EasyLoading.dismiss();
       log(e.toString());
-      _delete(context, 'username หรือ password ไม่ถูกต้อง!');
+      notifacontionCustom(context, 'username หรือ password ไม่ถูกต้อง!');
     }
   }
 
@@ -172,7 +175,7 @@ class _LoginState extends State<Login> {
     FlutterNativeSplash.remove();
   }
 
-  void _delete(BuildContext context, String text) {
+  void notifacontionCustom(BuildContext context, String text) {
     showCupertinoDialog(
         context: context,
         builder: (BuildContext ctx) {
@@ -203,7 +206,9 @@ class _LoginState extends State<Login> {
                 child: const Text(
                   'ตกลง',
                   style: TextStyle(
-                    color: Color(0xff536830),
+                    fontFamily: 'prompt',
+                    fontWeight: FontWeight.w800,
+                    color: Color.fromARGB(255, 223, 40, 8),
                   ),
                 ),
                 isDefaultAction: true,

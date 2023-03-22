@@ -97,7 +97,6 @@ class _ListBusState extends State<ListBus> {
 
   getPopupDetail(BuildContext context, BusVehicle busModel) {
     showModalBottomSheet<void>(
-      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(13),

@@ -288,18 +288,7 @@ class _HomeState extends State<Home> {
               ],
             ),
             SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  Text(
-                    'เมนูในระบบ',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
+              height: 10,
             ),
             Expanded(
               flex: 1,
@@ -307,7 +296,7 @@ class _HomeState extends State<Home> {
                   child: GridView.count(
                       primary: false,
                       padding: EdgeInsets.only(
-                          left: 14, right: 14, top: 10, bottom: 10),
+                          left: 18, right: 18, top: 10, bottom: 10),
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                       crossAxisCount: 2,
@@ -358,7 +347,7 @@ class _HomeState extends State<Home> {
                                               listMenuDisplay[index].color,
                                           child: listMenuDisplay[index].icon),
                                       title: Text(
-                                        '${listMenuDisplay[index].menu.toString()}',
+                                        '${listMenuDisplay[index].menu}',
                                         style: const TextStyle(
                                             color:
                                                 Color.fromARGB(255, 59, 58, 58),

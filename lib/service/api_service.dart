@@ -12,6 +12,7 @@ import '../model/users_login.dart';
 import '../model/weather_main.dart';
 import '../provider/user_login_provider.dart';
 import '../screens/bus/model/bus_vehicle.dart';
+import '../screens/driver/model/driver.dart';
 import '../screens/work/model/worksheet.dart';
 import 'configDio.dart';
 
@@ -354,10 +355,58 @@ class ApiService {
     }
   }
 
+  static Future<List<Driver>> apiGetListFarecollect() async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(milliseconds: 300));
+      final servicesRes = await dioClient!.get('/api/driver/farecollect');
+      if (servicesRes.statusCode == 200) {
+        List<Driver> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(Driver.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
+  static Future<List<Driver>> apiGetListDriver() async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(milliseconds: 300));
+      final servicesRes = await dioClient!.get('/api/driver/farecollect');
+      if (servicesRes.statusCode == 200) {
+        List<Driver> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(Driver.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
   static Future<List<Worksheet>> apiGetListWorksheet() async {
     try {
       showLoadding();
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(milliseconds: 300));
       final servicesRes = await dioClient!.get('/api/worksheet/get-list');
       if (servicesRes.statusCode == 200) {
         List<Worksheet> response = [];

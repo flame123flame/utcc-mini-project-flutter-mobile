@@ -166,12 +166,14 @@ class _PinState extends State<Pin> {
                   'ตกลง',
                   style: TextStyle(
                     fontFamily: 'prompt',
+                    fontWeight: FontWeight.w900,
                     color: Colors.red,
                   ),
                 ),
                 isDefaultAction: true,
                 isDestructiveAction: true,
               ),
+
               // The "No" button
             ],
           );

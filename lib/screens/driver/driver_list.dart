@@ -5,28 +5,28 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:utcc_mobile/screens/work/work_assign.dart';
 
 import '../../components/popup_bottom.dart';
 import '../../constants/constant_color.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
 import '../../utils/time_format.dart';
-import 'model/worksheet.dart';
+import '../work/work_assign.dart';
+import 'model/driver.dart';
 
-class WorkList extends StatefulWidget {
-  const WorkList({Key? key}) : super(key: key);
+class DriverList extends StatefulWidget {
+  const DriverList({Key? key}) : super(key: key);
 
   @override
-  State<WorkList> createState() => _WorkListState();
+  State<DriverList> createState() => _DriverListState();
 }
 
-class _WorkListState extends State<WorkList> {
-  List<Worksheet> listWorksheet = [];
+class _DriverListState extends State<DriverList> {
+  List<Driver> listWorksheet = [];
 
   GetListBus() async {
     try {
-      List<Worksheet> temp = await ApiService.apiGetListWorksheet();
+      List<Driver> temp = await ApiService.apiGetListDriver();
       setState(() {
         listWorksheet = temp;
       });
@@ -196,7 +196,7 @@ getPopupDetail(BuildContext context) {
   );
 }
 
-Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
+Widget TabWorkList1(BuildContext context, List<Driver> list) {
   return Container(
     child: Column(
       children: [
@@ -211,7 +211,7 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
               children: [
                 if (list.length > 0)
                   Text(
-                    'รายการรถเมล์ในระบบ ${list.length} รายการ',
+                    'รายการรถที่ต้องขับ ${list.length} รายการ',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
@@ -317,7 +317,7 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "  เลขที่ใบงาน : ",
+                                                              "  เลขข้างรถ : ",
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
@@ -337,7 +337,7 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                                           .w800),
                                                             ),
                                                             Text(
-                                                              '${list[index].worksheetId}',
+                                                              '${list[index].busVehicleNumber}',
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,

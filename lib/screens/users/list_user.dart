@@ -110,7 +110,6 @@ class _ListUserState extends State<ListUser> {
 
   getPopupDetail(BuildContext context, User user) {
     showModalBottomSheet<void>(
-      useSafeArea: false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(13),
