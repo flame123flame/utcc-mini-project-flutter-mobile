@@ -26,7 +26,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   WeatherMain? weather;
-
+  final _controller = ScrollController();
   getCurrentWeather() async {
     try {
       WeatherMain temp = await ApiService.apiGetCurrentWeather();
@@ -44,6 +44,16 @@ class _HomeState extends State<Home> {
   String? _timeString;
   @override
   void initState() {
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        bool isTop = _controller.position.pixels == 0;
+        if (isTop) {
+          print('At the top');
+        } else {
+          print('At the bottom');
+        }
+      }
+    });
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     userLoginProvider = Provider.of<UserLoginProvider>(context, listen: false);
