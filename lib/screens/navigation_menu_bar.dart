@@ -49,7 +49,7 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
       PersistentBottomNavBarItem(
           inactiveColorSecondary: CupertinoColors.black,
           icon: Icon(CupertinoIcons.settings_solid),
-          title: ("ตั้งค่า"),
+          title: ("โปรไฟล์"),
           activeColorPrimary: colorBar,
           inactiveColorPrimary: unActiveColor),
     ];

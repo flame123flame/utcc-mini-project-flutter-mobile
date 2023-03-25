@@ -71,7 +71,7 @@ class _NewsDetailState extends State<NewsDetail> {
                   ]),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 35, left: 0),
+              padding: EdgeInsets.only(top: 36, left: 0),
               child: RawMaterialButton(
                 onPressed: () {
                   Navigator.pop(context);
