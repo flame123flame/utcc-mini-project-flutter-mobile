@@ -13,6 +13,7 @@ import '../model/weather_main.dart';
 import '../provider/user_login_provider.dart';
 import '../screens/bus/model/bus_vehicle.dart';
 import '../screens/driver/model/driver.dart';
+import '../screens/fare/model/ticket.dart';
 import '../screens/work/model/worksheet.dart';
 import 'configDio.dart';
 
@@ -329,6 +330,55 @@ class ApiService {
     }
   }
 
+  static Future<Response> apiSaveTicket(
+    String number,
+    String trip,
+    String ticket,
+    int worksheetId,
+  ) async {
+    try {
+      Response response = await dioClient!.post('/api/ticket/save', data: {
+        "ticketNo": number,
+        "ticketBegin": ticket == "btrue" ? true : false,
+        "ticketEnd": ticket == "etrue" ? true : false,
+        "worksheetId": worksheetId,
+        "trip": ticket == "btrue" ? 0 : trip,
+      });
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static Future<List<Ticket>> apiGetTicketById(
+    int worksheetId,
+  ) async {
+    showLoadding();
+    try {
+      Response response = await dioClient!.post('/api/ticket/get-by-id', data: {
+        "worksheetId": worksheetId,
+      });
+      if (response.statusCode == 200) {
+        List<Ticket> responseData = [];
+        response.data['data'].forEach((element) {
+          responseData.add(Ticket.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return responseData;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static Future<Response> apiSaveWorksheet(
     DateTime worksheetDate,
     String worksheetTimeBegin,
@@ -383,7 +433,7 @@ class ApiService {
     try {
       showLoadding();
       await Future.delayed(Duration(milliseconds: 300));
-      final servicesRes = await dioClient!.get('/api/driver/farecollect');
+      final servicesRes = await dioClient!.get('/api/driver/driver');
       if (servicesRes.statusCode == 200) {
         List<Driver> response = [];
         servicesRes.data['data'].forEach((element) {

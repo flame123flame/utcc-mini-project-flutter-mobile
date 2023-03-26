@@ -86,12 +86,7 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Colors.white,
-              Colors.white
-              // Color.fromARGB(255, 34, 50, 174),
-              // Color.fromARGB(255, 37, 43, 99),
-            ],
+            colors: [Colors.white, Colors.white],
           )),
 
       popAllScreensOnTapOfSelectedTab: true,

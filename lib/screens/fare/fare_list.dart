@@ -64,24 +64,6 @@ class _FareListState extends State<FareList> {
                 Navigator.of(context).pop();
               },
             ),
-            actions: <Widget>[
-              PopupFilterBottom(
-                validate: false,
-                list: [],
-                onSelected: (index, code, value) {},
-              ),
-              IconButton(
-                icon: Icon(Icons.add_outlined),
-                onPressed: () {
-                  PersistentNavBarNavigator.pushNewScreen(
-                    context,
-                    screen: WorkAssign(),
-                    withNavBar: false,
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  ).then((value) => {GetListBus()});
-                },
-              )
-            ],
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -240,7 +222,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                             onTap: () => {
                                   PersistentNavBarNavigator.pushNewScreen(
                                     context,
-                                    screen: FareDeatil(),
+                                    screen: FareDeatil(
+                                        worksheetId: list[index].worksheetId),
                                     withNavBar: false,
                                     pageTransitionAnimation:
                                         PageTransitionAnimation.cupertino,
@@ -445,9 +428,9 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                                   color: Color
                                                                       .fromARGB(
                                                                           255,
-                                                                          48,
-                                                                          47,
-                                                                          47),
+                                                                          231,
+                                                                          105,
+                                                                          20),
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight

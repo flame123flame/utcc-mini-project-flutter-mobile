@@ -465,6 +465,13 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
               ),
             ),
           ),
+        if (list.length == 0)
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: Text('ไม่มีข้อมูล'),
+            ),
+          ),
       ],
     ),
   );

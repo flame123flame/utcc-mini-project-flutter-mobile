@@ -1,7 +1,8 @@
 class Driver {
+  int? worksheetId;
   String? worksheetDate;
-  String? worksheetTimeBegin;
-  String? worksheetTimeEnd;
+  bool? worksheetTimeBegin;
+  bool? worksheetTimeEnd;
   String? busVehiclePlateNo;
   String? worksheetDispatcher;
   String? worksheetDriver;
@@ -9,7 +10,8 @@ class Driver {
   String? busVehicleNumber;
 
   Driver(
-      {this.worksheetDate,
+      {this.worksheetId,
+      this.worksheetDate,
       this.worksheetTimeBegin,
       this.worksheetTimeEnd,
       this.busVehiclePlateNo,
@@ -19,6 +21,7 @@ class Driver {
       this.busVehicleNumber});
 
   Driver.fromJson(Map<String, dynamic> json) {
+    worksheetId = json['worksheetId'];
     worksheetDate = json['worksheetDate'];
     worksheetTimeBegin = json['worksheetTimeBegin'];
     worksheetTimeEnd = json['worksheetTimeEnd'];
@@ -31,6 +34,7 @@ class Driver {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['worksheetId'] = this.worksheetId;
     data['worksheetDate'] = this.worksheetDate;
     data['worksheetTimeBegin'] = this.worksheetTimeBegin;
     data['worksheetTimeEnd'] = this.worksheetTimeEnd;
