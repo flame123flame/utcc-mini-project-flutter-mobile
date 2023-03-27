@@ -28,6 +28,10 @@ class _FareDeatilState extends State<FareDeatil> {
   int sumCal = 0;
   List<Ticket> dataList = [];
   getData() async {
+    setState(() {
+      sum = 0;
+      sumList.clear();
+    });
     try {
       List<Ticket> data =
           await ApiService.apiGetTicketById(widget.worksheetId!);
@@ -38,7 +42,6 @@ class _FareDeatilState extends State<FareDeatil> {
       setState(() {
         sum = sumList.reduce((a, b) => a + b);
         dataList = data;
-        //print(sum);
       });
     } catch (e) {}
   }
@@ -55,6 +58,20 @@ class _FareDeatilState extends State<FareDeatil> {
     return Builder(builder: (context) {
       return Scaffold(
           floatingActionButton: FloatingActionButton(
+            child: Container(
+              width: 60,
+              height: 60,
+              child: Icon(
+                Icons.add,
+                size: 40,
+              ),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(colors: [
+                    Color.fromARGB(255, 34, 52, 187),
+                    Color.fromARGB(255, 37, 43, 99),
+                  ])),
+            ),
             onPressed: () {
               PersistentNavBarNavigator.pushNewScreen(
                 context,
@@ -64,7 +81,6 @@ class _FareDeatilState extends State<FareDeatil> {
               ).then((value) => {getData()});
             },
             tooltip: 'Increment',
-            child: const Icon(Icons.add),
           ),
           backgroundColor: Color.fromARGB(235, 235, 244, 255),
           body: Column(children: [
@@ -79,7 +95,17 @@ class _FareDeatilState extends State<FareDeatil> {
                         children: [
                           if (sumList.length > 0)
                             Text(
-                              '฿${sumList.reduce((a, b) => a + b)}',
+                              '฿${valueFormat.format(sum)}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontFamily: '11',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 43),
+                            ),
+                          if (sumList.length == 0)
+                            Text(
+                              '฿${0}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
@@ -109,6 +135,16 @@ class _FareDeatilState extends State<FareDeatil> {
                   ),
                 ),
               ),
+            if (dataList.length <= 0)
+              Padding(
+                padding: const EdgeInsets.all(38.0),
+                child: Container(
+                  child: Text(
+                    'ยังไม่มีรอบการเดินรถ',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              )
           ]));
     });
   }
