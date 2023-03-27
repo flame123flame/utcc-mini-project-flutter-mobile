@@ -25,6 +25,7 @@ class _FareDeatilState extends State<FareDeatil> {
   final valueFormat = new NumberFormat("#,##0.00", "en_US");
   List<int> sumList = [];
   int sum = 0;
+  int sumCal = 0;
   List<Ticket> dataList = [];
   getData() async {
     try {
@@ -32,11 +33,12 @@ class _FareDeatilState extends State<FareDeatil> {
           await ApiService.apiGetTicketById(widget.worksheetId!);
       for (var i = 0; i < data.length; i++) {
         sumList.add((int.parse(data[i].ticketNoSum!) * 8));
+        //print(sumList);
       }
-
       setState(() {
         sum = sumList.reduce((a, b) => a + b);
         dataList = data;
+        //print(sum);
       });
     } catch (e) {}
   }
@@ -80,7 +82,7 @@ class _FareDeatilState extends State<FareDeatil> {
                               '฿${sumList.reduce((a, b) => a + b)}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                   fontFamily: '11',
                                   fontWeight: FontWeight.w600,
                                   fontSize: 43),
@@ -147,7 +149,7 @@ class _FareDeatilState extends State<FareDeatil> {
                       height: 40,
                     ),
                     Text(
-                      '฿${valueFormat.format(int.parse(data.ticketNo!) * 8)}',
+                      '฿${valueFormat.format(int.parse(data.ticketNoSum!) * 8)}',
                       style: TextStyle(
                           fontFamily: '11',
                           color: colorBar,
