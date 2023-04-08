@@ -136,6 +136,11 @@ class _OverviewState extends State<Overview> {
               indicatorWeight: 3,
               splashBorderRadius: BorderRadius.circular(2),
               onTap: (index) {
+                if(index == 0){
+                  GetListWorksheetProgress();
+                }else{
+                  GetListWorksheetSuccess("", null);
+                }
                 setState(() {
                   tabActive = index;
                 });
@@ -328,7 +333,7 @@ class _OverviewState extends State<Overview> {
                                                     size: 23,
                                                     color: Colors.white,
                                                   ),
-                                                  message: "ปิดจบงานสำเร็จ",
+                                                  message: "ตัดเลิกงานสำเร็จ",
                                                   backgroundColor:
                                                       Color.fromARGB(
                                                           255, 58, 150, 76),

@@ -69,9 +69,15 @@ class _HomeState extends State<Home> {
   void _getTime() {
     final DateTime now = DateTime.now();
     final String formattedDateTime = _formatDateTime(now);
-    setState(() {
-      _timeString = formattedDateTime;
-    });
+    // setState(() {
+    //   _timeString = formattedDateTime;
+    // });
+    if (this.mounted) {
+      setState(() {
+        // Your state change code goes here
+        _timeString = formattedDateTime;
+      });
+    }
   }
 
   String _formatDateTime(DateTime dateTime) {
@@ -109,7 +115,7 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    " บัตรรถเมล์อิเล็กทรอนิกส์",
+                                    " ใบเที่ยวรถเมล์อิเล็กทรอนิกส์",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w900,

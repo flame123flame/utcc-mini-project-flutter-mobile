@@ -178,7 +178,7 @@ class _OverviewDetailState extends State<OverviewDetail> {
                           color: Colors.white,
                         ),
                         Text(
-                          " ตัดจบงาน",
+                          " ตัดเลิกงาน",
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -193,7 +193,7 @@ class _OverviewDetailState extends State<OverviewDetail> {
                         ])),
                   ),
                   onTap: () {
-                    notifacontionCustom(context, "ต้องการยืนยันการจบงาน ?");
+                    notifacontionCustom(context, "ต้องการยืนยันการตัดเลิกงาน ?");
                     print("object");
                   },
                 )
