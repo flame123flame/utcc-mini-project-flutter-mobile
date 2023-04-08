@@ -22,13 +22,24 @@ class DriverList extends StatefulWidget {
 }
 
 class _DriverListState extends State<DriverList> {
-  List<Driver> listWorksheet = [];
-
-  GetListBus() async {
+  List<Driver> listWorksheetProgress = [];
+  List<Driver> listWorksheetSuccess = [];
+  GetListDriverProgress() async {
     try {
-      List<Driver> temp = await ApiService.apiGetListDriver();
+      List<Driver> temp = await ApiService.apiGetListDriverProgress();
       setState(() {
-        listWorksheet = temp;
+        listWorksheetProgress = temp;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  GetListDriverSuccess() async {
+    try {
+      List<Driver> temp = await ApiService.apiGetListDriverSuccess();
+      setState(() {
+        listWorksheetSuccess = temp;
       });
     } catch (e) {
       print(e.toString());
@@ -37,7 +48,8 @@ class _DriverListState extends State<DriverList> {
 
   @override
   void initState() {
-    GetListBus();
+    GetListDriverProgress();
+    GetListDriverSuccess();
     super.initState();
   }
 
@@ -77,7 +89,7 @@ class _DriverListState extends State<DriverList> {
                     screen: WorkAssign(),
                     withNavBar: false,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  ).then((value) => {GetListBus()});
+                  ).then((value) => {GetListDriverProgress()});
                 },
               )
             ],
@@ -102,14 +114,14 @@ class _DriverListState extends State<DriverList> {
               },
               tabs: [
                 Tab(
-                    child: Text('รายการล่าสุด',
+                    child: Text('กำลังดำเนินการ',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
                           fontFamily: 'prompt',
                         ))),
                 Tab(
-                    child: Text('รายการย้อนหลัง',
+                    child: Text('ดำเนินการเสร็จสิ้น',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
@@ -129,8 +141,8 @@ class _DriverListState extends State<DriverList> {
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              TabWorkList1(context, listWorksheet),
-              TabWorkList2(),
+              TabWorkList1(context, listWorksheetProgress),
+              TabWorkList2(context, listWorksheetProgress),
             ],
           ),
         ),
@@ -424,25 +436,53 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                                       FontWeight
                                                                           .w800),
                                                             ),
-                                                            Text(
-                                                              'กำลังดำเนินงาน',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
+                                                            Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 5),
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 10,
+                                                                      right:
+                                                                          10),
+                                                              decoration: BoxDecoration(
                                                                   color: Color
                                                                       .fromARGB(
                                                                           255,
-                                                                          48,
-                                                                          47,
-                                                                          47),
-                                                                  fontSize: 13,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w800),
+                                                                          207,
+                                                                          114,
+                                                                          38),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              6.0),
+                                                                  border: Border.all(
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          232,
+                                                                          122,
+                                                                          32))),
+                                                              child: Text(
+                                                                'กำลังดำเนินงาน',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style: TextStyle(
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            244,
+                                                                            231,
+                                                                            231),
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w800),
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -477,13 +517,311 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
   );
 }
 
-Widget TabWorkList2() {
-  return Center(
-    child: Container(
-      child: Text(
-        'Coming Soon',
-        style: TextStyle(fontSize: 30),
-      ),
+Widget TabWorkList2(BuildContext context, List<Driver> list) {
+  return Container(
+    child: Column(
+      children: [
+        Padding(
+            padding: EdgeInsets.only(
+                bottom: SizeConfig.defaultSize! * 0.8,
+                top: SizeConfig.defaultSize! * 1.5,
+                left: SizeConfig.defaultSize! * 1.5,
+                right: SizeConfig.defaultSize! * 1.5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (list.length > 0)
+                  Text(
+                    'รายการรถที่ต้องขับ ${list.length} รายการ',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                // Text('data')
+              ],
+            )),
+        if (list.length > 0)
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: Container(
+                child: GridView.count(
+                  primary: false,
+                  padding: const EdgeInsets.only(bottom: 25, top: 10),
+                  crossAxisSpacing: 2,
+                  mainAxisSpacing: 2,
+                  crossAxisCount: 1,
+                  childAspectRatio: 4,
+                  children: [
+                    ...List.generate(list.length, (index) {
+                      return Container(
+                        child: InkWell(
+                            onTap: () => {getPopupDetail(context)},
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: SizeConfig.defaultSize! * 10,
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.defaultSize! * 0.5,
+                                      bottom: SizeConfig.defaultSize! * 0.5,
+                                      left: SizeConfig.defaultSize! * 1.5,
+                                      right: SizeConfig.defaultSize! * 1.5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.14),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: Offset(0,
+                                              3), // changes position of shadow
+                                        ),
+                                      ],
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color.fromARGB(255, 255, 255, 255)
+                                                .withOpacity(0.40),
+                                            Color.fromARGB(255, 255, 255, 255)
+                                                .withOpacity(0.60),
+                                            Color.fromARGB(255, 255, 255, 255)
+                                                .withOpacity(0.80)
+                                          ])),
+                                  padding: EdgeInsets.all(
+                                      SizeConfig.defaultSize! * 1),
+                                  child: Stack(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Column(
+                                              children: [
+                                                Row(children: [
+                                                  Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: colorBar,
+                                                    ),
+                                                    margin: EdgeInsets.only(
+                                                        right: 6, left: 6),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          int.parse((index + 1)
+                                                                  .toString())
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "  เลขข้างรถ : ",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800),
+                                                            ),
+                                                            Text(
+                                                              '${list[index].busVehicleNumber}',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "  วันที่ : ",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800),
+                                                            ),
+                                                            Text(
+                                                              '${converDate(list[index].worksheetDate!)}',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "  สถานะใบงาน : ",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          48,
+                                                                          47,
+                                                                          47),
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800),
+                                                            ),
+                                                            Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 5),
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 10,
+                                                                      right:
+                                                                          10),
+                                                              decoration: BoxDecoration(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          99,
+                                                                          161,
+                                                                          6),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              6.0),
+                                                                  border: Border.all(
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          105,
+                                                                          187,
+                                                                          33))),
+                                                              child: Text(
+                                                                'ดำเนินการเสร็จสิ้น',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style: TextStyle(
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            244,
+                                                                            231,
+                                                                            231),
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w800),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ])
+                                                ]),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )),
+                      );
+                    })
+                  ],
+                ),
+              ),
+            ),
+          ),
+        if (list.length == 0)
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: Text('ไม่มีข้อมูล'),
+            ),
+          ),
+      ],
     ),
   );
 }

@@ -1,29 +1,26 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../constants/constant_color.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
-import 'fare_add.dart';
-import 'model/ticket.dart';
+import '../fare/model/ticket.dart';
 
-class FareDeatil extends StatefulWidget {
+class OverviewDetail extends StatefulWidget {
   final int? worksheetId;
   final String? status;
-  const FareDeatil({Key? key, this.worksheetId, required this.status})
+  const OverviewDetail({Key? key, this.worksheetId, required this.status})
       : super(key: key);
 
   @override
-  State<FareDeatil> createState() => _FareDeatilState();
+  State<OverviewDetail> createState() => _OverviewDetailState();
 }
 
-class _FareDeatilState extends State<FareDeatil> {
+class _OverviewDetailState extends State<OverviewDetail> {
   final valueFormat = new NumberFormat("#,##0.00", "en_US");
   List<int> sumList = [];
   int sum = 0;
@@ -48,10 +45,118 @@ class _FareDeatilState extends State<FareDeatil> {
     } catch (e) {}
   }
 
+  UpdateStats() async {
+    try {
+      EasyLoading.show(
+        indicator: Image.asset(
+          'assets/images/Loading_2.gif',
+          height: 70,
+        ),
+      );
+      await Future.delayed(Duration(seconds: 1));
+      Response data = await ApiService.apiUpdateStatus(widget.worksheetId!);
+      if (data.statusCode == 200) {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop("noti");
+      }
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.dismiss();
+    }
+  }
+
+  void showFlushbar({
+    required String message,
+    required Color backgroundColor,
+    required Icon icon,
+    required Function() onPressed,
+  }) {
+    Flushbar(
+      flushbarPosition: FlushbarPosition.TOP,
+      icon: icon,
+      message: message,
+      margin: EdgeInsets.only(
+        left: 60,
+        right: 60,
+        bottom: 10,
+        top: 10,
+      ),
+      backgroundColor: backgroundColor,
+      flushbarStyle: FlushbarStyle.FLOATING,
+      borderRadius: BorderRadius.circular(8),
+      padding: EdgeInsets.only(top: 8, bottom: 8, left: 10),
+      duration: Duration(milliseconds: 2000),
+      animationDuration: Duration(milliseconds: 1000),
+      textDirection: Directionality.of(context),
+      isDismissible: false,
+    ).show(context);
+  }
+
   @override
   void initState() {
     getData();
     super.initState();
+  }
+
+  void notifacontionCustom(BuildContext context, String text) {
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return CupertinoAlertDialog(
+            title: Text(
+              'การยืนยัน',
+              style: TextStyle(
+                  color: Color.fromARGB(255, 65, 57, 52),
+                  fontFamily: 'prompt',
+                  fontWeight: FontWeight.w900,
+                  fontSize: 22),
+            ),
+            content: Text(
+              text,
+              style: TextStyle(
+                  color: Color.fromARGB(255, 55, 48, 43),
+                  fontFamily: 'prompt',
+                  fontSize: 17),
+            ),
+            actions: [
+              // The "Yes" button
+              CupertinoDialogAction(
+                onPressed: () {
+                  setState(() {
+                    Navigator.of(context).pop();
+                  });
+                },
+                child: const Text(
+                  'ยกเลิก',
+                  style: TextStyle(
+                    fontFamily: 'prompt',
+                    fontWeight: FontWeight.w800,
+                    color: Color.fromARGB(255, 223, 40, 8),
+                  ),
+                ),
+                isDefaultAction: true,
+                isDestructiveAction: true,
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  UpdateStats();
+                  setState(() {});
+                },
+                child: const Text(
+                  'ตกลง',
+                  style: TextStyle(
+                    fontFamily: 'prompt',
+                    fontWeight: FontWeight.w800,
+                    color: Color.fromARGB(255, 32, 114, 4),
+                  ),
+                ),
+                isDefaultAction: true,
+                isDestructiveAction: true,
+              ),
+              // The "No" button
+            ],
+          );
+        });
   }
 
   @override
@@ -60,31 +165,37 @@ class _FareDeatilState extends State<FareDeatil> {
     return Builder(builder: (context) {
       return Scaffold(
           floatingActionButton: widget.status == 'IN_PROGRESS'
-              ? FloatingActionButton(
+              ? InkWell(
                   child: Container(
-                    width: 60,
-                    height: 60,
-                    child: Icon(
-                      Icons.add,
-                      size: 40,
+                    width: 120,
+                    height: 40,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.check_box_outlined,
+                          size: 23,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          " ตัดจบงาน",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
                     ),
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(5.0),
+                        ),
                         gradient: LinearGradient(colors: [
                           Color.fromARGB(255, 34, 52, 187),
                           Color.fromARGB(255, 37, 43, 99),
                         ])),
                   ),
-                  onPressed: () {
-                    PersistentNavBarNavigator.pushNewScreen(
-                      context,
-                      screen: FareAdd(worksheetId: widget.worksheetId),
-                      withNavBar: false,
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    ).then((value) => {getData()});
+                  onTap: () {
+                    notifacontionCustom(context, "ต้องการยืนยันการจบงาน ?");
+                    print("object");
                   },
-                  tooltip: 'Increment',
                 )
               : Container(),
           backgroundColor: Color.fromARGB(235, 235, 244, 255),

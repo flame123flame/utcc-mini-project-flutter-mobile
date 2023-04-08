@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,15 @@ class ApiService {
         height: 70,
       ),
     );
+  }
+
+  static String printJson(jsonObject, {bool isShowLog = true}) {
+    JsonEncoder encoder = new JsonEncoder.withIndent("     ");
+    String response = encoder.convert(jsonObject);
+    if (true == isShowLog) {
+      log(response);
+    }
+    return response;
   }
 
   static Future<UserLogin> Login(String username, String password) async {
@@ -379,6 +389,22 @@ class ApiService {
     }
   }
 
+  static Future<Response> apiUpdateStatus(
+    int worksheetId,
+  ) async {
+    try {
+      Response response =
+          await dioClient!.get('/api/worksheet/update-status/${worksheetId}');
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static Future<Response> apiSaveWorksheet(
     DateTime worksheetDate,
     String worksheetTimeBegin,
@@ -387,6 +413,13 @@ class ApiService {
     String worksheetFarecollect,
   ) async {
     try {
+      printJson({
+        "worksheetDate": worksheetDate.toString().split(".")[0],
+        "worksheetTimeBegin": worksheetTimeBegin,
+        "busVehiclePlateNo": busVehiclePlateNo,
+        "worksheetDriver": worksheetDriver,
+        "worksheetFarecollect": worksheetFarecollect,
+      });
       Response response = await dioClient!.post('/api/worksheet/save', data: {
         "worksheetDate": worksheetDate.toString().split(".")[0],
         "worksheetTimeBegin": worksheetTimeBegin,
@@ -405,11 +438,12 @@ class ApiService {
     }
   }
 
-  static Future<List<Driver>> apiGetListFarecollect() async {
+  static Future<List<Driver>> apiGetListFarecollectSuccess() async {
     try {
       showLoadding();
       await Future.delayed(Duration(milliseconds: 300));
-      final servicesRes = await dioClient!.get('/api/driver/farecollect');
+      final servicesRes =
+          await dioClient!.get('/api/driver/farecollect-success');
       if (servicesRes.statusCode == 200) {
         List<Driver> response = [];
         servicesRes.data['data'].forEach((element) {
@@ -429,11 +463,12 @@ class ApiService {
     }
   }
 
-  static Future<List<Driver>> apiGetListDriver() async {
+  static Future<List<Driver>> apiGetListFarecollectProgress() async {
     try {
       showLoadding();
       await Future.delayed(Duration(milliseconds: 300));
-      final servicesRes = await dioClient!.get('/api/driver/driver');
+      final servicesRes =
+          await dioClient!.get('/api/driver/farecollect-progress');
       if (servicesRes.statusCode == 200) {
         List<Driver> response = [];
         servicesRes.data['data'].forEach((element) {
@@ -453,11 +488,86 @@ class ApiService {
     }
   }
 
-  static Future<List<Worksheet>> apiGetListWorksheet() async {
+  static Future<List<Driver>> apiGetListDriverProgress() async {
     try {
       showLoadding();
       await Future.delayed(Duration(milliseconds: 300));
-      final servicesRes = await dioClient!.get('/api/worksheet/get-list');
+      final servicesRes = await dioClient!.get('/api/driver/driver-progress');
+      if (servicesRes.statusCode == 200) {
+        List<Driver> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(Driver.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
+  static Future<List<Driver>> apiGetListDriverSuccess() async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(milliseconds: 300));
+      final servicesRes = await dioClient!.get('/api/driver/driver-success');
+      if (servicesRes.statusCode == 200) {
+        List<Driver> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(Driver.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
+  static Future<List<Worksheet>> apiGetListWorksheetSuccess(
+      String date, int? id) async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(milliseconds: 300));
+      final servicesRes = await dioClient!
+          .post('/api/worksheet/get-list-success', data: {"worksheetId": id});
+      if (servicesRes.statusCode == 200) {
+        List<Worksheet> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(Worksheet.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
+  static Future<List<Worksheet>> apiGetListWorksheetProgress() async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(milliseconds: 300));
+      final servicesRes =
+          await dioClient!.post('/api/worksheet/get-list-progress', data: {});
       if (servicesRes.statusCode == 200) {
         List<Worksheet> response = [];
         servicesRes.data['data'].forEach((element) {
