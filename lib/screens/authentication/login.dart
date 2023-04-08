@@ -273,7 +273,7 @@ class _LoginState extends State<Login> {
                             height: 17,
                           ),
                           Text(
-                            "ระบบบัตรโดยสารรถเมล์อิเล็กทรอนิกส์",
+                            "ระบบใบเที่ยวรถเมล์อิเล็กทรอนิกส์",
                             style: TextStyle(
                                 color: colorBar,
                                 fontSize: 21,
@@ -564,7 +564,7 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(32),
                           color: Color.fromRGBO(255, 255, 255, 0.7)),
                       child: Text(
-                        'ระบบบัตรโดยสารรถเมล์อิเล็กทรอนิกส์',
+                        'ระบบใบเที่ยวรถเมล์อิเล็กทรอนิกส์',
                         style: TextStyle(
                             color: Color.fromARGB(255, 14, 14, 130),
                             fontSize: 18.3),
