@@ -75,24 +75,24 @@ class _DriverListState extends State<DriverList> {
                 Navigator.of(context).pop();
               },
             ),
-            actions: <Widget>[
-              PopupFilterBottom(
-                validate: false,
-                list: [],
-                onSelected: (index, code, value) {},
-              ),
-              IconButton(
-                icon: Icon(Icons.add_outlined),
-                onPressed: () {
-                  PersistentNavBarNavigator.pushNewScreen(
-                    context,
-                    screen: WorkAssign(),
-                    withNavBar: false,
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  ).then((value) => {GetListDriverProgress()});
-                },
-              )
-            ],
+            // actions: <Widget>[
+            //   PopupFilterBottom(
+            //     validate: false,
+            //     list: [],
+            //     onSelected: (index, code, value) {},
+            //   ),
+            //   IconButton(
+            //     icon: Icon(Icons.add_outlined),
+            //     onPressed: () {
+            //       PersistentNavBarNavigator.pushNewScreen(
+            //         context,
+            //         screen: WorkAssign(),
+            //         withNavBar: false,
+            //         pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            //       ).then((value) => {GetListDriverProgress()});
+            //     },
+            //   )
+            // ],
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
