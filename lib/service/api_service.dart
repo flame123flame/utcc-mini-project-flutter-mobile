@@ -541,8 +541,13 @@ class ApiService {
     try {
       showLoadding();
       await Future.delayed(Duration(milliseconds: 300));
+      printJson(
+          {"worksheetId": id, "worksheetDate": date.isEmpty ? null : date});
       final servicesRes = await dioClient!
-          .post('/api/worksheet/get-list-success', data: {"worksheetId": id});
+          .post('/api/worksheet/get-list-success', data: {
+        "worksheetId": id,
+        "worksheetDate": date.isEmpty ? null : date
+      });
       if (servicesRes.statusCode == 200) {
         List<Worksheet> response = [];
         servicesRes.data['data'].forEach((element) {

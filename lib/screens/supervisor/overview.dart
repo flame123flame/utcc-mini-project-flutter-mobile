@@ -113,6 +113,14 @@ class _OverviewState extends State<Overview> {
                   validate: false,
                   list: listMenu,
                   onSelected: (index, code, value) {
+                    DateTime now = new DateTime.now();
+                    DateTime date = new DateTime(now.year, now.month, now.day);
+                    if (value == "วันที่") {
+                      GetListWorksheetSuccess(
+                          date.toString().split(".")[0], null);
+                    } else {
+                      GetListWorksheetSuccess("", null);
+                    }
                     setState(() {
                       activeSearch = code.toString();
                     });
@@ -136,9 +144,9 @@ class _OverviewState extends State<Overview> {
               indicatorWeight: 3,
               splashBorderRadius: BorderRadius.circular(2),
               onTap: (index) {
-                if(index == 0){
+                if (index == 0) {
                   GetListWorksheetProgress();
-                }else{
+                } else {
                   GetListWorksheetSuccess("", null);
                 }
                 setState(() {
@@ -684,7 +692,10 @@ class _OverviewState extends State<Overview> {
                             ),
                             child: PopupDatePicker(
                               validate: false,
-                              onSelected: (datetime) {},
+                              onSelected: (datetime) {
+                                GetListWorksheetSuccess(
+                                    datetime.toString().split(".")[0], null);
+                              },
                             ),
                           ),
                         ),
