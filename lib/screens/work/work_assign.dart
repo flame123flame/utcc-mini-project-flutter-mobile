@@ -59,6 +59,7 @@ class _WorkAssignState extends State<WorkAssign> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // bottomNavigationBar: _buttom(context),
         resizeToAvoidBottomInset: false,
         drawerDragStartBehavior: DragStartBehavior.start,
         appBar: AppBar(
@@ -110,7 +111,7 @@ class _WorkAssignState extends State<WorkAssign> {
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 2,
                 blurRadius: 3,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: Offset(0, 3),
               ),
             ],
             borderRadius: BorderRadius.all(
@@ -367,5 +368,75 @@ class _WorkAssignState extends State<WorkAssign> {
             ),
           ),
         ));
+  }
+
+  Widget _buttom(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 10, bottom: 25, right: 20, left: 20),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.4),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(0), topRight: Radius.circular(0)),
+      ),
+      child: elememtButtom(),
+    );
+  }
+
+  Widget elememtButtom() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () => {Navigator.of(context).pop()},
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(6)),
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color(0xff877A6E),
+                                  Color(0xff877A6E),
+                                  Color(0xff877A6E)
+                                ])),
+                        height: 40,
+                        width: double.infinity,
+                        child: Text(
+                          'บันทึกข้อมูล',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

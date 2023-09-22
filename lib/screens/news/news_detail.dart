@@ -76,9 +76,6 @@ class _NewsDetailState extends State<NewsDetail> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                // elevation: 10.0,
-                // splashColor: Colors.amber,
-                // hoverColor: Colors.amber,
                 fillColor: Color.fromARGB(255, 109, 109, 109).withOpacity(0.7),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 7),

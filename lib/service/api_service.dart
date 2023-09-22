@@ -68,7 +68,7 @@ class ApiService {
       } else {
         return throw Exception('Failed to load service');
       }
-    } catch (error) {
+    } on DioError catch (error) {
       throw error;
     }
   }

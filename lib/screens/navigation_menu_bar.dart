@@ -42,21 +42,15 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
           inactiveColorPrimary: unActiveColor),
       PersistentBottomNavBarItem(
           inactiveColorSecondary: CupertinoColors.black,
-          icon: Icon(CupertinoIcons.bus),
-          title: ("รถเมล์"),
-          activeColorPrimary: colorBar,
-          inactiveColorPrimary: unActiveColor),
-      PersistentBottomNavBarItem(
-          inactiveColorSecondary: CupertinoColors.black,
           icon: Icon(CupertinoIcons.settings_solid),
-          title: ("โปรไฟล์"),
+          title: ("ตั้งค่า"),
           activeColorPrimary: colorBar,
           inactiveColorPrimary: unActiveColor),
     ];
   }
 
   List<Widget> _buildScreens() {
-    return [Home(), NewsList(), ListBus(), Setting()];
+    return [Home(), NewsList(), Setting()];
   }
 
   @override

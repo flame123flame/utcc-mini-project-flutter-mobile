@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 Dio getDio() {
-  // var uri = "http://baiwa.ddns.net:9440/utcc-mini-project-mobile";
-  var uri = "http://192.168.1.187:9000/utcc-mini-project-mobile";
-
+  // var uri = "http://192.168.1.187:9000/utcc-mini-project-mobile";
+  // var uri = "http://172.20.10.3:9000/utcc-mini-project-mobile";
+  var uri = "http://172.20.10.5:9000/utcc-mini-project-mobile";
   FlutterSecureStorage storageToken = new FlutterSecureStorage();
   var _dio = Dio();
   _dio.options.baseUrl = uri;
@@ -21,6 +21,8 @@ Dio getDio() {
       final accessToken = await storageToken.read(key: 'jwttoken');
       if (accessToken != null && accessToken != '') {
         options.headers["Authorization"] = "Bearer " + accessToken;
+        options.headers["User-Agent"] =
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16A404";
       }
     }
     return handler.next(options);

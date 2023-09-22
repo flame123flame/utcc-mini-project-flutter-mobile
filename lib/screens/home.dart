@@ -16,6 +16,7 @@ import '../model/weather_main.dart';
 import '../model_components/main_menu.dart';
 import '../provider/user_login_provider.dart';
 import '../service/api_service.dart';
+import '../utils/size_config.dart';
 import 'fare/fare_list.dart';
 
 class Home extends StatefulWidget {
@@ -81,12 +82,13 @@ class _HomeState extends State<Home> {
   }
 
   String _formatDateTime(DateTime dateTime) {
-    var minute = dateTime.minute.toString().length == 1
-        ? "0" + dateTime.minute.toString()
-        : dateTime.minute.toString();
-    return dateTime.hour.toString().length == 1
-        ? "0" + dateTime.hour.toString() + ":" + minute
-        : dateTime.hour.toString() + ":" + minute;
+    var minute = dateTime.minute.toString().padLeft(2, '0');
+    var second = dateTime.second.toString().padLeft(2, '0');
+    return dateTime.hour.toString().padLeft(2, '0') +
+        ":" +
+        minute +
+        ":" +
+        second;
   }
 
   @override
@@ -94,8 +96,8 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Builder(builder: (context) {
       return Scaffold(
-          backgroundColor: Color.fromARGB(235, 235, 244, 255),
-          body: Column(children: [
+          backgroundColor: Color.fromARGB(235, 231, 241, 251),
+          body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Stack(
               children: [
                 GradientContainer(size),
@@ -150,7 +152,7 @@ class _HomeState extends State<Home> {
                           opacity: 0.15,
                           image: AssetImage('assets/images/weather.png'),
                           fit: BoxFit.contain),
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -185,7 +187,7 @@ class _HomeState extends State<Home> {
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.white,
                                                 fontFamily: 'promptw',
-                                                fontSize: 40)),
+                                                fontSize: 36)),
                                       ],
                                     )),
                                 Padding(
@@ -306,6 +308,17 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: 10,
             ),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: SizeConfig.defaultSize! * 2.3,
+                  top: SizeConfig.defaultSize! * 0.2,
+                  bottom: SizeConfig.defaultSize! * 0),
+              child: Text('เมนูระบบ',
+                  style: TextStyle(
+                      fontSize: SizeConfig.defaultSize! * 1.7,
+                      fontWeight: FontWeight.w800,
+                      color: Color.fromARGB(255, 17, 73, 158))),
+            ),
             Expanded(
               flex: 1,
               child: Container(
@@ -315,8 +328,9 @@ class _HomeState extends State<Home> {
                           left: 18, right: 18, top: 10, bottom: 10),
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
-                      crossAxisCount: 2,
-                      childAspectRatio: 2.4,
+                      crossAxisCount: 1,
+                      childAspectRatio: 4.8,
+                      //  2.1
                       children: List.generate(
                         listMenuDisplay.length,
                         (index) => GridAnimatorWidget(
@@ -324,25 +338,22 @@ class _HomeState extends State<Home> {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(9)),
+                                    const BorderRadius.all(Radius.circular(8)),
                                 boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.14),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3),
-                                  ),
+                                  // BoxShadow(
+                                  //   color: Colors.grey.withOpacity(0.1),
+                                  //   spreadRadius: 3,
+                                  //   blurRadius: 3,
+                                  //   offset: Offset(0, 3),
+                                  // ),
                                 ],
                                 gradient: LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      Color.fromARGB(255, 255, 255, 255)
-                                          .withOpacity(0.40),
-                                      Color.fromARGB(255, 255, 255, 255)
-                                          .withOpacity(0.60),
-                                      Color.fromARGB(255, 255, 255, 255)
-                                          .withOpacity(0.80)
+                                      Color.fromARGB(255, 255, 255, 255),
+                                      Color.fromARGB(255, 255, 255, 255),
+                                      Color.fromARGB(255, 255, 255, 255),
                                     ])),
                             child: InkWell(
                               onTap: () => {
@@ -365,11 +376,18 @@ class _HomeState extends State<Home> {
                                       title: Text(
                                         '${listMenuDisplay[index].menu}',
                                         style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 59, 58, 58),
+                                            color: Color.fromARGB(
+                                                255, 25, 82, 123),
                                             fontWeight: FontWeight.w800,
-                                            fontSize: 13),
+                                            fontSize: 15),
                                       ),
+                                      subtitle: Text(
+                                          '${listMenuDisplay[index].subMenu}',
+                                          style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 114, 117, 119),
+                                              fontWeight: FontWeight.w300,
+                                              fontSize: 12)),
                                     ),
                                   ),
                                 ),

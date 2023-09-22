@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -139,10 +140,14 @@ class _LoginState extends State<Login> {
       await userLoginProvider?.setUserLogin(temp);
       EasyLoading.dismiss();
       GotoPin();
-    } catch (e) {
+    } on DioError catch (e) {
       EasyLoading.dismiss();
-      log(e.toString());
-      notifacontionCustom(context, 'username หรือ password ไม่ถูกต้อง!');
+      log(e.response!.data['message'].toString());
+      if ("INVALID_USER" == e.response!.data['message'].toString()) {
+        notifacontionCustom(context, 'ไม่มีผู้ใช้งานนี้ในระบบ!');
+      } else {
+        notifacontionCustom(context, 'รหัสผ่านไม่ถูกต้อง!');
+      }
     }
   }
 
@@ -185,6 +190,7 @@ class _LoginState extends State<Login> {
               style: TextStyle(
                   color: Color.fromARGB(255, 65, 57, 52),
                   fontFamily: 'prompt',
+                  fontWeight: FontWeight.w900,
                   fontSize: 21),
             ),
             content: Text(
@@ -192,7 +198,7 @@ class _LoginState extends State<Login> {
               style: TextStyle(
                   color: Color.fromARGB(255, 55, 48, 43),
                   fontFamily: 'prompt',
-                  fontSize: 17),
+                  fontSize: 15),
             ),
             actions: [
               // The "Yes" button

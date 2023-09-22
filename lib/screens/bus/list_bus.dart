@@ -191,31 +191,72 @@ class _ListBusState extends State<ListBus> {
                   SizedBox(
                     height: 10,
                   ),
-                  InkWell(
-                    onTap: () => {deleteRole(busModel.busVehicleId!)},
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(6)),
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color.fromARGB(255, 216, 6, 6)
-                                    .withOpacity(0.80),
-                                Color.fromARGB(255, 216, 6, 6)
-                                    .withOpacity(0.80),
-                                Color.fromARGB(255, 216, 6, 6).withOpacity(0.80)
-                              ])),
-                      height: 40,
-                      width: double.infinity,
-                      child: Text(
-                        'ลบข้อมูล',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w800),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () => {deleteRole(busModel.busVehicleId!)},
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(6)),
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromARGB(255, 204, 136, 28)
+                                          .withOpacity(0.80),
+                                      Color.fromARGB(255, 204, 136, 28)
+                                          .withOpacity(0.80),
+                                      Color.fromARGB(255, 204, 136, 28)
+                                          .withOpacity(0.80)
+                                    ])),
+                            height: 40,
+                            width: double.infinity,
+                            child: Text(
+                              'แก้ไขข้อมูล',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () => {deleteRole(busModel.busVehicleId!)},
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(6)),
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromARGB(255, 216, 6, 6)
+                                          .withOpacity(0.80),
+                                      Color.fromARGB(255, 216, 6, 6)
+                                          .withOpacity(0.80),
+                                      Color.fromARGB(255, 216, 6, 6)
+                                          .withOpacity(0.80)
+                                    ])),
+                            height: 40,
+                            width: double.infinity,
+                            child: Text(
+                              'ลบข้อมูล',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

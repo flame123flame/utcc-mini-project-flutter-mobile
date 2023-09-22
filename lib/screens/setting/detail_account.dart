@@ -26,26 +26,6 @@ class _DetailAccountState extends State<DetailAccount> {
     super.initState();
   }
 
-  // getDataDropdownFarmer() async {
-  //   try {
-  //     User temp = await ApiService.apiGetUserById(11);
-  //     if (null != temp) {
-  //       List.generate(temp.data!.detail!.length, (index) {
-  //         dropdownFarmer.add(
-  //           DropdownPicker(
-  //             text: '${temp.data!.detail![index].codeDataNameMinor}',
-  //             id: temp.data!.detail![index].idMinor,
-  //             code: '${temp.data!.detail![index].codeDataTypeMinor}',
-  //           ),
-  //         );
-  //       });
-  //     }
-  //     return dropdownFarmer;
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
