@@ -29,20 +29,20 @@ List<MainMenu> listMenuConstant = [
       role: 'DRIVER',
       color: Color.fromARGB(255, 56, 223, 53),
       icon: Icon(
-        Icons.money,
-        color: Colors.white,
-      ),
-      navigate: FareList()),
-  MainMenu(
-      menu: 'เก็บค่าโดยสาร',
-      subMenu: 'พนักงานเก็บค่าโดยสาร (กระเป๋ารถเมล์)',
-      role: 'FARECOLLECT',
-      color: Color.fromARGB(255, 163, 46, 37),
-      icon: Icon(
         CupertinoIcons.bus,
         color: Colors.white,
       ),
       navigate: DriverList()),
+  MainMenu(
+      menu: 'เก็บค่าโดยสาร',
+      subMenu: 'พนักงานเก็บค่าโดยสาร (กระเป๋ารถเมล์)',
+      role: 'FARECOLLECT',
+      color: Color.fromARGB(255, 56, 223, 53),
+      icon: Icon(
+        Icons.money,
+        color: Colors.white,
+      ),
+      navigate: FareList()),
   MainMenu(
       menu: 'นายท่า',
       subMenu: 'พนักงานตรวจอนุมัตจบใบงาน',
@@ -55,7 +55,7 @@ List<MainMenu> listMenuConstant = [
       navigate: Overview()),
   MainMenu(
       menu: 'จัดการสาย',
-      subMenu: 'พนักงานจัดการสายรถเมล์',
+      subMenu: 'จัดการสายรถเมล์',
       role: 'BUSLINESMANAGER',
       color: Color.fromARGB(255, 2, 71, 161),
       icon: Icon(

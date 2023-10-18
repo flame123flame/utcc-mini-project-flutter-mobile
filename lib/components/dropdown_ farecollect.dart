@@ -1,33 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../model/bus_model.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+
 import '../model/user.dart';
 import '../service/api_service.dart';
 
-class DropdownBus extends StatefulWidget {
-  final Function(String, String, String) onSelect;
-  const DropdownBus({Key? key, required this.onSelect}) : super(key: key);
+class DropDownFarecollect extends StatefulWidget {
+  final Function(String, String) onSelect;
+  const DropDownFarecollect({Key? key, required this.onSelect})
+      : super(key: key);
 
   @override
-  State<DropdownBus> createState() => _DropdownBusState();
+  State<DropDownFarecollect> createState() => _DropDownFarecollectState();
 }
 
-class _DropdownBusState extends State<DropdownBus> {
-  List<BusModel> listBus = [];
-
+class _DropDownFarecollectState extends State<DropDownFarecollect> {
+  List<User> listUser = [];
   getUser() async {
     try {
-      List<BusModel> temp = await ApiService.apiGetListBus();
+      List<User> temp = await ApiService.apiGetUserFarecollect();
       if (temp.length == 0) {
         return;
       }
       setState(() {
-        listBus = List.generate(temp.length, ((index) {
-          return BusModel(
-            busVehiclePlateProv: temp[index].busVehiclePlateProv,
-            busVehicleNumber: temp[index].busVehicleNumber,
-            busVehiclePlateNo: temp[index].busVehiclePlateNo,
-            busTypeName: temp[index].busTypeName,
+        listUser = List.generate(temp.length, ((index) {
+          return User(
+            id: temp[index].id,
+            username: temp[index].username,
+            firstName: temp[index].firstName,
+            lastName: temp[index].lastName,
+            fullName: temp[index].fullName,
+            email: temp[index].email,
+            position: temp[index].position,
+            phoneNumber: temp[index].phoneNumber,
+            roleCode: temp[index].roleCode,
+            createDate: temp[index].createDate,
           );
         }));
       });
@@ -51,16 +60,15 @@ class _DropdownBusState extends State<DropdownBus> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
           border: Border.all(color: Color.fromARGB(255, 221, 219, 218))),
-      child: Autocomplete<BusModel>(
-        optionsMaxHeight: 50,
+      child: Autocomplete<User>(
         optionsBuilder: (TextEditingValue textEditingValue) {
-          return listBus
-              .where((BusModel user) => user.busVehicleNumber!
+          return listUser
+              .where((User user) => user.fullName!
                   .toLowerCase()
                   .startsWith(textEditingValue.text.toLowerCase()))
               .toList();
         },
-        displayStringForOption: (BusModel option) => option.busVehicleNumber!,
+        displayStringForOption: (User option) => option.fullName!,
         fieldViewBuilder: (BuildContext context,
             TextEditingController fieldTextEditingController,
             FocusNode fieldFocusNode,
@@ -84,16 +92,15 @@ class _DropdownBusState extends State<DropdownBus> {
                 fontFamily: 'prompt'),
           );
         },
-        onSelected: (BusModel selection) {
-          widget.onSelect.call(selection.busVehicleNumber!,
-              selection.busVehiclePlateNo!, selection.busTypeName!);
+        onSelected: (User selection) {
+          widget.onSelect.call(selection.username!, selection.firstName!);
         },
         optionsViewBuilder: (BuildContext context,
-            AutocompleteOnSelected<BusModel> onSelected,
-            Iterable<BusModel> options) {
+            AutocompleteOnSelected<User> onSelected, Iterable<User> options) {
           return Padding(
             padding: const EdgeInsets.only(top: 0),
             child: Container(
+              margin: EdgeInsets.only(right: 78, top: 10),
               decoration: BoxDecoration(
                 border: Border.all(color: Color.fromARGB(255, 221, 219, 218)),
                 borderRadius: BorderRadius.circular(6),
@@ -113,7 +120,7 @@ class _DropdownBusState extends State<DropdownBus> {
                     bottom: MediaQuery.of(context).viewInsets.bottom + 400),
                 itemCount: options.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final BusModel option = options.elementAt(index);
+                  final User option = options.elementAt(index);
                   return GestureDetector(
                     onTap: () {
                       onSelected(option);
@@ -129,11 +136,11 @@ class _DropdownBusState extends State<DropdownBus> {
                                 child: Row(
                                   children: [
                                     Icon(
-                                      CupertinoIcons.bus,
+                                      Icons.person,
                                       color: Color.fromARGB(255, 184, 182, 181),
                                     ),
                                     Text(
-                                      '   ${option.busVehicleNumber}',
+                                      '   ${option.fullName}',
                                       style: TextStyle(fontSize: 13),
                                     ),
                                   ],

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -16,10 +18,24 @@ import '../../components/text_input.dart';
 import '../../model_components/popup_model.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
+import 'fare_list.dart';
+import 'model/bus_lines.dart';
+import 'model/fare_list.dart';
+import 'model/request_ticket.dart';
 
 class FareAdd extends StatefulWidget {
   final int? worksheetId;
-  const FareAdd({Key? key, this.worksheetId}) : super(key: key);
+  final int? busLinesId;
+  final int? trip;
+  final int? busVehicleId;
+
+  const FareAdd(
+      {Key? key,
+      this.worksheetId,
+      this.busVehicleId,
+      required this.busLinesId,
+      required this.trip})
+      : super(key: key);
 
   @override
   State<FareAdd> createState() => _FareAddState();
@@ -27,10 +43,17 @@ class FareAdd extends StatefulWidget {
 
 class _FareAddState extends State<FareAdd> {
   TextEditingController number = new TextEditingController();
-  String? trip = "0";
+  // String? trip = "0";
   String? ticket;
-
+  int? busTerminalId;
+  List<RequestTicket> requestTicketList = [];
   SaveForm() async {
+    List<RequestTicket> requestTicketList = fareList.map((fareItem) {
+      return RequestTicket(
+        fareId: fareItem.fareId!,
+        ticketNo: fareItem.ticketValue!.text,
+      );
+    }).toList();
     try {
       EasyLoading.show(
         indicator: Image.asset(
@@ -40,13 +63,48 @@ class _FareAddState extends State<FareAdd> {
       );
       await Future.delayed(Duration(seconds: 1));
       Response data = await ApiService.apiSaveTicket(
-          number.text, trip!, ticket!, widget.worksheetId!);
+          widget.trip!, widget.worksheetId!, busTerminalId!, requestTicketList);
       if (data.statusCode == 200) {
         Navigator.of(context).pop();
       }
       EasyLoading.dismiss();
     } catch (e) {
       EasyLoading.dismiss();
+    }
+  }
+
+  // List<BusLines> busLines = [];
+  List<PopupModel> busLines = [];
+  Future<void> apiFindBusLinesId() async {
+    try {
+      List<BusLines> data =
+          await ApiService.apiFindBusLinesId(widget.busLinesId!);
+
+      busLines = data
+          .map((busLine) => PopupModel(
+                id: busLine.busTerminalId!,
+                lable: busLine.busTerminalName!,
+                code: busLine.busTerminalName!,
+              ))
+          .toList();
+      setState(() {});
+    } catch (e) {
+      // Handle errors here
+    }
+  }
+
+  List<FareListModel> fareList = [];
+
+  Future<void> apiFindWorkSheetId() async {
+    try {
+      List<FareListModel> data =
+          await ApiService.apiFindWorksheetId(widget.worksheetId!);
+
+      setState(() {
+        fareList = data;
+      });
+    } catch (e) {
+      // Handle errors here
     }
   }
 
@@ -78,6 +136,9 @@ class _FareAddState extends State<FareAdd> {
       ));
     }
     setState(() {});
+    apiFindBusLinesId();
+    apiFindWorkSheetId();
+
     super.initState();
   }
 
@@ -149,11 +210,26 @@ class _FareAddState extends State<FareAdd> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
+                  padding: EdgeInsets.only(bottom: 9, left: 2),
+                  child: Row(
+                    children: [
+                      Text(
+                        'เที่ยวการเดินรถที่ ${widget.trip}',
+                        style: TextStyle(
+                            fontFamily: 'prompt',
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
                   padding: EdgeInsets.only(bottom: 5, left: 2),
                   child: Row(
                     children: [
                       Text(
-                        'รอบตั๋ว',
+                        'ท่ารถเมล์',
                         style: TextStyle(
                             fontFamily: 'prompt',
                             color: Colors.black,
@@ -165,10 +241,10 @@ class _FareAddState extends State<FareAdd> {
                 ),
                 PopupPicker(
                   validate: false,
-                  list: listTicket,
+                  list: busLines,
                   onSelected: (index, id, code, value) {
                     setState(() {
-                      ticket = code;
+                      busTerminalId = id!;
                     });
                     if (value!.isEmpty) {
                     } else {}
@@ -177,68 +253,52 @@ class _FareAddState extends State<FareAdd> {
                 SizedBox(
                   height: 16,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 2),
-                  child: Row(
-                    children: [
-                      Text(
-                        'รอบที่(ขา)',
-                        style: TextStyle(
-                            fontFamily: 'prompt',
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800),
-                      )
-                    ],
-                  ),
-                ),
-                PopupPicker(
-                  validate: false,
-                  list: listNumber,
-                  onSelected: (index, id, code, value) {
-                    setState(() {
-                      trip = value;
-                    });
-                    if (value!.isEmpty) {
-                    } else {}
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 2),
-                  child: Row(
-                    children: [
-                      Text(
-                        'เลขหน้าตั๋ว 8 บาท',
-                        style: TextStyle(
-                            fontFamily: 'prompt',
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                    width: double.infinity,
-                    height: 42,
-                    padding: EdgeInsets.only(left: 5, right: 1, bottom: 5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.0),
-                        border: Border.all(
-                            color: Color.fromARGB(255, 221, 219, 218))),
-                    child: Focus(
-                      onFocusChange: (hasFocus) {},
-                      child: TextFormField(
-                        controller: number,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
+                ...List.generate(
+                  fareList.length,
+                  ((index) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5, left: 2, top: 7),
+                          child: Row(
+                            children: [
+                              Text(
+                                'เลขหน้าตั๋ว ${fareList[index].fareDesc}',
+                                style: TextStyle(
+                                    fontFamily: 'prompt',
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w800),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    )),
+                        Container(
+                          width: double.infinity,
+                          height: 42,
+                          padding:
+                              EdgeInsets.only(left: 5, right: 1, bottom: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6.0),
+                            border: Border.all(
+                              color: Color.fromARGB(255, 221, 219, 218),
+                            ),
+                          ),
+                          child: Focus(
+                            onFocusChange: (hasFocus) {},
+                            child: TextFormField(
+                              controller: fareList[index].ticketValue,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
                 SizedBox(
                   height: 16,
                 ),

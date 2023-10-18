@@ -2,19 +2,19 @@ class BusModel {
   String? busVehiclePlateNo;
   String? busVehiclePlateProv;
   String? busVehicleNumber;
-  String? typeName;
+  String? busTypeName;
 
   BusModel(
       {this.busVehiclePlateNo,
       this.busVehiclePlateProv,
       this.busVehicleNumber,
-      this.typeName});
+      this.busTypeName});
 
   BusModel.fromJson(Map<String, dynamic> json) {
     busVehiclePlateNo = json['busVehiclePlateNo'];
     busVehiclePlateProv = json['busVehiclePlateProv'];
     busVehicleNumber = json['busVehicleNumber'];
-    typeName = json['typeName'];
+    busTypeName = json['busTypeName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,7 +22,7 @@ class BusModel {
     data['busVehiclePlateNo'] = this.busVehiclePlateNo;
     data['busVehiclePlateProv'] = this.busVehiclePlateProv;
     data['busVehicleNumber'] = this.busVehicleNumber;
-    data['typeName'] = this.typeName;
+    data['busTypeName'] = this.busTypeName;
     return data;
   }
 }

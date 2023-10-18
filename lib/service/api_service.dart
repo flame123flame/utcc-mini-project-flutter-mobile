@@ -14,7 +14,11 @@ import '../model/weather_main.dart';
 import '../provider/user_login_provider.dart';
 import '../screens/bus/model/bus_vehicle.dart';
 import '../screens/driver/model/driver.dart';
+import '../screens/fare/model/bus_lines.dart';
+import '../screens/fare/model/fare_list.dart';
+import '../screens/fare/model/request_ticket.dart';
 import '../screens/fare/model/ticket.dart';
+import '../screens/fare/model/ticket_trip.dart';
 import '../screens/work/model/worksheet.dart';
 import 'configDio.dart';
 
@@ -64,6 +68,22 @@ class ApiService {
           key: 'employeeId',
           value: data.employeeId.toString(),
         );
+        await storageToken.write(
+          key: 'employeeShift',
+          value: data.employeeShift.toString(),
+        );
+        await storageToken.write(
+          key: 'employeeStatus',
+          value: data.employeeStatus.toString(),
+        );
+        await storageToken.write(
+          key: 'buslinesId',
+          value: data.buslinesId.toString(),
+        );
+        await storageToken.write(
+          key: 'busTerminalId',
+          value: data.busTerminalId.toString(),
+        );
         return data;
       } else {
         return throw Exception('Failed to load service');
@@ -112,7 +132,38 @@ class ApiService {
   static Future<List<User>> apiGetUser() async {
     try {
       showLoadding();
-      final servicesRes = await dioClient!.post('/api/user/get-user', data: {});
+      var employeeShift = await storageToken.read(key: 'employeeShift');
+      var buslinesId = await storageToken.read(key: 'buslinesId');
+      final servicesRes = await dioClient!.post(
+          '/api/user/get-user-driver-by-busline-id',
+          data: {'buslinesId': buslinesId, 'employeeShift': employeeShift});
+      if (servicesRes.statusCode == 200) {
+        List<User> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(User.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
+  static Future<List<User>> apiGetUserFarecollect() async {
+    try {
+      showLoadding();
+      var employeeShift = await storageToken.read(key: 'employeeShift');
+      var buslinesId = await storageToken.read(key: 'buslinesId');
+      final servicesRes = await dioClient!.post(
+          '/api/user/get-user-farecollect-by-busline-id',
+          data: {'buslinesId': buslinesId, 'employeeShift': employeeShift});
       if (servicesRes.statusCode == 200) {
         List<User> response = [];
         servicesRes.data['data'].forEach((element) {
@@ -321,6 +372,56 @@ class ApiService {
     }
   }
 
+  static Future<List<BusLines>> apiFindBusLinesId(
+    int busLinesId,
+  ) async {
+    showLoadding();
+    try {
+      Response response =
+          await dioClient!.post('/api/bus-lines/find-by-bus-lines-id', data: {
+        "busLinesId": busLinesId,
+      });
+      if (response.statusCode == 200) {
+        List<BusLines> responseData = [];
+        response.data['data'].forEach((element) {
+          responseData.add(BusLines.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return responseData;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static Future<List<FareListModel>> apiFindWorksheetId(
+    int worksheetId,
+  ) async {
+    showLoadding();
+    try {
+      Response response =
+          await dioClient!.post('/api/bus-vehicle/find-by-worksheet-id', data: {
+        "worksheetId": worksheetId,
+      });
+      if (response.statusCode == 200) {
+        List<FareListModel> responseData = [];
+        response.data['data'].forEach((element) {
+          responseData.add(FareListModel.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return responseData;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static Future<Response> apiSaveBus(String busVehicleNumber,
       String busVehiclePlateNo, String busVehiclePlateProv) async {
     try {
@@ -340,25 +441,53 @@ class ApiService {
     }
   }
 
-  static Future<Response> apiSaveTicket(
-    String number,
-    String trip,
-    String ticket,
-    int worksheetId,
-  ) async {
+  static Future<Response> apiSaveTicket(int? trip, int worksheetId,
+      int busTerminalId, List<RequestTicket> typeHfare) async {
+    printJson({
+      "ticketBegin": trip == 1 ? true : false,
+      "ticketEnd": false,
+      "worksheetId": worksheetId,
+      "busTerminalId": busTerminalId,
+      "trip": trip,
+      "typeHfare": typeHfare,
+    });
     try {
       Response response = await dioClient!.post('/api/ticket/save', data: {
-        "ticketNo": number,
-        "ticketBegin": ticket == "btrue" ? true : false,
-        "ticketEnd": ticket == "etrue" ? true : false,
+        "ticketBegin": trip == 1 ? true : false,
+        "ticketEnd": false,
         "worksheetId": worksheetId,
-        "trip": ticket == "btrue" ? 0 : trip,
+        "busTerminalId": busTerminalId,
+        "trip": trip,
+        "typeHfare": typeHfare
       });
 
       if (response.statusCode == 200) {
         return response;
       } else {
         return throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static Future<List<TicketTrip>> apiGetTicketByIdNew(
+    int worksheetId,
+  ) async {
+    showLoadding();
+    try {
+      Response response = await dioClient!
+          .get('/api/ticket-trip/find-by-worksheet-id/${worksheetId}');
+      if (response.statusCode == 200) {
+        List<TicketTrip> responseData = [];
+        response.data['data'].forEach((element) {
+          responseData.add(TicketTrip.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return responseData;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
       }
     } catch (error) {
       throw error;
@@ -406,12 +535,12 @@ class ApiService {
   }
 
   static Future<Response> apiSaveWorksheet(
-    DateTime worksheetDate,
-    String worksheetTimeBegin,
-    String busVehiclePlateNo,
-    String worksheetDriver,
-    String worksheetFarecollect,
-  ) async {
+      DateTime worksheetDate,
+      String worksheetTimeBegin,
+      String busVehiclePlateNo,
+      String worksheetDriver,
+      String worksheetFarecollect,
+      String busVehicleNumber) async {
     try {
       printJson({
         "worksheetDate": worksheetDate.toString().split(".")[0],
@@ -419,6 +548,7 @@ class ApiService {
         "busVehiclePlateNo": busVehiclePlateNo,
         "worksheetDriver": worksheetDriver,
         "worksheetFarecollect": worksheetFarecollect,
+        "busVehicleNumber": busVehicleNumber
       });
       Response response = await dioClient!.post('/api/worksheet/save', data: {
         "worksheetDate": worksheetDate.toString().split(".")[0],
@@ -426,6 +556,7 @@ class ApiService {
         "busVehiclePlateNo": busVehiclePlateNo,
         "worksheetDriver": worksheetDriver,
         "worksheetFarecollect": worksheetFarecollect,
+        "busVehicleNumber": busVehicleNumber
       });
 
       if (response.statusCode == 200) {

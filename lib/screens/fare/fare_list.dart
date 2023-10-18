@@ -138,8 +138,9 @@ converDate(String date) {
   return Time().DateTimeToThai(DateTime.parse(date));
 }
 
-getPopupDetail(BuildContext context) {
+getPopupDetail(BuildContext context, Driver driver) {
   showModalBottomSheet<void>(
+    isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(13),
@@ -182,8 +183,293 @@ getPopupDetail(BuildContext context) {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "หมายเลขใบงาน ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busVehicleId.toString() ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "วันที่ใบจ่ายงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      converDate(driver.worksheetDate.toString()),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เวลารับงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetTimeBegin ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เวลาตัดเลิก",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetTimeEnd ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "นายท่าผู้ตัดเลิก",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetTerminalAgent ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เวลางาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetHours ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "โอที(ล่วงเวลา)",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetHoursOt ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "สายรถเมล์",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busLinesNo ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ทะเบียนรถเมล์",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busVehiclePlateNo ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เลขข้างรถ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busVehicleNumber ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "กปด.",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busDivisionName ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชื่อผู้จ่ายงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetDispatcher ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชื่อพนักงานขับรถ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetDriver?.toString() ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชื่อพนักเก็บค่าโดยสาร",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetFarecollect?.toString() ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "รับรอง(ผู้จัดการสาย)",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetBuslinesManager?.toString() ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "สถานะใบงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      "กำลังดำเนินงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () => {
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: FareDeatil(
+                          busLinesId: driver.busLinesId,
+                          busVehicleId: driver.busVehicleId,
+                          status: "IN_PROGRESS",
+                          worksheetId: driver.worksheetId),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    ).then((value) => {})
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(6)),
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color.fromARGB(255, 34, 50, 174),
+                              Color.fromARGB(255, 37, 43, 99),
+                            ])),
+                    height: 40,
+                    width: double.infinity,
+                    child: Text(
+                      'ดำเนินการ',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           SizedBox(
-            height: 200,
+            height: 30,
           ),
         ],
       );
@@ -237,15 +523,16 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                       return Container(
                         child: InkWell(
                             onTap: () => {
-                                  PersistentNavBarNavigator.pushNewScreen(
-                                    context,
-                                    screen: FareDeatil(
-                                        status: "IN_PROGRESS",
-                                        worksheetId: list[index].worksheetId),
-                                    withNavBar: false,
-                                    pageTransitionAnimation:
-                                        PageTransitionAnimation.cupertino,
-                                  ).then((value) => {})
+                                  getPopupDetail(context, list[index])
+                                  // PersistentNavBarNavigator.pushNewScreen(
+                                  //   context,
+                                  //   screen: FareDeatil(
+                                  //       status: "IN_PROGRESS",
+                                  //       worksheetId: list[index].worksheetId),
+                                  //   withNavBar: false,
+                                  //   pageTransitionAnimation:
+                                  //       PageTransitionAnimation.cupertino,
+                                  // ).then((value) => {})
                                 },
                             child: Stack(
                               children: [
@@ -557,6 +844,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                   PersistentNavBarNavigator.pushNewScreen(
                                     context,
                                     screen: FareDeatil(
+                                        busVehicleId: list[index].busVehicleId,
+                                        busLinesId: list[index].busLinesId,
                                         status: "SUCCESS",
                                         worksheetId: list[index].worksheetId),
                                     withNavBar: false,

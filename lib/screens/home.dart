@@ -385,7 +385,7 @@ class _HomeState extends State<Home> {
                                           '${listMenuDisplay[index].subMenu}',
                                           style: const TextStyle(
                                               color: Color.fromARGB(
-                                                  255, 114, 117, 119),
+                                                  255, 144, 147, 149),
                                               fontWeight: FontWeight.w300,
                                               fontSize: 12)),
                                     ),

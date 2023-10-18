@@ -193,7 +193,8 @@ class _OverviewDetailState extends State<OverviewDetail> {
                         ])),
                   ),
                   onTap: () {
-                    notifacontionCustom(context, "ต้องการยืนยันการตัดเลิกงาน ?");
+                    notifacontionCustom(
+                        context, "ต้องการยืนยันการตัดเลิกงาน ?");
                     print("object");
                   },
                 )

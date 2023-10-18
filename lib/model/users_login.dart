@@ -12,20 +12,29 @@ class UserLogin {
   String? roleCode;
   String? position;
   int? employeeId;
-  UserLogin(
-      {this.jwttoken,
-      this.employeeId,
-      this.username,
-      this.role,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.prefix,
-      this.phoneNumber,
-      this.employeeCode,
-      this.createDate,
-      this.roleCode,
-      this.position});
+  int? busTerminalId;
+  int? buslinesId;
+  String? employeeStatus;
+  String? employeeShift;
+  UserLogin({
+    this.jwttoken,
+    this.employeeId,
+    this.username,
+    this.role,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.prefix,
+    this.phoneNumber,
+    this.employeeCode,
+    this.createDate,
+    this.roleCode,
+    this.position,
+    this.busTerminalId,
+    this.buslinesId,
+    this.employeeStatus,
+    this.employeeShift,
+  });
 
   UserLogin.fromJson(Map<String, dynamic> json) {
     jwttoken = json['jwttoken'];
@@ -41,6 +50,10 @@ class UserLogin {
     createDate = json['createDate'];
     roleCode = json['roleCode'];
     position = json['position'];
+    busTerminalId = json['busTerminalId'];
+    buslinesId = json['buslinesId'];
+    employeeStatus = json['employeeStatus'];
+    employeeShift = json['employeeShift'];
   }
 
   Map<String, dynamic> toJson() {
@@ -58,6 +71,10 @@ class UserLogin {
     data['createDate'] = this.createDate;
     data['roleCode'] = this.roleCode;
     data['position'] = this.position;
+    data['busTerminalId'] = this.busTerminalId;
+    data['buslinesId'] = this.buslinesId;
+    data['employeeStatus'] = this.employeeStatus;
+    data['employeeShift'] = this.employeeShift;
     return data;
   }
 }

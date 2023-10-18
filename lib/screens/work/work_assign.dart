@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 
+import '../../components/dropdown_ farecollect.dart';
 import '../../components/dropdown_bus.dart';
 import '../../components/dropdown_user.dart';
 import '../../components/popup_date_picker.dart';
@@ -31,7 +32,7 @@ class _WorkAssignState extends State<WorkAssign> {
   String? worksheetDispatcher;
   String? worksheetDriver;
   String? worksheetFarecollect;
-
+  String? busVehicleNumber;
   SaveForm() async {
     try {
       EasyLoading.show(
@@ -46,7 +47,8 @@ class _WorkAssignState extends State<WorkAssign> {
           worksheetTimeBegin!,
           busVehiclePlateNo!,
           worksheetDriver!,
-          worksheetFarecollect!);
+          worksheetFarecollect!,
+          busVehicleNumber!);
       if (data.statusCode == 200) {
         Navigator.of(context).pop();
       }
@@ -256,7 +258,7 @@ class _WorkAssignState extends State<WorkAssign> {
                   ),
                 ),
                 Container(
-                    child: DropdownUser(
+                    child: DropDownFarecollect(
                   onSelect: (username, fullName) => {
                     setState(() {
                       worksheetFarecollect = username;
@@ -291,7 +293,11 @@ class _WorkAssignState extends State<WorkAssign> {
                 Container(child: DropdownBus(
                   onSelect: (busVehicleNumberParam, busVehiclePlateNoParam,
                       typeNameParam) {
+                    print(busVehicleNumberParam);
+                    print(busVehiclePlateNoParam);
+                    print(typeNameParam);
                     setState(() {
+                      busVehicleNumber = busVehicleNumberParam;
                       typeNameInput.text = typeNameParam;
                       busVehiclePlateNoInput.text = busVehiclePlateNoParam;
                       busVehiclePlateNo = busVehiclePlateNoParam;
