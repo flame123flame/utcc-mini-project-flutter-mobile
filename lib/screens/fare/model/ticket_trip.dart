@@ -5,6 +5,8 @@ class TicketTrip {
   bool? ticketBegin;
   bool? ticketEnd;
   List<TicketList>? ticketList;
+  double? sumPrice;
+  int? sumTicket;
 
   TicketTrip(
       {this.ticketTripId,
@@ -12,7 +14,9 @@ class TicketTrip {
       this.trip,
       this.ticketBegin,
       this.ticketEnd,
-      this.ticketList});
+      this.ticketList,
+      this.sumPrice,
+      this.sumTicket});
 
   TicketTrip.fromJson(Map<String, dynamic> json) {
     ticketTripId = json['ticketTripId'];
@@ -26,6 +30,8 @@ class TicketTrip {
         ticketList!.add(new TicketList.fromJson(v));
       });
     }
+    sumPrice = json['sumPrice'];
+    sumTicket = json['sumTicket'];
   }
 
   Map<String, dynamic> toJson() {
@@ -38,6 +44,8 @@ class TicketTrip {
     if (this.ticketList != null) {
       data['ticketList'] = this.ticketList!.map((v) => v.toJson()).toList();
     }
+    data['sumPrice'] = this.sumPrice;
+    data['sumTicket'] = this.sumTicket;
     return data;
   }
 }

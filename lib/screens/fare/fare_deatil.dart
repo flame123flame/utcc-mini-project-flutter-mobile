@@ -43,20 +43,10 @@ class _FareDeatilState extends State<FareDeatil>
   List<TicketTrip> dataList = [];
 
   getData() async {
-    // setState(() {
-    //   sum = 0;
-    //   sumList.clear();
-    // });
     try {
       List<TicketTrip> data =
           await ApiService.apiGetTicketByIdNew(widget.worksheetId!);
-      print(data);
-      // for (var i = 0; i < data.length; i++) {
-      //   sumList.add((int.parse(data[i].ticketNoSum!) * 8));
-      //   //print(sumList);
-      // }
       setState(() {
-        // sum = sumList.reduce((a, b) => a + b);
         dataList = data;
       });
     } catch (e) {}
@@ -101,47 +91,6 @@ class _FareDeatilState extends State<FareDeatil>
     return false;
   }
 
-  double calculateTotalFare(List<TicketTrip>? ticketList, int minTrip) {
-    double totalFare = 0.0;
-
-    if (ticketList == null) {
-      return totalFare;
-    }
-
-    for (var ticketTrip in ticketList) {
-      int trip = ticketTrip.trip!;
-      List<TicketList> ticketLists = ticketTrip.ticketList!;
-
-      if (trip >= minTrip) {
-        double fareSum = 0.0;
-
-        for (var ticket in ticketLists) {
-          double fareValue = ticket.fareValue!;
-          fareSum += fareValue;
-        }
-
-        totalFare += fareSum;
-      }
-    }
-
-    return totalFare;
-  }
-
-  calSumFare(List<TicketTrip> data) {
-    // for (var i = 0; i < data.length; i++) {
-    //   // data[i].ticketList
-    // }
-    // print(data.ticketList);
-    // if (data.trip == 1) {
-    //   return 0;
-    // } else {
-    //   for (var i = 0; i < data.ticketList!.length; i++) {
-    //     return data.ticketList![i].fareValue! * int.parse(data.ticketList![i].ticketNo!);
-    //   }
-    // }
-    return 0;
-  }
-
   AnimationController? _hideFabAnimation;
 
   @override
@@ -151,42 +100,38 @@ class _FareDeatilState extends State<FareDeatil>
       return NotificationListener(
         onNotification: _handleScrollNotification,
         child: Scaffold(
-          floatingActionButton: ScaleTransition(
-            scale: _hideFabAnimation!,
-            alignment: Alignment.bottomCenter,
-            child: widget.status == 'IN_PROGRESS'
-                ? FloatingActionButton(
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      child: Icon(
-                        Icons.add,
-                        size: 40,
-                      ),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(colors: [
-                            Color.fromARGB(255, 34, 52, 187),
-                            Color.fromARGB(255, 37, 43, 99),
-                          ])),
+          floatingActionButton: widget.status == 'IN_PROGRESS'
+              ? FloatingActionButton(
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    child: Icon(
+                      Icons.add,
+                      size: 40,
                     ),
-                    onPressed: () {
-                      PersistentNavBarNavigator.pushNewScreen(
-                        context,
-                        screen: FareAdd(
-                            busVehicleId: widget.busVehicleId,
-                            trip: dataList.length + 1,
-                            worksheetId: widget.worksheetId,
-                            busLinesId: widget.busLinesId),
-                        withNavBar: false,
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                      ).then((value) => {getData()});
-                    },
-                    tooltip: 'Increment',
-                  )
-                : Container(),
-          ),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(colors: [
+                          Color.fromARGB(255, 34, 52, 187),
+                          Color.fromARGB(255, 37, 43, 99),
+                        ])),
+                  ),
+                  onPressed: () {
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: FareAdd(
+                          busVehicleId: widget.busVehicleId,
+                          trip: dataList.length + 1,
+                          worksheetId: widget.worksheetId,
+                          busLinesId: widget.busLinesId),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    ).then((value) => {getData()});
+                  },
+                  tooltip: 'Increment',
+                )
+              : Container(),
           backgroundColor: Color.fromARGB(235, 235, 244, 255),
           body: Column(
             children: [
@@ -238,6 +183,13 @@ class _FareDeatilState extends State<FareDeatil>
     });
   }
 
+  var formatter = NumberFormat.currency(locale: 'th_TH', symbol: '฿');
+  var formatterTicket = NumberFormat.currency(
+    locale: 'th_TH',
+    symbol: '',
+    decimalDigits: 0, // Set the number of decimal places to 0
+  );
+
   Widget cardDetail(TicketTrip data, List<TicketTrip> ticketTripList) {
     return Container(
       margin: EdgeInsets.only(
@@ -273,7 +225,7 @@ class _FareDeatilState extends State<FareDeatil>
                     height: 40,
                   ),
                   Text(
-                    '฿${calculateTotalFare(ticketTripList, 2)}',
+                    '${formatter.format(data.sumPrice)} ',
                     style: TextStyle(
                       fontFamily: '11',
                       color: colorBar,
@@ -403,7 +355,7 @@ class _FareDeatilState extends State<FareDeatil>
                     ),
                   ),
                   Text(
-                    '${1} ใบ',
+                    '${formatterTicket.format(data.sumTicket)} ใบ',
                     style: TextStyle(
                       color: Color.fromARGB(255, 35, 35, 35),
                       fontSize: 13,

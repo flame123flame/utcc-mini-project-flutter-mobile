@@ -213,6 +213,14 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
   return Container(
     child: Column(
       children: [
+        if (list.length == 0)
+          Expanded(
+            flex: 1,
+            child: Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Text('ไม่มีข้อมูล'),
+            ),
+          ),
         Padding(
             padding: EdgeInsets.only(
                 bottom: SizeConfig.defaultSize! * 0.8,
@@ -515,6 +523,14 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
   return Container(
     child: Column(
       children: [
+        if (list.length == 0)
+          Expanded(
+            flex: 1,
+            child: Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Text('ไม่มีข้อมูล'),
+            ),
+          ),
         Padding(
             padding: EdgeInsets.only(
                 bottom: SizeConfig.defaultSize! * 0.8,
