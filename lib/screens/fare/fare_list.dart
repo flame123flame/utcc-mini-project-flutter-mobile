@@ -256,7 +256,9 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetTerminalAgent ?? "-",
+                      driver.worksheetTerminalAgent!.trim().isEmpty
+                          ? '-'
+                          : driver.worksheetTerminalAgent.toString(),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -453,8 +455,8 @@ getPopupDetail(BuildContext context, Driver driver) {
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                             colors: [
+                              Color.fromARGB(255, 29, 45, 170),
                               Color.fromARGB(255, 34, 50, 174),
-                              Color.fromARGB(255, 37, 43, 99),
                             ])),
                     height: 40,
                     width: double.infinity,
@@ -522,18 +524,7 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                     ...List.generate(list.length, (index) {
                       return Container(
                         child: InkWell(
-                            onTap: () => {
-                                  getPopupDetail(context, list[index])
-                                  // PersistentNavBarNavigator.pushNewScreen(
-                                  //   context,
-                                  //   screen: FareDeatil(
-                                  //       status: "IN_PROGRESS",
-                                  //       worksheetId: list[index].worksheetId),
-                                  //   withNavBar: false,
-                                  //   pageTransitionAnimation:
-                                  //       PageTransitionAnimation.cupertino,
-                                  // ).then((value) => {})
-                                },
+                            onTap: () => {getPopupDetail(context, list[index])},
                             child: Stack(
                               children: [
                                 Container(

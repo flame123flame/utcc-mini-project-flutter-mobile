@@ -4,6 +4,10 @@ class TicketTrip {
   int? trip;
   bool? ticketBegin;
   bool? ticketEnd;
+  String? terminalTimeDeparture;
+  String? terminalTimeArrive;
+  String? busTerminalDepartureDes;
+  String? busTerminalArrive;
   List<TicketList>? ticketList;
   double? sumPrice;
   int? sumTicket;
@@ -14,6 +18,10 @@ class TicketTrip {
       this.trip,
       this.ticketBegin,
       this.ticketEnd,
+      this.terminalTimeDeparture,
+      this.terminalTimeArrive,
+      this.busTerminalDepartureDes,
+      this.busTerminalArrive,
       this.ticketList,
       this.sumPrice,
       this.sumTicket});
@@ -24,6 +32,10 @@ class TicketTrip {
     trip = json['trip'];
     ticketBegin = json['ticketBegin'];
     ticketEnd = json['ticketEnd'];
+    terminalTimeDeparture = json['terminalTimeDeparture'];
+    terminalTimeArrive = json['terminalTimeArrive'];
+    busTerminalDepartureDes = json['busTerminalDepartureDes'];
+    busTerminalArrive = json['busTerminalArrive'];
     if (json['ticketList'] != null) {
       ticketList = <TicketList>[];
       json['ticketList'].forEach((v) {
@@ -41,6 +53,10 @@ class TicketTrip {
     data['trip'] = this.trip;
     data['ticketBegin'] = this.ticketBegin;
     data['ticketEnd'] = this.ticketEnd;
+    data['terminalTimeDeparture'] = this.terminalTimeDeparture;
+    data['terminalTimeArrive'] = this.terminalTimeArrive;
+    data['busTerminalDepartureDes'] = this.busTerminalDepartureDes;
+    data['busTerminalArrive'] = this.busTerminalArrive;
     if (this.ticketList != null) {
       data['ticketList'] = this.ticketList!.map((v) => v.toJson()).toList();
     }

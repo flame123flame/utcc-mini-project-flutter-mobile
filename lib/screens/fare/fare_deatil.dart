@@ -38,7 +38,7 @@ class _FareDeatilState extends State<FareDeatil>
     with SingleTickerProviderStateMixin {
   final valueFormat = new NumberFormat("#,##0.00", "en_US");
   List<int> sumList = [];
-  int sum = 0;
+  double sum = 0;
   int sumCal = 0;
   List<TicketTrip> dataList = [];
 
@@ -46,6 +46,10 @@ class _FareDeatilState extends State<FareDeatil>
     try {
       List<TicketTrip> data =
           await ApiService.apiGetTicketByIdNew(widget.worksheetId!);
+      sum = 0;
+      for (var i = 0; i < data.length; i++) {
+        sum += data[i].sumPrice!;
+      }
       setState(() {
         dataList = data;
       });
@@ -56,131 +60,151 @@ class _FareDeatilState extends State<FareDeatil>
   void initState() {
     getData();
     super.initState();
-    _hideFabAnimation =
-        AnimationController(vsync: this, duration: kThemeAnimationDuration);
   }
 
   @override
   void dispose() {
-    _hideFabAnimation!.dispose();
     super.dispose();
   }
 
-  bool _handleScrollNotification(ScrollNotification notification) {
-    if (notification.depth == 0) {
-      if (notification is UserScrollNotification) {
-        final UserScrollNotification userScroll = notification;
-        switch (userScroll.direction) {
-          case ScrollDirection.forward:
-            if (userScroll.metrics.maxScrollExtent !=
-                userScroll.metrics.minScrollExtent) {
-              _hideFabAnimation!.forward();
-            }
-            break;
-          case ScrollDirection.reverse:
-            if (userScroll.metrics.maxScrollExtent !=
-                userScroll.metrics.minScrollExtent) {
-              _hideFabAnimation!.reverse();
-            }
-            break;
-          case ScrollDirection.idle:
-            break;
-        }
-      }
-    }
-    return false;
-  }
-
   AnimationController? _hideFabAnimation;
-
+  var formatterSum = NumberFormat.currency(locale: 'th_TH', symbol: '฿');
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Builder(builder: (context) {
-      return NotificationListener(
-        onNotification: _handleScrollNotification,
-        child: Scaffold(
-          floatingActionButton: widget.status == 'IN_PROGRESS'
-              ? FloatingActionButton(
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    child: Icon(
-                      Icons.add,
-                      size: 40,
-                    ),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(colors: [
-                          Color.fromARGB(255, 34, 52, 187),
-                          Color.fromARGB(255, 37, 43, 99),
-                        ])),
-                  ),
-                  onPressed: () {
-                    PersistentNavBarNavigator.pushNewScreen(
-                      context,
-                      screen: FareAdd(
-                          busVehicleId: widget.busVehicleId,
-                          trip: dataList.length + 1,
-                          worksheetId: widget.worksheetId,
-                          busLinesId: widget.busLinesId),
-                      withNavBar: false,
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    ).then((value) => {getData()});
-                  },
-                  tooltip: 'Increment',
-                )
-              : Container(),
-          backgroundColor: Color.fromARGB(235, 235, 244, 255),
-          body: Column(
-            children: [
-              Stack(
-                alignment: AlignmentDirectional.topCenter,
-                children: [
-                  GradientContainerHeader(size, context),
-                  Positioned(
-                    top: size.height * .11,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '฿${valueFormat.format(1000000)}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontFamily: '11',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 34,
-                          ),
+      return Scaffold(
+        bottomNavigationBar:
+            widget.status == 'IN_PROGRESS' ? _buttomNew(context) : null,
+        backgroundColor: Color.fromARGB(235, 235, 244, 255),
+        body: Column(
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.topCenter,
+              children: [
+                GradientContainerHeader(size, context),
+                Positioned(
+                  top: size.height * .11,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${formatterSum.format(sum)}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontFamily: '11',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 34,
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            if (dataList.length > 0)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: dataList.length,
+                  itemBuilder: (context, index) {
+                    return cardDetail(dataList[index], dataList);
+                  },
+                ),
+              ),
+            if (dataList.isEmpty)
+              Padding(
+                padding: EdgeInsets.all(38.0),
+                child: Text(
+                  'ยังไม่มีรอบการเดินรถ',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buttomNew(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 10, bottom: 25, right: 20, left: 20),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.4),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(0), topRight: Radius.circular(0)),
+      ),
+      child: elememtButtom(),
+    );
+  }
+
+  Widget elememtButtom() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () => {
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          screen: FareAdd(
+                              busVehicleId: widget.busVehicleId,
+                              trip: dataList.length + 1,
+                              worksheetId: widget.worksheetId,
+                              busLinesId: widget.busLinesId),
+                          withNavBar: false,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        ).then((value) => {getData()})
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(6)),
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Color.fromARGB(255, 29, 45, 170),
+                                  Color.fromARGB(255, 34, 50, 174),
+                                ])),
+                        height: 40,
+                        width: double.infinity,
+                        child: Text(
+                          'เพิ่มรอบการเดินรถ',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-              if (dataList.length > 0)
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: dataList.length,
-                    itemBuilder: (context, index) {
-                      return cardDetail(dataList[index], dataList);
-                    },
-                  ),
-                ),
-              if (dataList.isEmpty)
-                Padding(
-                  padding: EdgeInsets.all(38.0),
-                  child: Text(
-                    'ยังไม่มีรอบการเดินรถ',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
             ],
           ),
         ),
-      );
-    });
+      ],
+    );
   }
 
   var formatter = NumberFormat.currency(locale: 'th_TH', symbol: '฿');
@@ -247,7 +271,7 @@ class _FareDeatilState extends State<FareDeatil>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "08:30",
+                          '${data.terminalTimeDeparture ?? 'รอนายท่าลงเวลา'} ',
                           style: TextStyle(
                             color: Color.fromARGB(255, 48, 47, 47),
                             fontSize: 20,
@@ -256,7 +280,7 @@ class _FareDeatilState extends State<FareDeatil>
                           ),
                         ),
                         Text(
-                          "สนามหลวง (มหาวิทยาลัยธรรมศาสตร์)",
+                          '${data.busTerminalDepartureDes} ',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           softWrap: false,
@@ -279,7 +303,7 @@ class _FareDeatilState extends State<FareDeatil>
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          "11:30",
+                          '${data.terminalTimeArrive} ',
                           style: TextStyle(
                             color: Color.fromARGB(255, 48, 47, 47),
                             fontSize: 20,
@@ -288,7 +312,7 @@ class _FareDeatilState extends State<FareDeatil>
                           ),
                         ),
                         Text(
-                          "อนุสาวรีย์ชัยสมรภูมิ",
+                          '${data.busTerminalArrive ?? ''} ',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           softWrap: false,
@@ -347,10 +371,10 @@ class _FareDeatilState extends State<FareDeatil>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "ตั๋วรวม",
+                    "ตั๋วรวมขาที่ ${data.trip}",
                     style: TextStyle(
                       color: Color.fromARGB(255, 35, 35, 35),
-                      fontSize: 13.5,
+                      fontSize: 15,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -358,7 +382,7 @@ class _FareDeatilState extends State<FareDeatil>
                     '${formatterTicket.format(data.sumTicket)} ใบ',
                     style: TextStyle(
                       color: Color.fromARGB(255, 35, 35, 35),
-                      fontSize: 13,
+                      fontSize: 15,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
