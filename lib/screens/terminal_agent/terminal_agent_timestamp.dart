@@ -1,28 +1,27 @@
-import 'package:another_flushbar/flushbar.dart';
+import 'dart:math';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:utcc_mobile/screens/fare/model/ticket_trip.dart';
 
+import '../../components/picker_time.dart';
 import '../../constants/constant_color.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
-import 'fare_add.dart';
-import 'model/bus_lines.dart';
-import 'model/ticket.dart';
+import '../fare/fare_add.dart';
+import '../fare/model/ticket_trip.dart';
 
-class FareDeatil extends StatefulWidget {
+class TerminalAgentTimestamp extends StatefulWidget {
   final int? worksheetId;
   final String? status;
   final int? busLinesId;
   final int? busVehicleId;
-
-  const FareDeatil(
+  const TerminalAgentTimestamp(
       {Key? key,
       this.worksheetId,
       required this.status,
@@ -31,10 +30,10 @@ class FareDeatil extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<FareDeatil> createState() => _FareDeatilState();
+  State<TerminalAgentTimestamp> createState() => _TerminalAgentTimestampState();
 }
 
-class _FareDeatilState extends State<FareDeatil>
+class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
     with SingleTickerProviderStateMixin {
   final valueFormat = new NumberFormat("#,##0.00", "en_US");
   List<int> sumList = [];
@@ -45,7 +44,7 @@ class _FareDeatilState extends State<FareDeatil>
   getData() async {
     try {
       List<TicketTrip> data =
-          await ApiService.apiGetTicketByIdNew(widget.worksheetId!);
+          await ApiService.apiGetTicketByIdTimestamp(widget.worksheetId!);
       sum = 0;
       for (var i = 0; i < data.length; i++) {
         sum += data[i].sumPrice!;
@@ -67,6 +66,66 @@ class _FareDeatilState extends State<FareDeatil>
     super.dispose();
   }
 
+  setTimestamp(int terminalTimestampId, String terminalTimeDeparture,
+      BuildContext context) async {
+    try {
+      print(terminalTimestampId);
+      print(terminalTimeDeparture);
+      Response data = await ApiService.setTimestamp(
+          terminalTimestampId, terminalTimeDeparture);
+      notifacontionCustom(
+          context, "ลงเวลาออกจากท่า " + terminalTimeDeparture + " สำเร็จ");
+      setState(() {});
+    } catch (e) {}
+  }
+
+  void notifacontionCustom(BuildContext context, String text) {
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return CupertinoAlertDialog(
+            title: Text(
+              'การลงเวลา',
+              style: TextStyle(
+                  color: Color.fromARGB(255, 65, 57, 52),
+                  fontFamily: 'prompt',
+                  fontWeight: FontWeight.w900,
+                  fontSize: 21),
+            ),
+            content: Text(
+              text,
+              style: TextStyle(
+                  color: Color.fromARGB(255, 55, 48, 43),
+                  fontFamily: 'prompt',
+                  fontSize: 15),
+            ),
+            actions: [
+              // The "Yes" button
+              CupertinoDialogAction(
+                onPressed: () {
+                  setState(() {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  });
+                },
+                child: const Text(
+                  'ตกลง',
+                  style: TextStyle(
+                    fontFamily: 'prompt',
+                    fontWeight: FontWeight.w800,
+                    color: Color.fromARGB(255, 12, 60, 156),
+                  ),
+                ),
+                isDefaultAction: true,
+                isDestructiveAction: true,
+              ),
+              // The "No" button
+            ],
+          );
+        });
+  }
+
   AnimationController? _hideFabAnimation;
   var formatterSum = NumberFormat.currency(locale: 'th_TH', symbol: '฿');
   @override
@@ -74,8 +133,6 @@ class _FareDeatilState extends State<FareDeatil>
     Size size = MediaQuery.of(context).size;
     return Builder(builder: (context) {
       return Scaffold(
-        bottomNavigationBar:
-            widget.status == 'IN_PROGRESS' ? _buttomNew(context) : null,
         backgroundColor: Color.fromARGB(235, 235, 244, 255),
         body: Column(
           children: [
@@ -124,87 +181,6 @@ class _FareDeatilState extends State<FareDeatil>
         ),
       );
     });
-  }
-
-  Widget _buttomNew(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 10, bottom: 25, right: 20, left: 20),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ],
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(0), topRight: Radius.circular(0)),
-      ),
-      child: elememtButtom(),
-    );
-  }
-
-  Widget elememtButtom() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: () => {
-                        PersistentNavBarNavigator.pushNewScreen(
-                          context,
-                          screen: FareAdd(
-                              busVehicleId: widget.busVehicleId,
-                              trip: dataList.length + 1,
-                              worksheetId: widget.worksheetId,
-                              busLinesId: widget.busLinesId),
-                          withNavBar: false,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        ).then((value) => {getData()})
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(6)),
-                            gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [
-                                  Color.fromARGB(255, 29, 45, 170),
-                                  Color.fromARGB(255, 34, 50, 174),
-                                ])),
-                        height: 40,
-                        width: double.infinity,
-                        child: Text(
-                          'เพิ่มรอบการเดินรถ',
-                          style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
   }
 
   var formatter = NumberFormat.currency(locale: 'th_TH', symbol: '฿');
@@ -389,6 +365,68 @@ class _FareDeatilState extends State<FareDeatil>
                 ],
               ),
             ),
+            if (!data.isTimestamp!) Divider(endIndent: 10, indent: 10),
+            if (!data.isTimestamp!)
+              Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชื่อนายท่าที่ลงเวลา",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 35, 35, 35),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    Text(
+                      '${data.busTerminalAgentName}',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 35, 35, 35),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            SizedBox(
+              height: 6,
+            ),
+            if (data.isTimestamp!)
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: PickerTime(
+                      mode: CupertinoDatePickerMode.time,
+                      title: 'ลงเวลา',
+                      validate: false,
+                      onSelected: (datetime) {
+                        setTimestamp(
+                            data.terminalTimestampId!,
+                            DateFormat.Hm().format(datetime!).toString(),
+                            context);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: PickerTime(
+                      mode: CupertinoDatePickerMode.time,
+                      title: 'ตัดเลิก',
+                      validate: false,
+                      onSelected: (datetime) {
+                        print(DateFormat.Hm().format(datetime!).toString());
+                      },
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

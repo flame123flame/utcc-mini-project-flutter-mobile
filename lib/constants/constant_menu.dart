@@ -7,6 +7,7 @@ import '../screens/driver/driver_list.dart';
 import '../screens/fare/fare_list.dart';
 import '../screens/news/news_list_manage.dart';
 import '../screens/supervisor/overview.dart';
+import '../screens/terminal_agent/terminal_agent_list.dart';
 import '../screens/users/list_role.dart';
 import '../screens/users/list_user.dart';
 import '../screens/users/manage_user.dart';
@@ -52,7 +53,7 @@ List<MainMenu> listMenuConstant = [
         CupertinoIcons.person,
         color: Colors.white,
       ),
-      navigate: Overview()),
+      navigate: TerminalAgentList()),
   MainMenu(
       menu: 'จัดการสาย',
       subMenu: 'จัดการสายรถเมล์',

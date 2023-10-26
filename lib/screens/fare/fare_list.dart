@@ -196,7 +196,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.busVehicleId.toString() ?? "-",
+                      driver.worksheetId.toString() ?? "-",
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
