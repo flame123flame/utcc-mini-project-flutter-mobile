@@ -145,6 +145,7 @@ class _FareAddState extends State<FareAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: _buttomButton(context),
         resizeToAvoidBottomInset: false,
         drawerDragStartBehavior: DragStartBehavior.start,
         appBar: AppBar(
@@ -158,14 +159,7 @@ class _FareAddState extends State<FareAdd> {
               Navigator.of(context).pop();
             },
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.save),
-              onPressed: () {
-                SaveForm();
-              },
-            )
-          ],
+          actions: <Widget>[],
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -309,5 +303,74 @@ class _FareAddState extends State<FareAdd> {
             ),
           ),
         ));
+  }
+
+  Widget _buttomButton(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 10, bottom: 25, right: 20, left: 20),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.4),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(0), topRight: Radius.circular(0)),
+      ),
+      child: elememtButtom(),
+    );
+  }
+
+  Widget elememtButtom() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () => {SaveForm()},
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(6)),
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Color.fromARGB(255, 29, 45, 170),
+                                  Color.fromARGB(255, 34, 50, 174),
+                                ])),
+                        height: 40,
+                        width: double.infinity,
+                        child: Text(
+                          'บันทึกรอบการเดินรถ',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
