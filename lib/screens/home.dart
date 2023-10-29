@@ -152,7 +152,7 @@ class _HomeState extends State<Home> {
                           opacity: 0.15,
                           image: AssetImage('assets/images/weather.png'),
                           fit: BoxFit.contain),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
