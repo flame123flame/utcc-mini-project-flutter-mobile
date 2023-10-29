@@ -338,15 +338,8 @@ class _HomeState extends State<Home> {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                boxShadow: [
-                                  // BoxShadow(
-                                  //   color: Colors.grey.withOpacity(0.1),
-                                  //   spreadRadius: 3,
-                                  //   blurRadius: 3,
-                                  //   offset: Offset(0, 3),
-                                  // ),
-                                ],
+                                    const BorderRadius.all(Radius.circular(12)),
+                                boxShadow: [],
                                 gradient: LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,

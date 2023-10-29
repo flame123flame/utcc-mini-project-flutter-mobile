@@ -18,6 +18,8 @@ class _EditPasswordState extends State<EditPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: _buttomButton(context),
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: colorBar,
@@ -36,18 +38,9 @@ class _EditPasswordState extends State<EditPassword> {
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          height: 315,
-          margin: EdgeInsets.all(20.0),
           padding: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 3,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
+            boxShadow: [],
             borderRadius: BorderRadius.all(
               Radius.circular(6),
             ),
@@ -60,15 +53,15 @@ class _EditPasswordState extends State<EditPassword> {
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 2),
+                padding: EdgeInsets.only(bottom: 1, left: 2),
                 child: Row(
                   children: [
                     Text(
-                      'รหัสผ่านเดิม',
+                      'รหัสผ่านใหม่',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontLableInput,
-                          fontWeight: FontWeight.w600),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
                     ),
                     Text(
                       ' *',
@@ -82,8 +75,8 @@ class _EditPasswordState extends State<EditPassword> {
               ),
               Container(
                   width: double.infinity,
-                  height: 42,
-                  padding: EdgeInsets.only(left: 5, right: 1, bottom: 5),
+                  height: 46,
+                  padding: EdgeInsets.only(left: 20, right: 1, bottom: 10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
                       border: Border.all(
@@ -91,6 +84,7 @@ class _EditPasswordState extends State<EditPassword> {
                   child: Focus(
                     onFocusChange: (hasFocus) {},
                     child: TextFormField(
+                      style: TextStyle(fontSize: 13),
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -101,15 +95,15 @@ class _EditPasswordState extends State<EditPassword> {
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 2),
+                padding: EdgeInsets.only(bottom: 1, left: 2),
                 child: Row(
                   children: [
                     Text(
                       'รหัสผ่านใหม่',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontLableInput,
-                          fontWeight: FontWeight.w600),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
                     ),
                     Text(
                       ' *',
@@ -123,8 +117,8 @@ class _EditPasswordState extends State<EditPassword> {
               ),
               Container(
                   width: double.infinity,
-                  height: 42,
-                  padding: EdgeInsets.only(left: 5, right: 1, bottom: 5),
+                  height: 46,
+                  padding: EdgeInsets.only(left: 20, right: 1, bottom: 10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
                       border: Border.all(
@@ -132,6 +126,7 @@ class _EditPasswordState extends State<EditPassword> {
                   child: Focus(
                     onFocusChange: (hasFocus) {},
                     child: TextFormField(
+                      style: TextStyle(fontSize: 13),
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -141,48 +136,79 @@ class _EditPasswordState extends State<EditPassword> {
               SizedBox(
                 height: 40,
               ),
-              Center(
-                child: Material(
-                  color: colorBar,
-                  borderRadius: BorderRadius.circular(6.0),
-                  child: InkWell(
-                    onTap: () async => {
-                      EasyLoading.show(
-                        // status: 'loading...',
-                        indicator: Image.asset(
-                          'assets/images/Loading_2.gif',
-                          height: 70,
-                        ),
-                      ),
-                      await Future.delayed(Duration(seconds: 3)),
-                      Navigator.of(context).pop(),
-                      EasyLoading.dismiss(),
-                    },
-                    child: Container(
-                      height: 40.0,
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'แก้ไขรหัสผ่าน',
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buttomButton(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 10, bottom: 25, right: 20, left: 20),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.4),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(0), topRight: Radius.circular(0)),
+      ),
+      child: elememtButtom(),
+    );
+  }
+
+  Widget elememtButtom() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () => {},
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Color.fromARGB(255, 29, 45, 170),
+                                  Color.fromARGB(255, 34, 50, 174),
+                                ])),
+                        height: 40,
+                        width: double.infinity,
+                        child: Text(
+                          'แก้ไขข้อมูล',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

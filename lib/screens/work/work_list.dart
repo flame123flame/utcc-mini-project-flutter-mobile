@@ -218,7 +218,7 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
             flex: 1,
             child: Container(
               margin: EdgeInsets.only(top: 30),
-              child: Text('ไม่มีข้อมูล'),
+              child: Text('ยังไม่มีรายการ'),
             ),
           ),
         Padding(
@@ -528,7 +528,7 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
             flex: 1,
             child: Container(
               margin: EdgeInsets.only(top: 30),
-              child: Text('ไม่มีข้อมูล'),
+              child: Text('ยังไม่มีรายการ'),
             ),
           ),
         Padding(

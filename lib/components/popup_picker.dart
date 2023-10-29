@@ -60,6 +60,7 @@ class _PopupPickerState extends State<PopupPicker> {
               : Colors.white,
           padding: EdgeInsets.zero,
           child: Container(
+            height: 50,
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(22, 10, 19, 8),
             decoration: BoxDecoration(

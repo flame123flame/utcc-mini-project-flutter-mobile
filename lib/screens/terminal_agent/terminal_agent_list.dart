@@ -1193,7 +1193,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                         Color.fromARGB(255, 255, 255, 255),
                         Color.fromARGB(255, 255, 255, 255)
                       ])),
-              child: Center(child: Text('ไม่มีข้อมูล')),
+              child: Center(child: Text('ยังไม่มีรายการ')),
             ),
           if (list.length > 0)
             Expanded(
@@ -1387,7 +1387,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                         Color.fromARGB(255, 255, 255, 255),
                         Color.fromARGB(255, 255, 255, 255)
                       ])),
-              child: Center(child: Text('ไม่มีข้อมูล')),
+              child: Center(child: Text('ยังไม่มีรายการ')),
             ),
           if (list.length > 0)
             Expanded(
@@ -1581,7 +1581,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                         Color.fromARGB(255, 255, 255, 255),
                         Color.fromARGB(255, 255, 255, 255)
                       ])),
-              child: Center(child: Text('ไม่มีข้อมูล')),
+              child: Center(child: Text('ยังไม่มีรายการ')),
             ),
           if (list.length > 0)
             Expanded(

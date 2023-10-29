@@ -145,6 +145,7 @@ class _FareAddState extends State<FareAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         bottomNavigationBar: _buttomButton(context),
         resizeToAvoidBottomInset: false,
         drawerDragStartBehavior: DragStartBehavior.start,
@@ -182,24 +183,15 @@ class _FareAddState extends State<FareAdd> {
         ),
         body: Container(
           width: double.infinity,
-          margin: EdgeInsets.only(left: 13.0, right: 13.0, top: 20),
           padding: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 3,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
             borderRadius: BorderRadius.all(
               Radius.circular(6),
             ),
             color: Colors.white,
           ),
           child: SingleChildScrollView(
-            reverse: true,
+            reverse: false,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -212,7 +204,7 @@ class _FareAddState extends State<FareAdd> {
                         style: TextStyle(
                             fontFamily: 'prompt',
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 16,
                             fontWeight: FontWeight.w800),
                       )
                     ],
@@ -253,7 +245,7 @@ class _FareAddState extends State<FareAdd> {
                     return Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(bottom: 5, left: 2, top: 7),
+                          padding: EdgeInsets.only(bottom: 5, left: 2, top: 15),
                           child: Row(
                             children: [
                               Text(
@@ -269,7 +261,7 @@ class _FareAddState extends State<FareAdd> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: 42,
+                          height: 45,
                           padding:
                               EdgeInsets.only(left: 5, right: 1, bottom: 5),
                           decoration: BoxDecoration(
@@ -284,6 +276,11 @@ class _FareAddState extends State<FareAdd> {
                               controller: fareList[index].ticketValue,
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
+                                hintText: "กรอกเลขหน้าตั๋ว " +
+                                    fareList[index].fareDesc!,
+                                hintStyle: TextStyle(
+                                    fontSize: 13,
+                                    color: Color.fromARGB(255, 167, 166, 166)),
                                 border: InputBorder.none,
                               ),
                             ),
@@ -345,7 +342,7 @@ class _FareAddState extends State<FareAdd> {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(6)),
+                                const BorderRadius.all(Radius.circular(20)),
                             gradient: LinearGradient(
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,

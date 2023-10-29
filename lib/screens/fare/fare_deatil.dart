@@ -178,7 +178,7 @@ class _FareDeatilState extends State<FareDeatil>
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(6)),
+                                const BorderRadius.all(Radius.circular(20)),
                             gradient: LinearGradient(
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,

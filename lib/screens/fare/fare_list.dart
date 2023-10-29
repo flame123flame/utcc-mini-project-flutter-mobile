@@ -171,7 +171,12 @@ getPopupDetail(BuildContext context, Driver driver) {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                Text('รายละเอียด'),
+                Text('รายละเอียด',
+                    style: TextStyle(
+                        fontFamily: 'prompt',
+                        color: Color.fromARGB(255, 30, 30, 30),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold)),
                 CupertinoButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -431,7 +436,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 18,
                 ),
                 InkWell(
                   onTap: () => {
@@ -451,7 +456,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(6)),
+                            const BorderRadius.all(Radius.circular(30)),
                         gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
@@ -501,7 +506,12 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                       Color.fromARGB(255, 255, 255, 255),
                       Color.fromARGB(255, 255, 255, 255)
                     ])),
-            child: Center(child: Text('ไม่มีข้อมูล')),
+            child: Center(
+                child: Text('ยังไม่มีรายการ',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black))),
           ),
         if (list.length > 0)
           Expanded(
@@ -517,10 +527,10 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                           margin: EdgeInsets.only(
                               top: SizeConfig.defaultSize! * 0.5,
                               bottom: SizeConfig.defaultSize! * 0.5,
-                              left: SizeConfig.defaultSize! * 1.5,
-                              right: SizeConfig.defaultSize! * 1.5),
+                              left: SizeConfig.defaultSize! * 0.8,
+                              right: SizeConfig.defaultSize! * 0.8),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
+                              borderRadius: BorderRadius.circular(8),
                               color: Colors.white,
                               boxShadow: [],
                               gradient: LinearGradient(
@@ -669,7 +679,7 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
             height: SizeConfig.defaultSize! * 14,
             margin: EdgeInsets.only(top: 1, left: 10, right: 10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(8),
                 color: Colors.white,
                 boxShadow: [],
                 gradient: LinearGradient(
@@ -679,7 +689,12 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                       Color.fromARGB(255, 255, 255, 255),
                       Color.fromARGB(255, 255, 255, 255)
                     ])),
-            child: Center(child: Text('ไม่มีข้อมูล')),
+            child: Center(
+                child: Text('ยังไม่มีรายการ',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black))),
           ),
         if (list.length > 0)
           Expanded(

@@ -302,7 +302,7 @@ class _OverviewState extends State<Overview> {
           if (list.length <= 0)
             Container(
               margin: EdgeInsets.only(top: 1),
-              child: Text('ไม่มีข้อมูล'),
+              child: Text('ยังไม่มีรายการ'),
             ),
           if (list.length > 0)
             Expanded(
@@ -783,7 +783,7 @@ class _OverviewState extends State<Overview> {
           if (list.length <= 0)
             Container(
               margin: EdgeInsets.only(top: 10),
-              child: Text('ไม่มีข้อมูล'),
+              child: Text('ยังไม่มีรายการ'),
             ),
           if (list.length > 0)
             Expanded(
