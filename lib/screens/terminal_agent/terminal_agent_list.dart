@@ -25,6 +25,7 @@ class TerminalAgentList extends StatefulWidget {
 class _TerminalAgentListState extends State<TerminalAgentList> {
   List<TerminalAgent> listWorksheetProgress = [];
   List<TerminalAgent> listWorksheetSuccess = [];
+  List<TerminalAgent> listWorksheetEnd = [];
 
   apiGetListTerminalAgentWaiting() async {
     try {
@@ -50,10 +51,22 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
     }
   }
 
+  getListFarecollectEnd() async {
+    try {
+      List<TerminalAgent> temp = await ApiService.apiGetListTerminalAgentEnd();
+      setState(() {
+        listWorksheetEnd = temp;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   void initState() {
     GetListFarecollectSuccess();
     apiGetListTerminalAgentWaiting();
+    getListFarecollectEnd();
     super.initState();
   }
 
@@ -137,7 +150,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
             children: [
               TabWorkList1(context, listWorksheetProgress),
               TabWorkList2(context, listWorksheetSuccess),
-              TabWorkList3(context, listWorksheetSuccess),
+              TabWorkList3(context, listWorksheetEnd),
             ],
           ),
         ),
@@ -284,7 +297,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetHours ?? "-",
+                        '${driver.worksheetHours ?? 'รอตัดเลิก'}',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -299,7 +312,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetHoursOt ?? "-",
+                        '${driver.worksheetHoursOt ?? 'รอตัดเลิก'}',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -461,7 +474,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(6)),
+                              const BorderRadius.all(Radius.circular(20)),
                           gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
@@ -625,7 +638,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetHours ?? "-",
+                        '${driver.worksheetHours ?? 'รอตัดเลิก'}',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -640,7 +653,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetHoursOt ?? "-",
+                        '${driver.worksheetHoursOt ?? 'รอตัดเลิก'}',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -802,7 +815,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(6)),
+                              const BorderRadius.all(Radius.circular(20)),
                           gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
@@ -966,7 +979,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetHours ?? "-",
+                        ' ${driver.worksheetHours == null ? 'รอตัดเลิก' : driver.worksheetHours.toString() + ' ชั่วโมง'} ',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -981,7 +994,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetHoursOt ?? "-",
+                        ' ${driver.worksheetHoursOt == null ? 'รอตัดเลิก' : driver.worksheetHoursOt.toString() + ' ชั่วโมง'} ',
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -1116,7 +1129,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        "รอลงเวลา",
+                        "ตัดเลิกแล้ว",
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -1143,7 +1156,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(6)),
+                              const BorderRadius.all(Radius.circular(20)),
                           gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
@@ -1154,7 +1167,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                       height: 40,
                       width: double.infinity,
                       child: Text(
-                        'ลงเวลา',
+                        'รายละเอียด',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.w800),
                       ),
@@ -1534,7 +1547,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       color: colorTextHeader),
                                                 ),
                                                 Text(
-                                                  'กำลังดำเนินการ',
+                                                  'ลงเวลาเสร็จสิ้น',
                                                   style: TextStyle(
                                                       fontSize: 14.5,
                                                       fontWeight:
@@ -1597,8 +1610,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             margin: EdgeInsets.only(
                                 top: SizeConfig.defaultSize! * 0.5,
                                 bottom: SizeConfig.defaultSize! * 0.5,
-                                left: SizeConfig.defaultSize! * 1.5,
-                                right: SizeConfig.defaultSize! * 1.5),
+                                left: SizeConfig.defaultSize! * 1,
+                                right: SizeConfig.defaultSize! * 1),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(6),
                                 color: Colors.white,
@@ -1728,7 +1741,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       color: colorTextHeader),
                                                 ),
                                                 Text(
-                                                  'กำลังดำเนินการ',
+                                                  'ตัดเลิกแล้ว',
                                                   style: TextStyle(
                                                       fontSize: 14.5,
                                                       fontWeight:

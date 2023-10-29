@@ -20,7 +20,7 @@ class TextInput extends StatefulWidget {
     Key? key,
     this.scrollPadding,
     this.validate = false,
-    this.height = 38,
+    this.height = 42,
     this.hint,
     this.enabled = true,
     this.focusNode,

@@ -3,8 +3,8 @@ class TerminalAgent {
   String? worksheetDate;
   String? worksheetTimeBegin;
   String? worksheetTimeEnd;
-  String? worksheetHours;
-  String? worksheetHoursOt;
+  int? worksheetHours;
+  int? worksheetHoursOt;
   int? busLinesId;
   String? busLinesNo;
   int? busDivisionId;

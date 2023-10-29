@@ -518,6 +518,31 @@ class ApiService {
     }
   }
 
+  static Future<Response> setTimestampEnd(int terminalTimestampId,
+      int worksheetId, String terminalTimeDeparture) async {
+    printJson({
+      "terminalTimestampId": terminalTimestampId,
+      "terminalTimeDeparture": terminalTimeDeparture,
+      "worksheetId": worksheetId
+    });
+    try {
+      Response response =
+          await dioClient!.post('/api/timestamp/set-timestamp-end', data: {
+        "terminalTimestampId": terminalTimestampId,
+        "terminalTimeDeparture": terminalTimeDeparture,
+        "worksheetId": worksheetId
+      });
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return throw Exception('Failed to load service');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static Future<List<TicketTrip>> apiGetTicketByIdTimestamp(
     int worksheetId,
   ) async {
@@ -670,6 +695,30 @@ class ApiService {
       showLoadding();
       await Future.delayed(Duration(milliseconds: 300));
       final servicesRes = await dioClient!.get('/api/timestamp/success');
+      if (servicesRes.statusCode == 200) {
+        List<TerminalAgent> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(TerminalAgent.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
+  static Future<List<TerminalAgent>> apiGetListTerminalAgentEnd() async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(milliseconds: 300));
+      final servicesRes = await dioClient!.get('/api/timestamp/end');
       if (servicesRes.statusCode == 200) {
         List<TerminalAgent> response = [];
         servicesRes.data['data'].forEach((element) {

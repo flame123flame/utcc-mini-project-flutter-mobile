@@ -65,7 +65,7 @@ class _PickerTimeState extends State<PickerTime> {
           child: Container(
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(6)),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
                 gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,

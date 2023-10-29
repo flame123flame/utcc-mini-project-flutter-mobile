@@ -79,6 +79,19 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
     } catch (e) {}
   }
 
+  setTimestampEnd(int terminalTimestampId, int worksheetId,
+      String terminalTimeDeparture, BuildContext context) async {
+    try {
+      print(terminalTimestampId);
+      print(terminalTimeDeparture);
+      Response data = await ApiService.setTimestampEnd(
+          terminalTimestampId, worksheetId, terminalTimeDeparture);
+      notifacontionCustom(
+          context, "ตัดเลิกสำเร็จ " + terminalTimeDeparture + " สำเร็จ");
+      setState(() {});
+    } catch (e) {}
+  }
+
   void notifacontionCustom(BuildContext context, String text) {
     showCupertinoDialog(
         context: context,
@@ -421,6 +434,11 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                       title: 'ตัดเลิก',
                       validate: false,
                       onSelected: (datetime) {
+                        setTimestampEnd(
+                            data.terminalTimestampId!,
+                            data.worksheetId!,
+                            DateFormat.Hm().format(datetime!).toString(),
+                            context);
                         print(DateFormat.Hm().format(datetime!).toString());
                       },
                     ),

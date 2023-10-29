@@ -61,7 +61,8 @@ class _WorkAssignState extends State<WorkAssign> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // bottomNavigationBar: _buttom(context),
+        backgroundColor: Colors.white,
+        bottomNavigationBar: _buttomButton(context),
         resizeToAvoidBottomInset: false,
         drawerDragStartBehavior: DragStartBehavior.start,
         appBar: AppBar(
@@ -75,14 +76,6 @@ class _WorkAssignState extends State<WorkAssign> {
               Navigator.of(context).pop();
             },
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.save),
-              onPressed: () {
-                SaveForm();
-              },
-            )
-          ],
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -105,17 +98,9 @@ class _WorkAssignState extends State<WorkAssign> {
         ),
         body: Container(
           width: double.infinity,
-          margin: EdgeInsets.only(left: 13.0, right: 13.0, top: 20),
           padding: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 3,
-                offset: Offset(0, 3),
-              ),
-            ],
+            boxShadow: [],
             borderRadius: BorderRadius.all(
               Radius.circular(6),
             ),
@@ -376,7 +361,7 @@ class _WorkAssignState extends State<WorkAssign> {
         ));
   }
 
-  Widget _buttom(BuildContext context) {
+  Widget _buttomButton(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 10, bottom: 25, right: 20, left: 20),
       decoration: BoxDecoration(
@@ -411,24 +396,23 @@ class _WorkAssignState extends State<WorkAssign> {
                   Expanded(
                     flex: 1,
                     child: InkWell(
-                      onTap: () => {Navigator.of(context).pop()},
+                      onTap: () => {SaveForm()},
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(6)),
+                                const BorderRadius.all(Radius.circular(20)),
                             gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
                                 colors: [
-                                  Color(0xff877A6E),
-                                  Color(0xff877A6E),
-                                  Color(0xff877A6E)
+                                  Color.fromARGB(255, 29, 45, 170),
+                                  Color.fromARGB(255, 34, 50, 174),
                                 ])),
                         height: 40,
                         width: double.infinity,
                         child: Text(
-                          'บันทึกข้อมูล',
+                          'บันทึกการจ่ายงาน',
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.white,

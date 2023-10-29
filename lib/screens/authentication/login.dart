@@ -462,14 +462,14 @@ class _LoginState extends State<Login> {
                                 Center(
                                   child: Material(
                                     color: colorBar,
-                                    borderRadius: BorderRadius.circular(6.0),
+                                    borderRadius: BorderRadius.circular(20),
                                     child: InkWell(
                                       onTap: () => {
                                         if (isClick)
                                           {isClick = false, ValidateFrom()}
                                       },
                                       child: Container(
-                                        height: 40.0,
+                                        height: 45.0,
                                         width: double.infinity,
                                         child: Row(
                                           children: [
