@@ -485,6 +485,352 @@ getPopupDetail(BuildContext context, Driver driver) {
   );
 }
 
+getPopupDetail2(BuildContext context, Driver driver) {
+  showModalBottomSheet<void>(
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(13),
+      ),
+    ),
+    context: context,
+    builder: (BuildContext context) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 4, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CupertinoButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    '',
+                    style: TextStyle(
+                        fontFamily: 'prompt',
+                        color: Color.fromARGB(255, 12, 54, 151),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Text('รายละเอียด',
+                    style: TextStyle(
+                        fontFamily: 'prompt',
+                        color: Color.fromARGB(255, 30, 30, 30),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold)),
+                CupertinoButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.close,
+                    color: Color.fromARGB(255, 12, 54, 151),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "หมายเลขใบงาน ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetId.toString() ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "วันที่ใบจ่ายงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      converDate(driver.worksheetDate.toString()),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เวลารับงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetTimeBegin ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เวลาตัดเลิก",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetTimeEnd ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "นายท่าผู้ตัดเลิก",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetTerminalAgent!.trim().isEmpty
+                          ? '-'
+                          : driver.worksheetTerminalAgent.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เวลางาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      ' ${driver.worksheetHours == null ? 'รอตัดเลิก' : driver.worksheetHours.toString() + ' ชั่วโมง'} ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "โอที(ล่วงเวลา)",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      ' ${driver.worksheetHoursOt == null ? 'รอตัดเลิก' : driver.worksheetHoursOt.toString() + ' ชั่วโมง'} ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "สายรถเมล์",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busLinesNo ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ทะเบียนรถเมล์",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busVehiclePlateNo ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เลขข้างรถ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busVehicleNumber ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "กปด.",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busDivisionName ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชื่อผู้จ่ายงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetDispatcher ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชื่อพนักงานขับรถ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetDriver?.toString() ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชื่อพนักเก็บค่าโดยสาร",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetFarecollect?.toString() ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "รับรอง(ผู้จัดการสาย)",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.worksheetBuslinesManager?.toString() ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "สถานะใบงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      "เสร็จสิ้น",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+                InkWell(
+                  onTap: () => {
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: FareDeatil(
+                          busLinesId: driver.busLinesId,
+                          busVehicleId: driver.busVehicleId,
+                          status: "SUCCESS",
+                          worksheetId: driver.worksheetId),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    ).then((value) => {})
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color.fromARGB(255, 29, 45, 170),
+                              Color.fromARGB(255, 34, 50, 174),
+                            ])),
+                    height: 40,
+                    width: double.infinity,
+                    child: Text(
+                      'รายละเอียด',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+        ],
+      );
+    },
+  );
+}
+
 Widget TabWorkList1(BuildContext context, List<Driver> list) {
   return Container(
     margin: EdgeInsets.only(top: 10),
@@ -703,7 +1049,7 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
             itemBuilder: (context, index) {
               return Container(
                 child: InkWell(
-                    onTap: () => {getPopupDetail(context, list[index])},
+                    onTap: () => {getPopupDetail2(context, list[index])},
                     child: Stack(
                       children: [
                         Container(
@@ -826,7 +1172,7 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                     color: colorTextHeader),
                                               ),
                                               Text(
-                                                'กำลังดำเนินการ',
+                                                'เสร็จสิ้น',
                                                 style: TextStyle(
                                                     fontSize: 14.5,
                                                     fontWeight: FontWeight.w500,

@@ -45,8 +45,9 @@ class Driver {
     worksheetDate = json['worksheetDate'];
     worksheetTimeBegin = json['worksheetTimeBegin'];
     worksheetTimeEnd = json['worksheetTimeEnd'];
-    worksheetHours = json['worksheetHours'];
-    worksheetHoursOt = json['worksheetHoursOt'];
+    worksheetHours = json['worksheetHours'].toString();
+    worksheetHoursOt = json['worksheetHoursOt'].toString();
+    ;
     busLinesId = json['busLinesId'];
     busLinesNo = json['busLinesNo'];
     busDivisionId = json['busDivisionId'];
