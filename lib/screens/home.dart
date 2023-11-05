@@ -154,17 +154,14 @@ class _HomeState extends State<Home> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          opacity: 0.15,
+                          opacity: 0.30,
                           image: AssetImage('assets/images/weather.png'),
                           fit: BoxFit.contain),
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          Theme.of(context).primaryColor.withOpacity(0.80),
-                          Theme.of(context).primaryColor,
-                        ],
+                        colors: [Colors.white, Colors.white],
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -172,139 +169,150 @@ class _HomeState extends State<Home> {
                         ),
                       ],
                     ),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text("${weather!.main!.temp!.toInt()}°",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white,
-                                                fontFamily: 'promptw',
-                                                fontSize: 36)),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(top: 20),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                            "${weather!.weather![0].description}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w800,
-                                                color: Colors.white,
-                                                fontSize: 13)),
-                                      ],
-                                    )),
-                              ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                              "${weather!.main!.temp!.toInt()}°",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontFamily: 'promptw',
+                                                  fontSize: 36)),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(top: 20),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                              "${weather!.weather![0].description}",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontSize: 13)),
+                                        ],
+                                      )),
+                                ],
+                              ),
                             ),
-                          ),
-                          Divider(
-                              color: Color.fromARGB(255, 198, 196, 196),
-                              height: 1,
-                              indent: 10,
-                              endIndent: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, top: 3),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "กรุงเทพมหานคร",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.white,
-                                          fontSize: 13),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      ' สูงสุด: ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          color: Color.fromARGB(
-                                              255, 238, 238, 238),
-                                          fontSize: 13),
-                                    ),
-                                    Text(
-                                      "${weather!.main!.tempMax!.toInt()}°",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                          fontSize: 15),
-                                    ),
-                                    Text(
-                                      '  ต่ำสุด: ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          color: Color.fromARGB(
-                                              255, 238, 238, 238),
-                                          fontSize: 13),
-                                    ),
-                                    Text(
-                                      "${weather!.main!.tempMin!.toInt()}°",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                          fontSize: 15),
-                                    ),
-                                  ],
-                                )
-                              ],
+                            Divider(
+                                color: Theme.of(context).primaryColor,
+                                height: 1,
+                                indent: 10,
+                                endIndent: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8, right: 8, top: 3),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "กรุงเทพมหานคร",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        ' สูงสุด: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 13),
+                                      ),
+                                      Text(
+                                        "${weather!.main!.tempMax!.toInt()}°",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 15),
+                                      ),
+                                      Text(
+                                        '  ต่ำสุด: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 13),
+                                      ),
+                                      Text(
+                                        "${weather!.main!.tempMin!.toInt()}°",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 15),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 4),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${_timeString}",
-                                  style: TextStyle(
-                                      fontFamily: "aa",
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white,
-                                      fontSize: 50),
-                                ),
-                              ],
+                            Container(
+                              margin: EdgeInsets.only(top: 4),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${_timeString}",
+                                    style: TextStyle(
+                                        fontFamily: "aa",
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 50),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${Time().thaiDateTextFormatThai()}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.white,
-                                      fontSize: 16.5),
-                                ),
-                              ],
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${Time().thaiDateTextFormatThai()}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 16.5),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   )
@@ -343,7 +351,7 @@ class _HomeState extends State<Home> {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(12)),
+                                    const BorderRadius.all(Radius.circular(17)),
                                 boxShadow: [],
                                 gradient: LinearGradient(
                                     begin: Alignment.topCenter,
@@ -407,31 +415,22 @@ class _HomeState extends State<Home> {
       height: size.height * 0.28,
       width: size.width,
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10)),
-          image: DecorationImage(
-              image: AssetImage('assets/images/logo-car.jpg'),
-              fit: BoxFit.cover)),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+      ),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(
-                  color: Color.fromARGB(255, 25, 67, 144).withOpacity(.20),
-                  offset: Offset(0, 10),
-                  blurRadius: 20,
-                  spreadRadius: 2)
-            ],
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30)),
+            boxShadow: [],
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 12, 54, 151).withOpacity(0.40),
-                  Color.fromARGB(255, 12, 54, 151).withOpacity(0.60),
-                  Color.fromARGB(255, 12, 54, 151).withOpacity(0.80)
+                  Theme.of(context).primaryColor,
+                  Theme.of(context).primaryColor,
+                  Theme.of(context).primaryColor
                 ])),
       ),
     );
