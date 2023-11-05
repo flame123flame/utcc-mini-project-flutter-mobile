@@ -281,7 +281,7 @@ class _LoginState extends State<Login> {
                           Text(
                             "ระบบใบเที่ยวรถเมล์อิเล็กทรอนิกส์",
                             style: TextStyle(
-                                color: colorBar,
+                                color: colorBar(context),
                                 fontSize: 21,
                                 fontWeight: FontWeight.w700),
                           ),
@@ -289,7 +289,8 @@ class _LoginState extends State<Login> {
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                             child: Text(
                               "ยินดีต้อนรับเจ้าหน้าที่ ขสมก.",
-                              style: TextStyle(color: colorBar, fontSize: 17),
+                              style: TextStyle(
+                                  color: colorBar(context), fontSize: 17),
                             ),
                           ),
                           Padding(
@@ -307,7 +308,7 @@ class _LoginState extends State<Login> {
                                         child: Text(
                                           'ผู้ใช้งาน',
                                           style: TextStyle(
-                                              color: colorBar,
+                                              color: colorBar(context),
                                               fontSize: 13,
                                               fontWeight: FontWeight.w800),
                                         ),
@@ -325,7 +326,7 @@ class _LoginState extends State<Login> {
                                                   BorderRadius.circular(6.0),
                                               border: Border.all(
                                                   color: focusUsername
-                                                      ? colorBar
+                                                      ? colorBar(context)
                                                       : validateUsername
                                                           ? Colors.red
                                                           : Color.fromARGB(255,
@@ -370,7 +371,7 @@ class _LoginState extends State<Login> {
                                         child: Text(
                                           'รหัสผ่าน',
                                           style: TextStyle(
-                                              color: colorBar,
+                                              color: colorBar(context),
                                               fontSize: 13,
                                               fontWeight: FontWeight.w800),
                                         ),
@@ -385,7 +386,7 @@ class _LoginState extends State<Login> {
                                                 BorderRadius.circular(6.0),
                                             border: Border.all(
                                                 color: focusPassword
-                                                    ? colorBar
+                                                    ? colorBar(context)
                                                     : validatePassword
                                                         ? Colors.red
                                                         : Color.fromARGB(255,
@@ -425,7 +426,7 @@ class _LoginState extends State<Login> {
                                                     _passwordVisible
                                                         ? Icons.visibility
                                                         : Icons.visibility_off,
-                                                    color: colorBar,
+                                                    color: colorBar(context),
                                                   ),
                                                   onPressed: () {
                                                     setState(() {
@@ -450,7 +451,7 @@ class _LoginState extends State<Login> {
                                     child: Text(
                                       'ลืมรหัสผ่าน ?',
                                       style: TextStyle(
-                                          color: colorBar,
+                                          color: colorBar(context),
                                           fontSize: 14,
                                           fontWeight: FontWeight.normal),
                                     ),
@@ -461,7 +462,7 @@ class _LoginState extends State<Login> {
                                 ),
                                 Center(
                                   child: Material(
-                                    color: colorBar,
+                                    color: colorBar(context),
                                     borderRadius: BorderRadius.circular(20),
                                     child: InkWell(
                                       onTap: () => {
@@ -515,7 +516,7 @@ class _LoginState extends State<Login> {
                     end: Alignment.topCenter,
                     colors: [
                       Color.fromARGB(255, 25, 25, 25),
-                      colorBar,
+                      colorBar(context),
                     ],
                   ),
                   borderRadius: BorderRadius.only(
@@ -598,7 +599,7 @@ class BarIndicatorColor extends StatelessWidget {
         width: 70,
         height: 5,
         decoration: BoxDecoration(
-          color: colorBar,
+          color: colorBar(context),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
       ),

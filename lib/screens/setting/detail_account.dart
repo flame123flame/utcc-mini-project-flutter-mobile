@@ -31,8 +31,8 @@ class _DetailAccountState extends State<DetailAccount> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: colorBar,
-        title: const Text('รายละเอียดบัญชี'),
+        backgroundColor: colorBar(context),
+        title: Text('รายละเอียดบัญชี'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
@@ -74,7 +74,7 @@ class _DetailAccountState extends State<DetailAccount> {
                             fontFamily: 'prompt',
                             fontSize: 12,
                             fontWeight: FontWeight.w800,
-                            color: colorBar),
+                            color: colorBar(context)),
                       ),
                     ),
                     SettingsTile.navigation(
@@ -93,7 +93,7 @@ class _DetailAccountState extends State<DetailAccount> {
                             fontFamily: 'prompt',
                             fontSize: 12,
                             fontWeight: FontWeight.w800,
-                            color: colorBar),
+                            color: colorBar(context)),
                       ),
                     ),
                     SettingsTile.navigation(
@@ -112,7 +112,7 @@ class _DetailAccountState extends State<DetailAccount> {
                             fontFamily: 'prompt',
                             fontSize: 12,
                             fontWeight: FontWeight.w800,
-                            color: colorBar),
+                            color: colorBar(context)),
                       ),
                     ),
                     SettingsTile.navigation(
@@ -131,7 +131,7 @@ class _DetailAccountState extends State<DetailAccount> {
                             fontFamily: 'prompt',
                             fontSize: 12,
                             fontWeight: FontWeight.w800,
-                            color: colorBar),
+                            color: colorBar(context)),
                       ),
                     ),
                     SettingsTile.navigation(
@@ -150,7 +150,7 @@ class _DetailAccountState extends State<DetailAccount> {
                             fontFamily: 'prompt',
                             fontSize: 12,
                             fontWeight: FontWeight.w800,
-                            color: colorBar,
+                            color: colorBar(context),
                             overflow: TextOverflow.fade),
                       ),
                     ),

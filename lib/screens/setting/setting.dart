@@ -7,6 +7,7 @@ import 'package:utcc_mobile/constants/constant_color.dart';
 
 import '../../provider/user_login_provider.dart';
 import '../authentication/login.dart';
+import 'change_theme.dart';
 import 'detail_account.dart';
 import 'edit_account.dart';
 import 'edit_password.dart';
@@ -59,17 +60,17 @@ class _SettingState extends State<Setting> {
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(1),
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: <Color>[
-                    Color.fromARGB(255, 34, 50, 174),
-                    Color.fromARGB(255, 37, 43, 99),
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor,
                   ]),
             ),
           ),
-          // backgroundColor: colorBar,
+          // backgroundColor: colorBar(context),
           title: const Text(
             'การตั้งค่า',
             style: TextStyle(
@@ -95,7 +96,7 @@ class _SettingState extends State<Setting> {
               SettingsTile.navigation(
                 leading: Icon(
                   Icons.contact_mail,
-                  color: colorBar,
+                  color: colorBar(context),
                 ),
                 title: Text(
                   'รายละเอียดบัญชี',
@@ -108,7 +109,7 @@ class _SettingState extends State<Setting> {
                 value: Text(''),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
-                  color: colorBar,
+                  color: colorBar(context),
                   size: 16,
                 ),
                 onPressed: (context) => {
@@ -123,7 +124,7 @@ class _SettingState extends State<Setting> {
               SettingsTile.navigation(
                 leading: Icon(
                   Icons.edit,
-                  color: colorBar,
+                  color: colorBar(context),
                 ),
                 title: Text(
                   'แก้ไขข้อมูลส่วนตัว',
@@ -136,7 +137,7 @@ class _SettingState extends State<Setting> {
                 value: Text(''),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
-                  color: colorBar,
+                  color: colorBar(context),
                   size: 16,
                 ),
                 onPressed: (context) => {
@@ -150,11 +151,11 @@ class _SettingState extends State<Setting> {
               ),
               SettingsTile.navigation(
                 leading: Icon(
-                  Icons.lock,
-                  color: colorBar,
+                  Icons.color_lens,
+                  color: colorBar(context),
                 ),
                 title: Text(
-                  'เปลี่ยนรหัสผ่าน',
+                  'เปลี่ยนโทนสี',
                   style: TextStyle(
                     fontFamily: 'prompt',
                     fontWeight: FontWeight.w800,
@@ -164,13 +165,13 @@ class _SettingState extends State<Setting> {
                 value: Text(''),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
-                  color: colorBar,
+                  color: colorBar(context),
                   size: 16,
                 ),
                 onPressed: (context) => {
                   PersistentNavBarNavigator.pushNewScreen(
                     context,
-                    screen: EditPassword(),
+                    screen: ChangeTheme(),
                     withNavBar: false,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   )
@@ -182,11 +183,11 @@ class _SettingState extends State<Setting> {
                     faceID = value;
                   });
                 },
-                activeSwitchColor: colorBar,
+                activeSwitchColor: colorBar(context),
                 initialValue: faceID,
                 leading: Icon(
                   Icons.touch_app_sharp,
-                  color: colorBar,
+                  color: colorBar(context),
                 ),
                 title: Text(
                   'เปิดใช้งาน Touch ID/Face ID',
@@ -206,7 +207,7 @@ class _SettingState extends State<Setting> {
               SettingsTile.navigation(
                 leading: Icon(
                   Icons.book,
-                  color: colorBar,
+                  color: colorBar(context),
                 ),
                 title: Text(
                   'ข้อตกลงและเงื่อนไข',
@@ -219,7 +220,7 @@ class _SettingState extends State<Setting> {
                 value: Text(''),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
-                  color: colorBar,
+                  color: colorBar(context),
                   size: 16,
                 ),
                 onPressed: (context) => {},
@@ -227,7 +228,7 @@ class _SettingState extends State<Setting> {
               SettingsTile.navigation(
                 leading: Icon(
                   Icons.library_books_outlined,
-                  color: colorBar,
+                  color: colorBar(context),
                 ),
                 title: Text(
                   'คู่มือการใช้งาน',
@@ -240,7 +241,7 @@ class _SettingState extends State<Setting> {
                 value: Text(''),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
-                  color: colorBar,
+                  color: colorBar(context),
                   size: 16,
                 ),
                 onPressed: (context) => {},
@@ -248,7 +249,7 @@ class _SettingState extends State<Setting> {
               SettingsTile.navigation(
                 leading: Icon(
                   Icons.contact_page,
-                  color: colorBar,
+                  color: colorBar(context),
                 ),
                 title: Text(
                   'ติดต่อเรา',
@@ -261,7 +262,7 @@ class _SettingState extends State<Setting> {
                 value: Text(''),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
-                  color: colorBar,
+                  color: colorBar(context),
                   size: 16,
                 ),
                 onPressed: (context) => {},
@@ -269,7 +270,7 @@ class _SettingState extends State<Setting> {
               SettingsTile.navigation(
                 leading: Icon(
                   Icons.verified_user_outlined,
-                  color: colorBar,
+                  color: colorBar(context),
                 ),
                 title: Text(
                   'เวอร์ชันแอปพลิเคชัน',
@@ -285,7 +286,7 @@ class _SettingState extends State<Setting> {
                     fontFamily: 'prompt',
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: colorBar,
+                    color: colorBar(context),
                   ),
                 ),
               ),

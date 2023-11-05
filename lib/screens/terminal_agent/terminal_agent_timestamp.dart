@@ -241,7 +241,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                     '${formatter.format(data.sumPrice)} ',
                     style: TextStyle(
                       fontFamily: '11',
-                      color: colorBar,
+                      color: colorBar(context),
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                     ),

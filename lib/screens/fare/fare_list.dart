@@ -60,6 +60,7 @@ class _FareListState extends State<FareList> {
       length: 2,
       child: MaterialApp(
         theme: ThemeData(
+          colorSchemeSeed: Theme.of(context).primaryColor,
           fontFamily: 'prompt',
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
@@ -83,8 +84,8 @@ class _FareListState extends State<FareList> {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: <Color>[
-                      Color.fromARGB(255, 34, 50, 174),
-                      Color.fromARGB(255, 37, 43, 99),
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColor,
                     ]),
               ),
             ),
@@ -183,7 +184,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                   },
                   child: Icon(
                     Icons.close,
-                    color: Color.fromARGB(255, 12, 54, 151),
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ],
@@ -529,7 +530,7 @@ getPopupDetail2(BuildContext context, Driver driver) {
                   },
                   child: Icon(
                     Icons.close,
-                    color: Color.fromARGB(255, 12, 54, 151),
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ],
@@ -801,15 +802,8 @@ getPopupDetail2(BuildContext context, Driver driver) {
                   child: Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              Color.fromARGB(255, 29, 45, 170),
-                              Color.fromARGB(255, 34, 50, 174),
-                            ])),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        color: Theme.of(context).primaryColor),
                     height: 40,
                     width: double.infinity,
                     child: Text(
@@ -857,7 +851,7 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black))),
+                        color: Theme.of(context).primaryColor))),
           ),
         if (list.length > 0)
           Expanded(
@@ -906,7 +900,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].worksheetId}',
@@ -926,7 +921,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehicleNumber}',
@@ -946,7 +942,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehiclePlateNo}',
@@ -966,7 +963,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${converDate(list[index].worksheetDate!)}',
@@ -986,7 +984,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 'กำลังดำเนินการ',
@@ -1040,7 +1039,7 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black))),
+                        color: Theme.of(context).primaryColor))),
           ),
         if (list.length > 0)
           Expanded(
@@ -1089,7 +1088,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
                                               ),
                                               Text(
                                                 '${list[index].worksheetId}',
@@ -1109,7 +1109,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehicleNumber}',
@@ -1129,7 +1130,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehiclePlateNo}',
@@ -1149,7 +1151,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${converDate(list[index].worksheetDate!)}',
@@ -1169,7 +1172,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 'เสร็จสิ้น',

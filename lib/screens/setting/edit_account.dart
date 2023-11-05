@@ -74,7 +74,7 @@ class _EditAccountState extends State<EditAccount> {
       backgroundColor: Colors.white,
       bottomNavigationBar: _buttomButton(context),
       appBar: AppBar(
-        backgroundColor: colorBar,
+        backgroundColor: colorBar(context),
         title: const Text(
           'แก้ไขข้อมูลส่วนตัว',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
@@ -390,8 +390,8 @@ class _EditAccountState extends State<EditAccount> {
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                                 colors: [
-                                  Color.fromARGB(255, 29, 45, 170),
-                                  Color.fromARGB(255, 34, 50, 174),
+                                  Theme.of(context).primaryColor,
+                                  Theme.of(context).primaryColor,
                                 ])),
                         height: 40,
                         width: double.infinity,

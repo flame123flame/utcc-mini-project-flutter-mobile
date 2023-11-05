@@ -305,7 +305,7 @@ class _OverviewDetailState extends State<OverviewDetail> {
                       '฿${valueFormat.format(int.parse(data.ticketNoSum!) * 8)}',
                       style: TextStyle(
                           fontFamily: '11',
-                          color: colorBar,
+                          color: colorBar(context),
                           fontSize: 22,
                           fontWeight: FontWeight.w800),
                     ),

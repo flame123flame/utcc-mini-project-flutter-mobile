@@ -183,8 +183,8 @@ class _FareDeatilState extends State<FareDeatil>
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                                 colors: [
-                                  Color.fromARGB(255, 29, 45, 170),
-                                  Color.fromARGB(255, 34, 50, 174),
+                                  Theme.of(context).primaryColor,
+                                  Theme.of(context).primaryColor,
                                 ])),
                         height: 40,
                         width: double.infinity,
@@ -252,7 +252,7 @@ class _FareDeatilState extends State<FareDeatil>
                     '${formatter.format(data.sumPrice)} ',
                     style: TextStyle(
                       fontFamily: '11',
-                      color: colorBar,
+                      color: colorBar(context),
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                     ),
@@ -418,8 +418,8 @@ class _FareDeatilState extends State<FareDeatil>
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: <Color>[
-                Color.fromARGB(255, 34, 50, 174),
-                Color.fromARGB(255, 37, 43, 99),
+                Theme.of(context).primaryColor,
+                Theme.of(context).primaryColor,
               ]),
         ),
         child: Padding(

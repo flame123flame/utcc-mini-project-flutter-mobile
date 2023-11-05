@@ -148,7 +148,7 @@ class _PopupPickerState extends State<PopupPicker> {
                                 'ตกลง',
                                 style: TextStyle(
                                     fontFamily: 'prompt',
-                                    color: colorBar,
+                                    color: colorBar(context),
                                     fontSize: 16,
                                     fontWeight: FontWeight.w900),
                               ),

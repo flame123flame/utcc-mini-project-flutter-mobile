@@ -242,7 +242,7 @@ class _ManageUserState extends State<ManageUser> {
     return new Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: colorBar,
+        backgroundColor: colorBar(context),
         title: const Text('จัดการผู้ใช้งาน'),
         centerTitle: true,
         leading: IconButton(

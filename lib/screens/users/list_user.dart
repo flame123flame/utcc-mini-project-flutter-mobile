@@ -297,7 +297,7 @@ class _ListUserState extends State<ListUser> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Color.fromARGB(255, 235, 240, 244),
         appBar: AppBar(
-          backgroundColor: colorBar,
+          backgroundColor: colorBar(context),
           title: const Text(
             'ผู้ใช้งาน',
             style: TextStyle(
@@ -552,7 +552,8 @@ class _ListUserState extends State<ListUser> {
                                                             BoxDecoration(
                                                           shape:
                                                               BoxShape.circle,
-                                                          color: colorBar,
+                                                          color:
+                                                              colorBar(context),
                                                         ),
                                                         margin: EdgeInsets.only(
                                                             right: 6, left: 6),
@@ -616,8 +617,8 @@ class _ListUserState extends State<ListUser> {
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
-                                                                      color:
-                                                                          colorBar,
+                                                                      color: colorBar(
+                                                                          context),
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:
@@ -657,8 +658,8 @@ class _ListUserState extends State<ListUser> {
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
-                                                                      color:
-                                                                          colorBar,
+                                                                      color: colorBar(
+                                                                          context),
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:

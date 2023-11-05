@@ -131,7 +131,7 @@ class _ManageRoleState extends State<ManageRole> {
     return new Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: colorBar,
+        backgroundColor: colorBar(context),
         title: Text('จัดการสิทธ์การใช้งาน'),
         centerTitle: true,
         leading: IconButton(

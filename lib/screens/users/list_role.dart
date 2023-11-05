@@ -334,7 +334,7 @@ class _ListRoleState extends State<ListRole> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Color.fromARGB(255, 235, 240, 244),
         appBar: AppBar(
-          backgroundColor: colorBar,
+          backgroundColor: colorBar(context),
           title: Text(
             'สิทธ์การใช้งาน',
             style: TextStyle(
@@ -579,7 +579,8 @@ class _ListRoleState extends State<ListRole> {
                                                             BoxDecoration(
                                                           shape:
                                                               BoxShape.circle,
-                                                          color: colorBar,
+                                                          color:
+                                                              colorBar(context),
                                                         ),
                                                         margin: EdgeInsets.only(
                                                             right: 6, left: 6),
@@ -642,8 +643,8 @@ class _ListRoleState extends State<ListRole> {
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
-                                                                      color:
-                                                                          colorBar,
+                                                                      color: colorBar(
+                                                                          context),
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:
@@ -683,8 +684,8 @@ class _ListRoleState extends State<ListRole> {
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
-                                                                      color:
-                                                                          colorBar,
+                                                                      color: colorBar(
+                                                                          context),
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:
@@ -724,8 +725,8 @@ class _ListRoleState extends State<ListRole> {
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
-                                                                      color:
-                                                                          colorBar,
+                                                                      color: colorBar(
+                                                                          context),
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:

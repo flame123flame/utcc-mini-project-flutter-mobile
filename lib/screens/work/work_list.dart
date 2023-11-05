@@ -451,7 +451,8 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].worksheetId}',
@@ -471,7 +472,8 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehiclePlateNo}',
@@ -491,7 +493,8 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehiclePlateNo}',
@@ -511,7 +514,8 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${converDate(list[index].worksheetDate!)}',
@@ -531,7 +535,8 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 'กำลังดำเนินการ',
@@ -634,7 +639,8 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].worksheetId}',
@@ -654,7 +660,8 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehiclePlateNo}',
@@ -674,7 +681,8 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehiclePlateNo}',
@@ -694,7 +702,8 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${converDate(list[index].worksheetDate!)}',
@@ -714,7 +723,8 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 'กำลังดำเนินการ',
@@ -840,7 +850,7 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
 //                                                     height: 40,
 //                                                     decoration: BoxDecoration(
 //                                                       shape: BoxShape.circle,
-//                                                       color: colorBar,
+//                                                       color: colorBar(context),
 //                                                     ),
 //                                                     margin: EdgeInsets.only(
 //                                                         right: 6, left: 6),
@@ -1150,7 +1160,7 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
 //                                                     height: 40,
 //                                                     decoration: BoxDecoration(
 //                                                       shape: BoxShape.circle,
-//                                                       color: colorBar,
+//                                                       color: colorBar(context),
 //                                                     ),
 //                                                     margin: EdgeInsets.only(
 //                                                         right: 6, left: 6),

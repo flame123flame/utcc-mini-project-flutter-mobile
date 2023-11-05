@@ -296,7 +296,7 @@ class _ListBusState extends State<ListBus> {
                     ]),
               ),
             ),
-            // backgroundColor: colorBar,
+            // backgroundColor: colorBar(context),
             title: const Text(
               'รถเมล์ในระบบ',
               style: TextStyle(
@@ -552,7 +552,8 @@ class _ListBusState extends State<ListBus> {
                                                             BoxDecoration(
                                                           shape:
                                                               BoxShape.circle,
-                                                          color: colorBar,
+                                                          color:
+                                                              colorBar(context),
                                                         ),
                                                         margin: EdgeInsets.only(
                                                             right: 6, left: 6),
@@ -612,8 +613,8 @@ class _ListBusState extends State<ListBus> {
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
-                                                                      color:
-                                                                          colorBar,
+                                                                      color: colorBar(
+                                                                          context),
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:
@@ -653,8 +654,8 @@ class _ListBusState extends State<ListBus> {
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
-                                                                      color:
-                                                                          colorBar,
+                                                                      color: colorBar(
+                                                                          context),
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:

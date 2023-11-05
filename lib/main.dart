@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:utcc_mobile/provider/theme_provider.dart';
 import 'package:utcc_mobile/provider/user_login_provider.dart';
 import 'package:utcc_mobile/screens/authentication/login.dart';
 import 'package:utcc_mobile/screens/authentication/pin.dart';
@@ -13,12 +14,13 @@ void main() {
   configLoading();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => UserLoginProvider()),
-    ],
-    child: MyApp(),
-  ));
+  runApp(const MyApp());
+  // runApp(MultiProvider(
+  //   providers: [
+  //     ChangeNotifierProvider(create: (context) => UserLoginProvider()),
+  //   ],
+  //   child: MyApp(),
+  // ));
 }
 
 void configLoading() async {
@@ -43,35 +45,48 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: 'prompt',
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        DefaultCupertinoLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserLoginProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ],
-      locale: Locale('th', 'TH'),
-      supportedLocales: [
-        const Locale('en', 'US'),
-        const Locale('th', 'TH'),
-      ],
-      initialRoute: '/Login',
-      routes: {
-        // ignore: dead_code
-        '/Login': (_) => Login(),
-      },
-      builder: EasyLoading.init(builder: (context, child) {
-        final mediaQueryData = MediaQuery.of(context);
-        return MediaQuery(
-          data: mediaQueryData.copyWith(
-              textScaleFactor: mediaQueryData.textScaleFactor.clamp(1.1, 1.1)),
-          child: child!,
+      child: Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            fontFamily: 'prompt',
+            colorSchemeSeed: themeProvider.seedColor,
+            brightness: themeProvider.appBrightness
+                ? Brightness.light
+                : Brightness.dark,
+            // useMaterial3: true,
+          ),
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: Locale('th', 'TH'),
+          supportedLocales: [
+            const Locale('en', 'US'),
+            const Locale('th', 'TH'),
+          ],
+          initialRoute: '/Login',
+          routes: {
+            // ignore: dead_code
+            '/Login': (_) => Login(),
+          },
+          builder: EasyLoading.init(builder: (context, child) {
+            final mediaQueryData = MediaQuery.of(context);
+            return MediaQuery(
+              data: mediaQueryData.copyWith(
+                  textScaleFactor:
+                      mediaQueryData.textScaleFactor.clamp(1.1, 1.1)),
+              child: child!,
+            );
+          }),
         );
       }),
     );

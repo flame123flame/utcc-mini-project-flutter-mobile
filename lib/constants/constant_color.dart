@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 
 var secondaryColor = Color(0xFF5593f8);
 var primaryColor = Color(0xFF48c9e2);
-var colorBar = Color.fromARGB(255, 12, 54, 151);
+// var colorBar(context) = Color.fromARGB(255, 12, 54, 151);
+
+colorBar(BuildContext context) {
+  return Theme.of(context).primaryColor;
+}
+
 var unActiveColor = Color.fromARGB(255, 161, 160, 160);
 
-var colorTextHeader = Color.fromARGB(255, 17, 69, 142);
+colorTextHeader(BuildContext context) {
+  return Theme.of(context).primaryColor;
+}
+
 var colorTextValue = Color.fromARGB(255, 143, 141, 141);
 
 

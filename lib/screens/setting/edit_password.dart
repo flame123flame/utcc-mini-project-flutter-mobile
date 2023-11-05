@@ -22,7 +22,7 @@ class _EditPasswordState extends State<EditPassword> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: colorBar,
+        backgroundColor: colorBar(context),
         title: const Text('แก้ไขรหัสผ่าน'),
         centerTitle: true,
         leading: IconButton(

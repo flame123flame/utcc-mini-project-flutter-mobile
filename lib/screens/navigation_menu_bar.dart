@@ -31,20 +31,20 @@ class _NavigationMenuBarState extends State<NavigationMenuBar> {
         inactiveColorSecondary: CupertinoColors.black,
         icon: Icon(CupertinoIcons.home),
         title: ("หน้าหลัก"),
-        activeColorPrimary: colorBar,
+        activeColorPrimary: colorBar(context),
         inactiveColorPrimary: unActiveColor,
       ),
       PersistentBottomNavBarItem(
           inactiveColorSecondary: CupertinoColors.black,
           icon: Icon(CupertinoIcons.news),
           title: ("ข่าวสาร"),
-          activeColorPrimary: colorBar,
+          activeColorPrimary: colorBar(context),
           inactiveColorPrimary: unActiveColor),
       PersistentBottomNavBarItem(
           inactiveColorSecondary: CupertinoColors.black,
           icon: Icon(CupertinoIcons.settings_solid),
           title: ("ตั้งค่า"),
-          activeColorPrimary: colorBar,
+          activeColorPrimary: colorBar(context),
           inactiveColorPrimary: unActiveColor),
     ];
   }

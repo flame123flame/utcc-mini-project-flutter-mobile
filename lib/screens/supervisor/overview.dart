@@ -402,7 +402,8 @@ class _OverviewState extends State<Overview> {
                                                       height: 40,
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
-                                                        color: colorBar,
+                                                        color:
+                                                            colorBar(context),
                                                       ),
                                                       margin: EdgeInsets.only(
                                                           right: 6, left: 6),
@@ -862,7 +863,8 @@ class _OverviewState extends State<Overview> {
                                                       height: 40,
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
-                                                        color: colorBar,
+                                                        color:
+                                                            colorBar(context),
                                                       ),
                                                       margin: EdgeInsets.only(
                                                           right: 6, left: 6),

@@ -14,6 +14,7 @@ import '../constants/constant_color.dart';
 import '../constants/constant_menu.dart';
 import '../model/weather_main.dart';
 import '../model_components/main_menu.dart';
+import '../provider/theme_provider.dart';
 import '../provider/user_login_provider.dart';
 import '../service/api_service.dart';
 import '../utils/size_config.dart';
@@ -28,6 +29,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   WeatherMain? weather;
   final _controller = ScrollController();
+
   getCurrentWeather() async {
     try {
       WeatherMain temp = await ApiService.apiGetCurrentWeather();
@@ -39,6 +41,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+  late ThemeProvider themeProvider;
   UserLoginProvider? userLoginProvider;
   List<MainMenu> listMenu = listMenuConstant;
   List<MainMenu> listMenuDisplay = [];
@@ -58,6 +61,8 @@ class _HomeState extends State<Home> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     userLoginProvider = Provider.of<UserLoginProvider>(context, listen: false);
+    themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     List<String> list = userLoginProvider!.getUserLogin.roleCode!.split(",");
     for (var i = 0; i < list.length; i++) {
       listMenuDisplay.addAll(
@@ -129,7 +134,7 @@ class _HomeState extends State<Home> {
                                       padding:
                                           EdgeInsets.only(top: 6, bottom: 5),
                                       child: Text(
-                                        "  ${value.getUserLogin.firstName} ${value.getUserLogin.lastName} ${value.getUserLogin.position}",
+                                        "  ${value.getUserLogin.firstName} ${value.getUserLogin.lastName}",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w800,
@@ -157,8 +162,8 @@ class _HomeState extends State<Home> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color.fromARGB(255, 71, 171, 242),
-                          Color.fromARGB(255, 19, 99, 185),
+                          Theme.of(context).primaryColor.withOpacity(0.80),
+                          Theme.of(context).primaryColor,
                         ],
                       ),
                       boxShadow: [
@@ -317,7 +322,7 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       fontSize: SizeConfig.defaultSize! * 1.7,
                       fontWeight: FontWeight.w800,
-                      color: Color.fromARGB(255, 17, 73, 158))),
+                      color: Theme.of(context).primaryColor)),
             ),
             Expanded(
               flex: 1,
@@ -364,13 +369,13 @@ class _HomeState extends State<Home> {
                                     child: ListTile(
                                       leading: CircleAvatar(
                                           backgroundColor:
-                                              listMenuDisplay[index].color,
+                                              Theme.of(context).primaryColor,
                                           child: listMenuDisplay[index].icon),
                                       title: Text(
                                         '${listMenuDisplay[index].menu}',
-                                        style: const TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 25, 82, 123),
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
                                             fontWeight: FontWeight.w800,
                                             fontSize: 15),
                                       ),
@@ -424,9 +429,9 @@ class _HomeState extends State<Home> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  colorBar.withOpacity(0.40),
-                  colorBar.withOpacity(0.60),
-                  colorBar.withOpacity(0.80)
+                  Color.fromARGB(255, 12, 54, 151).withOpacity(0.40),
+                  Color.fromARGB(255, 12, 54, 151).withOpacity(0.60),
+                  Color.fromARGB(255, 12, 54, 151).withOpacity(0.80)
                 ])),
       ),
     );

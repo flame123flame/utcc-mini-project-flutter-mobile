@@ -94,17 +94,17 @@ class _NewsListState extends State<NewsList> {
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(1),
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: <Color>[
-                    Color.fromARGB(255, 34, 50, 174),
-                    Color.fromARGB(255, 37, 43, 99),
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor,
                   ]),
             ),
           ),
-          // backgroundColor: colorBar,
+          // backgroundColor: colorBar(context),
           title: const Text(
             'ข่าวสาร',
             style: TextStyle(

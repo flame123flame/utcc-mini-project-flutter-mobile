@@ -1258,7 +1258,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].worksheetId}',
@@ -1281,7 +1282,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].busVehicleNumber}',
@@ -1304,7 +1306,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].busVehiclePlateNo}',
@@ -1327,7 +1330,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${converDate(list[index].worksheetDate!)}',
@@ -1350,7 +1354,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   'กำลังดำเนินการ',
@@ -1452,7 +1457,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].worksheetId}',
@@ -1475,7 +1481,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].busVehicleNumber}',
@@ -1498,7 +1505,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].busVehiclePlateNo}',
@@ -1521,7 +1529,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${converDate(list[index].worksheetDate!)}',
@@ -1544,7 +1553,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   'ลงเวลาเสร็จสิ้น',
@@ -1646,7 +1656,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].worksheetId}',
@@ -1669,7 +1680,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].busVehicleNumber}',
@@ -1692,7 +1704,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${list[index].busVehiclePlateNo}',
@@ -1715,7 +1728,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   '${converDate(list[index].worksheetDate!)}',
@@ -1738,7 +1752,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       fontSize: 13.5,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      color: colorTextHeader),
+                                                      color: colorTextHeader(
+                                                          context)),
                                                 ),
                                                 Text(
                                                   'ตัดเลิกแล้ว',

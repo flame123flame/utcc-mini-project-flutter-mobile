@@ -133,7 +133,7 @@ class _ManageBusState extends State<ManageBus> {
       child: new Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          backgroundColor: colorBar,
+          backgroundColor: colorBar(context),
           title: const Text('จัดการรถเมล์'),
           centerTitle: true,
           leading: IconButton(

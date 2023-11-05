@@ -473,7 +473,7 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black))),
+                        color: Theme.of(context).primaryColor))),
           ),
         if (list.length > 0)
           Expanded(
@@ -522,7 +522,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].worksheetId}',
@@ -542,7 +543,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehicleNumber}',
@@ -562,7 +564,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehiclePlateNo}',
@@ -582,7 +585,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${converDate(list[index].worksheetDate!)}',
@@ -602,7 +606,8 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 'กำลังดำเนินการ',
@@ -705,7 +710,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].worksheetId}',
@@ -725,7 +731,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehicleNumber}',
@@ -745,7 +752,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${list[index].busVehiclePlateNo}',
@@ -765,7 +773,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 '${converDate(list[index].worksheetDate!)}',
@@ -785,7 +794,8 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                 style: TextStyle(
                                                     fontSize: 13.5,
                                                     fontWeight: FontWeight.w800,
-                                                    color: colorTextHeader),
+                                                    color: colorTextHeader(
+                                                        context)),
                                               ),
                                               Text(
                                                 'กำลังดำเนินการ',

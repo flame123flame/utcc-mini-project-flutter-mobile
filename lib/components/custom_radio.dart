@@ -60,7 +60,7 @@ class _CustomRadioState extends State<CustomRadio> {
                     border: Border.all(
                         width: 1,
                         color: widget.groupValue == 1
-                            ? colorBar
+                            ? colorBar(context)
                             : Color.fromARGB(255, 221, 219, 218)),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(5.0),
@@ -75,7 +75,7 @@ class _CustomRadioState extends State<CustomRadio> {
                     size: widget.type == 'radio'
                         ? SizeConfig.defaultSize! * 1.6
                         : SizeConfig.defaultSize! * 1.8,
-                    color: selected ? colorBar : Colors.grey[200],
+                    color: selected ? colorBar(context) : Colors.grey[200],
                   )),
               Padding(
                 padding: EdgeInsets.only(left: SizeConfig.defaultSize! * 1.6),
