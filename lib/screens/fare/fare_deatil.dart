@@ -108,7 +108,7 @@ class _FareDeatilState extends State<FareDeatil>
                 child: ListView.builder(
                   itemCount: dataList.length,
                   itemBuilder: (context, index) {
-                    return cardDetail(dataList[index], dataList);
+                    return cardDetail(dataList[index], dataList, index);
                   },
                 ),
               ),
@@ -214,7 +214,17 @@ class _FareDeatilState extends State<FareDeatil>
     decimalDigits: 0, // Set the number of decimal places to 0
   );
 
-  Widget cardDetail(TicketTrip data, List<TicketTrip> ticketTripList) {
+  String checkStatusTime(TicketTrip data) {
+    if (data.ticketEnd!) {
+      return "เวลาตัดเลิก " + data.terminalTimeDeparture!;
+    } else if (data.terminalTimeDeparture != null) {
+      return "ออกท่าเวลา " + data.terminalTimeDeparture!;
+    }
+    return "รอนายท่าลงเวลา";
+  }
+
+  Widget cardDetail(
+      TicketTrip data, List<TicketTrip> ticketTripList, int index) {
     return Container(
       margin: EdgeInsets.only(
         top: SizeConfig.defaultSize! * 0.5,
@@ -249,9 +259,11 @@ class _FareDeatilState extends State<FareDeatil>
                     height: 40,
                   ),
                   Text(
-                    '${formatter.format(data.sumPrice)} ',
+                    index == 0
+                        ? 'เที่ยวเริ่มต้น'
+                        : '${formatter.format(data.sumPrice)} ',
                     style: TextStyle(
-                      fontFamily: '11',
+                      fontFamily: index == 0 ? 'prompt' : '11',
                       color: colorBar,
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
@@ -271,12 +283,11 @@ class _FareDeatilState extends State<FareDeatil>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${data.terminalTimeDeparture ?? 'รอนายท่าลงเวลา'} ',
+                          'ถึงท่า ${data.terminalTimeArrive} ',
                           style: TextStyle(
                             color: Color.fromARGB(255, 48, 47, 47),
-                            fontSize: 20,
-                            fontFamily: 'ww',
-                            fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                         Text(
@@ -294,25 +305,23 @@ class _FareDeatilState extends State<FareDeatil>
                       ],
                     ),
                   ),
-                  Icon(
-                    Icons.arrow_right_alt,
-                    size: 30,
+                  SizedBox(
+                    width: 12,
                   ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '${data.terminalTimeArrive ?? ''} ',
+                          ' ${checkStatusTime(data)} ',
                           style: TextStyle(
                             color: Color.fromARGB(255, 48, 47, 47),
-                            fontSize: 20,
-                            fontFamily: 'ww',
-                            fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                         Text(
-                          '${data.busTerminalArrive ?? ''} ',
+                          '${data.busTerminalDepartureDes}  ',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           softWrap: false,
@@ -342,7 +351,7 @@ class _FareDeatilState extends State<FareDeatil>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "เลขหน้าตั๋ว ${data.ticketList![indexTrip].fareDesc}",
+                        "เลขหน้าตั๋ว ${data.ticketList![indexTrip].fareDesc}${index == 0 ? '(เลขตั๋วเริ่มต้น)' : ''} ",
                         style: TextStyle(
                           color: Color.fromARGB(255, 35, 35, 35),
                           fontSize: 12.5,
