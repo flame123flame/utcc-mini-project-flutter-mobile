@@ -162,6 +162,13 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
     return Time().DateTimeToThai(DateTime.parse(date));
   }
 
+  String isNullOrEmpty(String? input) {
+    if (input == null || input == "null" || input.toString().trim().isEmpty) {
+      return "รอทำรายการ";
+    }
+    return input;
+  }
+
   getPopupDetail1(BuildContext context, TerminalAgent driver) {
     showModalBottomSheet<void>(
       isScrollControlled: true,
@@ -250,7 +257,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTimeBegin ?? "-",
+                        isNullOrEmpty(driver.worksheetTimeBegin),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -265,7 +272,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTimeEnd ?? "-",
+                        isNullOrEmpty(driver.worksheetTimeEnd),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -280,9 +287,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTerminalAgent!.trim().isEmpty
-                            ? '-'
-                            : driver.worksheetTerminalAgent.toString(),
+                        isNullOrEmpty(driver.worksheetTerminalAgent),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -292,12 +297,12 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "เวลางาน",
+                        "ชั่วโมงการทำงาน",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        '${driver.worksheetHours ?? 'รอตัดเลิก'}',
+                        isNullOrEmpty(driver.worksheetHours.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -307,12 +312,12 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "โอที(ล่วงเวลา)",
+                        "ชั่วโมงโอที(ล่วงเวลา)",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        '${driver.worksheetHoursOt ?? 'รอตัดเลิก'}',
+                        isNullOrEmpty(driver.worksheetHoursOt.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -327,7 +332,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.busLinesNo ?? "-",
+                        isNullOrEmpty(driver.busLinesNo.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -342,7 +347,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.busVehiclePlateNo ?? "-",
+                        isNullOrEmpty(driver.busVehiclePlateNo.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -357,7 +362,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.busVehicleNumber ?? "-",
+                        isNullOrEmpty(driver.busVehicleNumber.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -372,7 +377,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.busDivisionName ?? "-",
+                        isNullOrEmpty(driver.busDivisionName.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -387,7 +392,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetDispatcher ?? "-",
+                        isNullOrEmpty(driver.worksheetDispatcher.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -402,7 +407,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetDriver?.toString() ?? "-",
+                        isNullOrEmpty(driver.worksheetDriver.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -417,7 +422,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetFarecollect?.toString() ?? "-",
+                        isNullOrEmpty(driver.worksheetFarecollect.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -432,7 +437,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetBuslinesManager?.toString() ?? "-",
+                        isNullOrEmpty(
+                            driver.worksheetBuslinesManager.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -461,6 +467,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                       PersistentNavBarNavigator.pushNewScreen(
                         context,
                         screen: TerminalAgentTimestamp(
+                            terminalAgent: driver,
                             busLinesId: driver.busLinesId,
                             busVehicleId: driver.busVehicleId,
                             status: "IN_PROGRESS",
@@ -591,7 +598,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTimeBegin ?? "-",
+                        isNullOrEmpty(driver.worksheetTimeBegin.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -606,7 +613,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTimeEnd ?? "-",
+                        isNullOrEmpty(driver.worksheetTimeEnd.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -621,9 +628,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTerminalAgent!.trim().isEmpty
-                            ? '-'
-                            : driver.worksheetTerminalAgent.toString(),
+                        isNullOrEmpty(driver.worksheetTerminalAgent.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -633,12 +638,12 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "เวลางาน",
+                        "ชั่วโมงการทำงาน",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        '${driver.worksheetHours ?? 'รอตัดเลิก'}',
+                        isNullOrEmpty(driver.worksheetHours.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -648,12 +653,12 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "โอที(ล่วงเวลา)",
+                        "ชั่วโมงโอที(ล่วงเวลา)",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        '${driver.worksheetHoursOt ?? 'รอตัดเลิก'}',
+                        isNullOrEmpty(driver.worksheetHoursOt.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -668,7 +673,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.busLinesNo ?? "-",
+                        isNullOrEmpty(driver.busLinesNo.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -683,7 +688,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.busVehiclePlateNo ?? "-",
+                        isNullOrEmpty(driver.busVehiclePlateNo.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -698,7 +703,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.busVehicleNumber ?? "-",
+                        isNullOrEmpty(driver.busVehicleNumber.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -728,7 +733,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetDispatcher ?? "-",
+                        isNullOrEmpty(driver.worksheetDispatcher.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -773,7 +778,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetBuslinesManager?.toString() ?? "-",
+                        isNullOrEmpty(
+                            driver.worksheetBuslinesManager.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -802,6 +808,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                       PersistentNavBarNavigator.pushNewScreen(
                         context,
                         screen: TerminalAgentTimestamp(
+                            terminalAgent: driver,
                             busLinesId: driver.busLinesId,
                             busVehicleId: driver.busVehicleId,
                             status: "IN_PROGRESS",
@@ -932,7 +939,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTimeBegin ?? "-",
+                        isNullOrEmpty(driver.worksheetTimeBegin.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -947,7 +954,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTimeEnd ?? "-",
+                        isNullOrEmpty(driver.worksheetTimeEnd.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -962,9 +969,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetTerminalAgent!.trim().isEmpty
-                            ? '-'
-                            : driver.worksheetTerminalAgent.toString(),
+                        isNullOrEmpty(driver.worksheetTerminalAgent.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -974,12 +979,12 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "เวลางาน",
+                        "ชั่วโมงการทำงาน",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        ' ${driver.worksheetHours == null ? 'รอตัดเลิก' : driver.worksheetHours.toString() + ' ชั่วโมง'} ',
+                        isNullOrEmpty(driver.worksheetHours.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -989,12 +994,12 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "โอที(ล่วงเวลา)",
+                        "ชั่วโมงชั่วโมงโอที(ล่วงเวลา)",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        ' ${driver.worksheetHoursOt == null ? 'รอตัดเลิก' : driver.worksheetHoursOt.toString() + ' ชั่วโมง'} ',
+                        isNullOrEmpty(driver.worksheetHoursOt.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -1114,7 +1119,8 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        driver.worksheetBuslinesManager?.toString() ?? "-",
+                        isNullOrEmpty(
+                            driver.worksheetBuslinesManager.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -1143,6 +1149,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                       PersistentNavBarNavigator.pushNewScreen(
                         context,
                         screen: TerminalAgentTimestamp(
+                            terminalAgent: driver,
                             busLinesId: driver.busLinesId,
                             busVehicleId: driver.busVehicleId,
                             status: "IN_PROGRESS",

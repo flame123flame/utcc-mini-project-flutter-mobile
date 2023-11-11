@@ -340,7 +340,7 @@ getPopupDetail(BuildContext context, Worksheet driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetBuslinesManager?.toString() ?? "-",
+                      driver.worksheetBuslinesManager ?? "-",
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -474,7 +474,7 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                     color: colorTextHeader),
                                               ),
                                               Text(
-                                                '${list[index].busVehiclePlateNo}',
+                                                '${list[index].busVehicleNumber}',
                                                 style: TextStyle(
                                                     fontSize: 14.5,
                                                     fontWeight: FontWeight.w500,
@@ -657,7 +657,7 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
                                                     color: colorTextHeader),
                                               ),
                                               Text(
-                                                '${list[index].busVehiclePlateNo}',
+                                                '${list[index].busVehicleNumber}',
                                                 style: TextStyle(
                                                     fontSize: 14.5,
                                                     fontWeight: FontWeight.w500,

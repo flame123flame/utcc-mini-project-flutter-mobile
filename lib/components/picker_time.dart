@@ -132,7 +132,7 @@ class _PickerTimeState extends State<PickerTime> {
                                     widget.onSelected.call(dateSelectedToUse);
                                   }
                                   widget.onSelected.call(dateSelectedToUse);
-                                  Navigator.pop(context);
+                                  // Navigator.pop(context);
                                 });
                               },
                               child: const Text(

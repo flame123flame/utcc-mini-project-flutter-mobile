@@ -12,6 +12,8 @@ import 'package:utcc_mobile/screens/fare/model/ticket_trip.dart';
 import '../../constants/constant_color.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
+import '../../utils/time_format.dart';
+import '../driver/model/driver.dart';
 import 'fare_add.dart';
 import 'model/bus_lines.dart';
 import 'model/ticket.dart';
@@ -21,12 +23,14 @@ class FareDeatil extends StatefulWidget {
   final String? status;
   final int? busLinesId;
   final int? busVehicleId;
+  final Driver driver;
 
   const FareDeatil(
       {Key? key,
       this.worksheetId,
       required this.status,
       required this.busVehicleId,
+      required this.driver,
       required this.busLinesId})
       : super(key: key);
 
@@ -67,6 +71,17 @@ class _FareDeatilState extends State<FareDeatil>
     super.dispose();
   }
 
+  String isNullOrEmpty(String? input) {
+    if (input == null || input == "null" || input.toString().trim().isEmpty) {
+      return "รอทำรายการ";
+    }
+    return input;
+  }
+
+  converDate(String date) {
+    return Time().DateTimeToThai(DateTime.parse(date));
+  }
+
   AnimationController? _hideFabAnimation;
   var formatterSum = NumberFormat.currency(locale: 'th_TH', symbol: '฿');
   @override
@@ -84,10 +99,22 @@ class _FareDeatilState extends State<FareDeatil>
               children: [
                 GradientContainerHeader(size, context),
                 Positioned(
-                  top: size.height * .11,
-                  child: Row(
+                  top: size.height * .07,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        'รายละเอียดรอบการเดินรถ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         '${formatterSum.format(sum)}',
                         textAlign: TextAlign.center,
@@ -95,12 +122,203 @@ class _FareDeatilState extends State<FareDeatil>
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontFamily: '11',
                           fontWeight: FontWeight.w600,
-                          fontSize: 34,
+                          fontSize: 38,
                         ),
                       ),
                     ],
                   ),
                 ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(left: 17, right: 17, top: 167),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(9)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "วันที่ใบจ่ายงาน",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.5),
+                                    ),
+                                    Text(
+                                      converDate(widget.driver.worksheetDate!),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 13.5),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "เวลารับงาน",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.5),
+                                    ),
+                                    Text(
+                                      isNullOrEmpty(widget
+                                          .driver.worksheetTimeBegin
+                                          .toString()),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 13.5),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "สายรถเมล์",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.5),
+                                    ),
+                                    Text(
+                                      isNullOrEmpty(
+                                          widget.driver.busLinesNo.toString()),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 13.5),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "ทะเบียนรถเมล์",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.5),
+                                    ),
+                                    Text(
+                                      isNullOrEmpty(widget
+                                          .driver.busVehiclePlateNo
+                                          .toString()),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 13.5),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "เลขข้างรถ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.5),
+                                    ),
+                                    Text(
+                                      isNullOrEmpty(widget
+                                          .driver.busVehicleNumber
+                                          .toString()),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 13.5),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "ชื่อผู้จ่ายงาน",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.5),
+                                    ),
+                                    Text(
+                                      isNullOrEmpty(
+                                          widget.driver.worksheetDispatcher),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 13.5),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "ชื่อพนักงานขับรถ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.5),
+                                    ),
+                                    Text(
+                                      isNullOrEmpty(
+                                          widget.driver.worksheetDriver),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 13.5),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "ชื่อพนักเก็บค่าโดยสาร",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13.5),
+                                    ),
+                                    Text(
+                                      isNullOrEmpty(
+                                          widget.driver.worksheetFarecollect),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 13.5),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
             if (dataList.length > 0)

@@ -1,43 +1,36 @@
-import 'dart:math';
-
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:utcc_mobile/screens/driver/model/driver.dart';
 
-import '../../components/picker_time.dart';
 import '../../constants/constant_color.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
 import '../../utils/time_format.dart';
 import '../fare/fare_add.dart';
 import '../fare/model/ticket_trip.dart';
-import 'model/terminal_agent.dart';
 
-class TerminalAgentTimestamp extends StatefulWidget {
+class DriverDetail extends StatefulWidget {
   final int? worksheetId;
   final String? status;
   final int? busLinesId;
   final int? busVehicleId;
-  final TerminalAgent terminalAgent;
-  const TerminalAgentTimestamp(
+  final Driver driver;
+
+  const DriverDetail(
       {Key? key,
-      required this.terminalAgent,
       this.worksheetId,
       required this.status,
       required this.busVehicleId,
+      required this.driver,
       required this.busLinesId})
       : super(key: key);
 
   @override
-  State<TerminalAgentTimestamp> createState() => _TerminalAgentTimestampState();
+  State<DriverDetail> createState() => _DriverDetailState();
 }
 
-class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
+class _DriverDetailState extends State<DriverDetail>
     with SingleTickerProviderStateMixin {
   final valueFormat = new NumberFormat("#,##0.00", "en_US");
   List<int> sumList = [];
@@ -48,7 +41,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
   getData() async {
     try {
       List<TicketTrip> data =
-          await ApiService.apiGetTicketByIdTimestamp(widget.worksheetId!);
+          await ApiService.apiGetTicketByIdNew(widget.worksheetId!);
       sum = 0;
       for (var i = 0; i < data.length; i++) {
         sum += data[i].sumPrice!;
@@ -68,209 +61,6 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
   @override
   void dispose() {
     super.dispose();
-  }
-
-  setTimestamp(int terminalTimestampId, String terminalTimeDeparture,
-      BuildContext context) async {
-    try {
-      print(terminalTimestampId);
-      print(terminalTimeDeparture);
-      Response data = await ApiService.setTimestamp(
-          terminalTimestampId, terminalTimeDeparture);
-      notifacontionCustom(
-          context, "ลงเวลาออกจากท่า " + terminalTimeDeparture + " สำเร็จ");
-      setState(() {});
-    } catch (e) {}
-  }
-
-  setTimestampEnd(int terminalTimestampId, int worksheetId,
-      String terminalTimeDeparture, BuildContext context) async {
-    try {
-      print(terminalTimestampId);
-      print(terminalTimeDeparture);
-      Response data = await ApiService.setTimestampEnd(
-          terminalTimestampId, worksheetId, terminalTimeDeparture);
-      notifacontionCustom(
-          context, "ตัดเลิกสำเร็จ " + terminalTimeDeparture + " สำเร็จ");
-      setState(() {});
-    } catch (e) {}
-  }
-
-  void notifacontionCustom(BuildContext context, String text) {
-    showCupertinoDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return CupertinoAlertDialog(
-            title: Text(
-              'การลงเวลา',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 65, 57, 52),
-                  fontFamily: 'prompt',
-                  fontWeight: FontWeight.w900,
-                  fontSize: 21),
-            ),
-            content: Text(
-              text,
-              style: TextStyle(
-                  color: Color.fromARGB(255, 55, 48, 43),
-                  fontFamily: 'prompt',
-                  fontSize: 15),
-            ),
-            actions: [
-              // The "Yes" button
-              CupertinoDialogAction(
-                onPressed: () {
-                  setState(() {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  });
-                },
-                child: const Text(
-                  'ตกลง',
-                  style: TextStyle(
-                    fontFamily: 'prompt',
-                    fontWeight: FontWeight.w800,
-                    color: Color.fromARGB(255, 12, 60, 156),
-                  ),
-                ),
-                isDefaultAction: true,
-                isDestructiveAction: true,
-              ),
-              // The "No" button
-            ],
-          );
-        });
-  }
-
-  confirmCustom(
-      BuildContext context, String text, DateTime datetime, TicketTrip data) {
-    showCupertinoDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return CupertinoAlertDialog(
-            title: Text(
-              'ยืนยันการลงเวลา',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 65, 57, 52),
-                  fontFamily: 'prompt',
-                  fontWeight: FontWeight.w900,
-                  fontSize: 19),
-            ),
-            content: Text(
-              text,
-              style: TextStyle(
-                  color: Color.fromARGB(255, 55, 48, 43),
-                  fontFamily: 'prompt',
-                  fontSize: 15),
-            ),
-            actions: [
-              // The "Yes" button
-              CupertinoDialogAction(
-                onPressed: () {
-                  setState(() {
-                    Navigator.of(context).pop();
-                  });
-                },
-                child: const Text(
-                  'ยกเลิก',
-                  style: TextStyle(
-                    fontFamily: 'prompt',
-                    fontWeight: FontWeight.w800,
-                    color: Color.fromARGB(255, 223, 40, 8),
-                  ),
-                ),
-                isDefaultAction: true,
-                isDestructiveAction: true,
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  setTimestamp(data.terminalTimestampId!,
-                      DateFormat.Hm().format(datetime).toString(), context);
-                  setState(() {
-                    Navigator.of(context).pop();
-                  });
-                },
-                child: const Text(
-                  'ตกลง',
-                  style: TextStyle(
-                    fontFamily: 'prompt',
-                    fontWeight: FontWeight.w800,
-                    color: Color.fromARGB(255, 4, 40, 99),
-                  ),
-                ),
-                isDefaultAction: true,
-                isDestructiveAction: true,
-              ),
-              // The "No" button
-            ],
-          );
-        });
-  }
-
-  confirmCustomEnd(
-      BuildContext context, String text, DateTime datetime, TicketTrip data) {
-    showCupertinoDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return CupertinoAlertDialog(
-            title: Text(
-              'ยืนยันการตัดเลิก',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 65, 57, 52),
-                  fontFamily: 'prompt',
-                  fontWeight: FontWeight.w900,
-                  fontSize: 19),
-            ),
-            content: Text(
-              text,
-              style: TextStyle(
-                  color: Color.fromARGB(255, 55, 48, 43),
-                  fontFamily: 'prompt',
-                  fontSize: 15),
-            ),
-            actions: [
-              // The "Yes" button
-              CupertinoDialogAction(
-                onPressed: () {
-                  setState(() {
-                    Navigator.of(context).pop();
-                  });
-                },
-                child: const Text(
-                  'ยกเลิก',
-                  style: TextStyle(
-                    fontFamily: 'prompt',
-                    fontWeight: FontWeight.w800,
-                    color: Color.fromARGB(255, 223, 40, 8),
-                  ),
-                ),
-                isDefaultAction: true,
-                isDestructiveAction: true,
-              ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  setTimestampEnd(data.terminalTimestampId!, data.worksheetId!,
-                      DateFormat.Hm().format(datetime!).toString(), context);
-                  setState(() {
-                    Navigator.of(context).pop();
-                  });
-                },
-                child: const Text(
-                  'ตกลง',
-                  style: TextStyle(
-                    fontFamily: 'prompt',
-                    fontWeight: FontWeight.w800,
-                    color: Color.fromARGB(255, 4, 40, 99),
-                  ),
-                ),
-                isDefaultAction: true,
-                isDestructiveAction: true,
-              ),
-              // The "No" button
-            ],
-          );
-        });
   }
 
   String isNullOrEmpty(String? input) {
@@ -368,8 +158,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      converDate(
-                                          widget.terminalAgent.worksheetDate!),
+                                      converDate(widget.driver.worksheetDate!),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -388,7 +177,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                     ),
                                     Text(
                                       isNullOrEmpty(widget
-                                          .terminalAgent.worksheetTimeBegin
+                                          .driver.worksheetTimeBegin
                                           .toString()),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -407,9 +196,8 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      isNullOrEmpty(widget
-                                          .terminalAgent.busLinesNo
-                                          .toString()),
+                                      isNullOrEmpty(
+                                          widget.driver.busLinesNo.toString()),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -428,7 +216,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                     ),
                                     Text(
                                       isNullOrEmpty(widget
-                                          .terminalAgent.busVehiclePlateNo
+                                          .driver.busVehiclePlateNo
                                           .toString()),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -448,7 +236,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                     ),
                                     Text(
                                       isNullOrEmpty(widget
-                                          .terminalAgent.busVehicleNumber
+                                          .driver.busVehicleNumber
                                           .toString()),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -467,8 +255,8 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      isNullOrEmpty(widget
-                                          .terminalAgent.worksheetDispatcher),
+                                      isNullOrEmpty(
+                                          widget.driver.worksheetDispatcher),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -487,7 +275,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                     ),
                                     Text(
                                       isNullOrEmpty(
-                                          widget.terminalAgent.worksheetDriver),
+                                          widget.driver.worksheetDriver),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -505,8 +293,8 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      isNullOrEmpty(widget
-                                          .terminalAgent.worksheetFarecollect),
+                                      isNullOrEmpty(
+                                          widget.driver.worksheetFarecollect),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -690,7 +478,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "เลขหน้าตั๋ว ${data.ticketList![indexTrip].fareDesc}",
+                        "เลขหน้าตั๋ว ${data.ticketList![indexTrip].fareDesc}${index == 0 ? '(เลขตั๋วเริ่มต้น)' : ''} ",
                         style: TextStyle(
                           color: Color.fromARGB(255, 35, 35, 35),
                           fontSize: 12.5,
@@ -737,83 +525,6 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                 ],
               ),
             ),
-            if (!data.isTimestamp!) Divider(endIndent: 10, indent: 10),
-            if (!data.isTimestamp!)
-              Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "ชื่อนายท่าที่ลงเวลา",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 35, 35, 35),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    Text(
-                      '${data.busTerminalAgentName}',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 35, 35, 35),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            SizedBox(
-              height: 6,
-            ),
-            if (data.isTimestamp!)
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: PickerTime(
-                      mode: CupertinoDatePickerMode.time,
-                      title: 'ลงเวลา',
-                      validate: false,
-                      onSelected: (datetime) async {
-                        Navigator.pop(context);
-                        await confirmCustom(
-                            context,
-                            ("ยืนยันการลงเวลา " +
-                                DateFormat.Hm().format(datetime!).toString() +
-                                " เลขข้างรถ " +
-                                widget.terminalAgent.busVehicleNumber! +
-                                " ใช่หรือไม่"),
-                            datetime,
-                            data);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: PickerTime(
-                      mode: CupertinoDatePickerMode.time,
-                      title: 'ตัดเลิก',
-                      validate: false,
-                      onSelected: (datetime) async {
-                        Navigator.pop(context);
-                        await confirmCustomEnd(
-                            context,
-                            ("ยืนยันการตัดเลิก " +
-                                DateFormat.Hm().format(datetime!).toString() +
-                                " เลขข้างรถ " +
-                                widget.terminalAgent.busVehicleNumber! +
-                                " ใช่หรือไม่"),
-                            datetime,
-                            data);
-                      },
-                    ),
-                  ),
-                ],
-              ),
           ],
         ),
       ),
@@ -822,7 +533,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
 
   Container GradientContainerHeader(Size size, BuildContext context) {
     return Container(
-      height: size.height * 0.30,
+      height: size.height * 0.20,
       width: size.width,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -848,7 +559,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
               ]),
         ),
         child: Padding(
-          padding: EdgeInsets.only(top: 57, left: 10),
+          padding: EdgeInsets.only(top: 43, left: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

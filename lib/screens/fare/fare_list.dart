@@ -139,6 +139,13 @@ converDate(String date) {
   return Time().DateTimeToThai(DateTime.parse(date));
 }
 
+String isNullOrEmpty(String? input) {
+  if (input == null || input == "null" || input.toString().trim().isEmpty) {
+    return "รอทำรายการ";
+  }
+  return input;
+}
+
 getPopupDetail(BuildContext context, Driver driver) {
   showModalBottomSheet<void>(
     isScrollControlled: true,
@@ -232,7 +239,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetTimeBegin ?? "-",
+                      isNullOrEmpty(driver.worksheetTimeBegin),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -247,7 +254,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetTimeEnd ?? "-",
+                      isNullOrEmpty(driver.worksheetTimeEnd),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -262,9 +269,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetTerminalAgent!.trim().isEmpty
-                          ? '-'
-                          : driver.worksheetTerminalAgent.toString(),
+                      isNullOrEmpty(driver.worksheetTerminalAgent),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -274,12 +279,12 @@ getPopupDetail(BuildContext context, Driver driver) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "เวลางาน",
+                      "ชั่วโมงการทำงาน",
                       style: TextStyle(
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetHours ?? "-",
+                      isNullOrEmpty(driver.worksheetHours),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -289,12 +294,12 @@ getPopupDetail(BuildContext context, Driver driver) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "โอที(ล่วงเวลา)",
+                      "ชั่วโมงโอที(ล่วงเวลา)",
                       style: TextStyle(
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetHoursOt ?? "-",
+                      isNullOrEmpty(driver.worksheetHoursOt),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -309,7 +314,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.busLinesNo ?? "-",
+                      isNullOrEmpty(driver.busLinesNo),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -324,7 +329,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.busVehiclePlateNo ?? "-",
+                      isNullOrEmpty(driver.busVehiclePlateNo),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -339,7 +344,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.busVehicleNumber ?? "-",
+                      isNullOrEmpty(driver.busVehicleNumber),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -369,7 +374,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetDispatcher ?? "-",
+                      isNullOrEmpty(driver.worksheetDispatcher),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -384,7 +389,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetDriver?.toString() ?? "-",
+                      isNullOrEmpty(driver.worksheetDriver),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -414,7 +419,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetBuslinesManager?.toString() ?? "-",
+                      isNullOrEmpty(driver.worksheetBuslinesManager),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -443,6 +448,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                     PersistentNavBarNavigator.pushNewScreen(
                       context,
                       screen: FareDeatil(
+                          driver: driver,
                           busLinesId: driver.busLinesId,
                           busVehicleId: driver.busVehicleId,
                           status: "IN_PROGRESS",
@@ -620,7 +626,7 @@ getPopupDetail2(BuildContext context, Driver driver) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "เวลางาน",
+                      "ชั่วโมงการทำงาน",
                       style: TextStyle(
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
@@ -635,7 +641,7 @@ getPopupDetail2(BuildContext context, Driver driver) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "โอที(ล่วงเวลา)",
+                      "ชั่วโมงโอที(ล่วงเวลา)",
                       style: TextStyle(
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
@@ -789,6 +795,7 @@ getPopupDetail2(BuildContext context, Driver driver) {
                     PersistentNavBarNavigator.pushNewScreen(
                       context,
                       screen: FareDeatil(
+                          driver: driver,
                           busLinesId: driver.busLinesId,
                           busVehicleId: driver.busVehicleId,
                           status: "SUCCESS",
