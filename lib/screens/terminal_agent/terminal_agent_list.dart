@@ -994,7 +994,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "ชั่วโมงชั่วโมงโอที(ล่วงเวลา)",
+                        "ชั่วโมงโอที(ล่วงเวลา)",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),

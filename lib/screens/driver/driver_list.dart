@@ -296,7 +296,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "ชั่วโมงชั่วโมงโอที(ล่วงเวลา)",
+                      "ชั่วโมงโอที(ล่วงเวลา)",
                       style: TextStyle(
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
@@ -645,7 +645,7 @@ getPopupDetail2(BuildContext context, Driver driver) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "ชั่วโมงชั่วโมงโอที(ล่วงเวลา)",
+                      "ชั่วโมงโอที(ล่วงเวลา)",
                       style: TextStyle(
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
