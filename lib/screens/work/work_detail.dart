@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:utcc_mobile/screens/driver/model/driver.dart';
+import 'package:utcc_mobile/screens/work/model/worksheet.dart';
 
 import '../../constants/constant_color.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
 import '../../utils/time_format.dart';
-import '../fare/fare_add.dart';
 import '../fare/model/ticket_trip.dart';
 
-class DriverDetail extends StatefulWidget {
+class WorkDetail extends StatefulWidget {
   final int? worksheetId;
   final String? status;
   final int? busLinesId;
   final int? busVehicleId;
-  final Driver driver;
-
-  const DriverDetail(
+  final Worksheet worksheet;
+  const WorkDetail(
       {Key? key,
       this.worksheetId,
       required this.status,
       required this.busVehicleId,
-      required this.driver,
+      required this.worksheet,
       required this.busLinesId})
       : super(key: key);
 
   @override
-  State<DriverDetail> createState() => _DriverDetailState();
+  State<WorkDetail> createState() => _WorkDetailState();
 }
 
-class _DriverDetailState extends State<DriverDetail>
+class _WorkDetailState extends State<WorkDetail>
     with SingleTickerProviderStateMixin {
   final valueFormat = new NumberFormat("#,##0.00", "en_US");
   List<int> sumList = [];
@@ -158,7 +157,8 @@ class _DriverDetailState extends State<DriverDetail>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      convertDate(widget.driver.worksheetDate!),
+                                      convertDate(
+                                          widget.worksheet.worksheetDate!),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -177,7 +177,7 @@ class _DriverDetailState extends State<DriverDetail>
                                     ),
                                     Text(
                                       isNullOrEmpty(widget
-                                          .driver.worksheetTimeBegin
+                                          .worksheet.worksheetTimeBegin
                                           .toString()),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -196,8 +196,8 @@ class _DriverDetailState extends State<DriverDetail>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      isNullOrEmpty(
-                                          widget.driver.busLinesNo.toString()),
+                                      isNullOrEmpty(widget.worksheet.busLinesNo
+                                          .toString()),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -216,7 +216,7 @@ class _DriverDetailState extends State<DriverDetail>
                                     ),
                                     Text(
                                       isNullOrEmpty(widget
-                                          .driver.busVehiclePlateNo
+                                          .worksheet.busVehiclePlateNo
                                           .toString()),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -236,7 +236,7 @@ class _DriverDetailState extends State<DriverDetail>
                                     ),
                                     Text(
                                       isNullOrEmpty(widget
-                                          .driver.busVehicleNumber
+                                          .worksheet.busVehicleNumber
                                           .toString()),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -256,7 +256,7 @@ class _DriverDetailState extends State<DriverDetail>
                                     ),
                                     Text(
                                       isNullOrEmpty(
-                                          widget.driver.worksheetDispatcher),
+                                          widget.worksheet.worksheetDispatcher),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -275,7 +275,7 @@ class _DriverDetailState extends State<DriverDetail>
                                     ),
                                     Text(
                                       isNullOrEmpty(
-                                          widget.driver.worksheetDriver),
+                                          widget.worksheet.worksheetDriver),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -293,8 +293,8 @@ class _DriverDetailState extends State<DriverDetail>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      isNullOrEmpty(
-                                          widget.driver.worksheetFarecollect),
+                                      isNullOrEmpty(widget
+                                          .worksheet.worksheetFarecollect),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),

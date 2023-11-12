@@ -86,8 +86,6 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
   setTimestampEnd(int terminalTimestampId, int worksheetId,
       String terminalTimeDeparture, BuildContext context) async {
     try {
-      print(terminalTimestampId);
-      print(terminalTimeDeparture);
       Response data = await ApiService.setTimestampEnd(
           terminalTimestampId, worksheetId, terminalTimeDeparture);
       notifacontionCustom(
@@ -121,7 +119,6 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
               CupertinoDialogAction(
                 onPressed: () {
                   setState(() {
-                    Navigator.of(context).pop();
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   });
@@ -187,9 +184,8 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                 onPressed: () {
                   setTimestamp(data.terminalTimestampId!,
                       DateFormat.Hm().format(datetime).toString(), context);
-                  setState(() {
-                    Navigator.of(context).pop();
-                  });
+                  setState(() {});
+                  Navigator.of(context).pop();
                 },
                 child: const Text(
                   'ตกลง',
@@ -251,10 +247,9 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
               CupertinoDialogAction(
                 onPressed: () {
                   setTimestampEnd(data.terminalTimestampId!, data.worksheetId!,
-                      DateFormat.Hm().format(datetime!).toString(), context);
-                  setState(() {
-                    Navigator.of(context).pop();
-                  });
+                      DateFormat.Hm().format(datetime).toString(), context);
+                  setState(() {});
+                  Navigator.of(context).pop();
                 },
                 child: const Text(
                   'ตกลง',
@@ -273,6 +268,23 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
         });
   }
 
+  int calculateTimeDifference(String startTime, String endTime) {
+    DateTime start = DateTime.parse("1970-01-01 $startTime:00");
+    DateTime end = DateTime.parse("1970-01-01 $endTime:00");
+
+    if (end.isBefore(start)) {
+      end = end.add(Duration(days: 1));
+    }
+    int totalHours = end.difference(start).inHours;
+    int remainingMinutes = end.difference(start).inMinutes.remainder(60);
+
+    // Round up if there are remaining minutes
+    if (remainingMinutes > 0) {
+      totalHours++;
+    }
+    return totalHours;
+  }
+
   String isNullOrEmpty(String? input) {
     if (input == null || input == "null" || input.toString().trim().isEmpty) {
       return "รอทำรายการ";
@@ -280,7 +292,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
     return input;
   }
 
-  converDate(String date) {
+  convertDate(String date) {
     return Time().DateTimeToThai(DateTime.parse(date));
   }
 
@@ -368,7 +380,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      converDate(
+                                      convertDate(
                                           widget.terminalAgent.worksheetDate!),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
@@ -719,21 +731,22 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "ตั๋วรวมขาที่ ${data.trip}",
+                    "เที่ยวที่(ขา) ${index == 0 ? " เริ่มต้น" : (data.trip! - 1)}",
                     style: TextStyle(
                       color: Color.fromARGB(255, 35, 35, 35),
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  Text(
-                    '${formatterTicket.format(data.sumTicket)} ใบ',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 35, 35, 35),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
+                  if (index != 0)
+                    Text(
+                      '${formatterTicket.format(data.sumTicket)} ใบ',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 35, 35, 35),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -745,7 +758,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "ชื่อนายท่าที่ลงเวลา",
+                      "ชื่อนายท่าลงเวลา",
                       style: TextStyle(
                         color: Color.fromARGB(255, 35, 35, 35),
                         fontSize: 14,
@@ -802,11 +815,13 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                         Navigator.pop(context);
                         await confirmCustomEnd(
                             context,
-                            ("ยืนยันการตัดเลิก " +
+                            ("ยืนยันการตัดเลิก? " +
                                 DateFormat.Hm().format(datetime!).toString() +
                                 " เลขข้างรถ " +
                                 widget.terminalAgent.busVehicleNumber! +
-                                " ใช่หรือไม่"),
+                                " โดยชั่วโมงงาน " +
+                                '${calculateTimeDifference(widget.terminalAgent.worksheetTimeBegin.toString(), DateFormat.Hm().format(datetime).toString())}' +
+                                " ชั่วโมง"),
                             datetime,
                             data);
                       },

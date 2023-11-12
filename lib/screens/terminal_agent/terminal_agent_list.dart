@@ -64,10 +64,14 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
 
   @override
   void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() {
     GetListFarecollectSuccess();
     apiGetListTerminalAgentWaiting();
     getListFarecollectEnd();
-    super.initState();
   }
 
   @override
@@ -110,6 +114,13 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
               indicatorWeight: 3,
               splashBorderRadius: BorderRadius.circular(2),
               onTap: (index) {
+                if (index == 0) {
+                  apiGetListTerminalAgentWaiting();
+                } else if (index == 1) {
+                  GetListFarecollectSuccess();
+                } else {
+                  getListFarecollectEnd();
+                }
                 // Tab index when user select it, it start from zero
               },
               tabs: [
@@ -158,7 +169,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
     );
   }
 
-  converDate(String date) {
+  convertDate(String date) {
     return Time().DateTimeToThai(DateTime.parse(date));
   }
 
@@ -242,7 +253,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        converDate(driver.worksheetDate.toString()),
+                        convertDate(driver.worksheetDate.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -464,6 +475,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                   ),
                   InkWell(
                     onTap: () => {
+                      Navigator.pop(context),
                       PersistentNavBarNavigator.pushNewScreen(
                         context,
                         screen: TerminalAgentTimestamp(
@@ -475,7 +487,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                         withNavBar: false,
                         pageTransitionAnimation:
                             PageTransitionAnimation.cupertino,
-                      ).then((value) => {apiGetListTerminalAgentWaiting()})
+                      ).then((value) => {getData()})
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -583,7 +595,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        converDate(driver.worksheetDate.toString()),
+                        convertDate(driver.worksheetDate.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -805,6 +817,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                   ),
                   InkWell(
                     onTap: () => {
+                      Navigator.pop(context),
                       PersistentNavBarNavigator.pushNewScreen(
                         context,
                         screen: TerminalAgentTimestamp(
@@ -924,7 +937,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                             fontWeight: FontWeight.w500, fontSize: 13.5),
                       ),
                       Text(
-                        converDate(driver.worksheetDate.toString()),
+                        convertDate(driver.worksheetDate.toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 13.5),
                       ),
@@ -1146,6 +1159,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                   ),
                   InkWell(
                     onTap: () => {
+                      Navigator.pop(context),
                       PersistentNavBarNavigator.pushNewScreen(
                         context,
                         screen: TerminalAgentTimestamp(
@@ -1337,7 +1351,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       color: colorTextHeader),
                                                 ),
                                                 Text(
-                                                  '${converDate(list[index].worksheetDate!)}',
+                                                  '${convertDate(list[index].worksheetDate!)}',
                                                   style: TextStyle(
                                                       fontSize: 14.5,
                                                       fontWeight:
@@ -1531,7 +1545,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       color: colorTextHeader),
                                                 ),
                                                 Text(
-                                                  '${converDate(list[index].worksheetDate!)}',
+                                                  '${convertDate(list[index].worksheetDate!)}',
                                                   style: TextStyle(
                                                       fontSize: 14.5,
                                                       fontWeight:
@@ -1725,7 +1739,7 @@ class _TerminalAgentListState extends State<TerminalAgentList> {
                                                       color: colorTextHeader),
                                                 ),
                                                 Text(
-                                                  '${converDate(list[index].worksheetDate!)}',
+                                                  '${convertDate(list[index].worksheetDate!)}',
                                                   style: TextStyle(
                                                       fontSize: 14.5,
                                                       fontWeight:

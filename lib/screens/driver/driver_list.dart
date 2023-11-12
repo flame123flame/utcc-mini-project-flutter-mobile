@@ -93,7 +93,13 @@ class _DriverListState extends State<DriverList> {
               indicatorColor: Colors.white,
               indicatorWeight: 3,
               splashBorderRadius: BorderRadius.circular(2),
-              onTap: (index) {},
+              onTap: (index) {
+                if (index == 0) {
+                  GetListDriverProgress();
+                } else {
+                  GetListDriverSuccess();
+                }
+              },
               tabs: [
                 Tab(
                     child: Text('กำลังดำเนินการ',
@@ -112,7 +118,7 @@ class _DriverListState extends State<DriverList> {
               ],
             ),
             title: Text(
-              'รายการจ่ายงาน',
+              'รายการใบจ่ายงาน',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
@@ -133,7 +139,7 @@ class _DriverListState extends State<DriverList> {
   }
 }
 
-converDate(String date) {
+convertDate(String date) {
   return Time().DateTimeToThai(DateTime.parse(date));
 }
 
@@ -222,7 +228,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      converDate(driver.worksheetDate.toString()),
+                      convertDate(driver.worksheetDate.toString()),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -447,6 +453,7 @@ getPopupDetail(BuildContext context, Driver driver) {
                 ),
                 InkWell(
                   onTap: () => {
+                    Navigator.of(context).pop(),
                     PersistentNavBarNavigator.pushNewScreen(
                       context,
                       screen: DriverDetail(
@@ -571,7 +578,7 @@ getPopupDetail2(BuildContext context, Driver driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      converDate(driver.worksheetDate.toString()),
+                      convertDate(driver.worksheetDate.toString()),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -796,6 +803,7 @@ getPopupDetail2(BuildContext context, Driver driver) {
                 ),
                 InkWell(
                   onTap: () => {
+                    Navigator.of(context).pop(),
                     PersistentNavBarNavigator.pushNewScreen(
                       context,
                       screen: DriverDetail(
@@ -980,7 +988,7 @@ Widget TabWorkList1(BuildContext context, List<Driver> list) {
                                                     color: colorTextHeader),
                                               ),
                                               Text(
-                                                '${converDate(list[index].worksheetDate!)}',
+                                                '${convertDate(list[index].worksheetDate!)}',
                                                 style: TextStyle(
                                                     fontSize: 14.5,
                                                     fontWeight: FontWeight.w500,
@@ -1163,7 +1171,7 @@ Widget TabWorkList2(BuildContext context, List<Driver> list) {
                                                     color: colorTextHeader),
                                               ),
                                               Text(
-                                                '${converDate(list[index].worksheetDate!)}',
+                                                '${convertDate(list[index].worksheetDate!)}',
                                                 style: TextStyle(
                                                     fontSize: 14.5,
                                                     fontWeight: FontWeight.w500,

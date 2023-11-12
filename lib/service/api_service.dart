@@ -594,8 +594,8 @@ class ApiService {
     int worksheetId,
   ) async {
     try {
-      Response response =
-          await dioClient!.get('/api/worksheet/update-status/${worksheetId}');
+      Response response = await dioClient!
+          .get('/api/worksheet/update-status-by-super-visor/${worksheetId}');
       if (response.statusCode == 200) {
         return response;
       } else {
@@ -744,6 +744,55 @@ class ApiService {
       await Future.delayed(Duration(milliseconds: 300));
       final servicesRes =
           await dioClient!.get('/api/driver/farecollect-progress');
+      if (servicesRes.statusCode == 200) {
+        List<Driver> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(Driver.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
+  static Future<List<Driver>> getDataSupervisorEnd() async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(milliseconds: 300));
+      final servicesRes = await dioClient!.get('/api/driver/super-visor-end');
+      if (servicesRes.statusCode == 200) {
+        List<Driver> response = [];
+        servicesRes.data['data'].forEach((element) {
+          response.add(Driver.fromJson(element));
+        });
+        EasyLoading.dismiss();
+        return response;
+      } else {
+        EasyLoading.dismiss();
+        throw Exception('Failed to load service');
+      }
+    } catch (e) {
+      print("Exception: $e");
+      EasyLoading.dismiss();
+
+      throw e;
+    }
+  }
+
+  static Future<List<Driver>> getDataSupervisorSuccess() async {
+    try {
+      showLoadding();
+      await Future.delayed(Duration(milliseconds: 300));
+      final servicesRes =
+          await dioClient!.get('/api/driver/super-visor-success');
       if (servicesRes.statusCode == 200) {
         List<Driver> response = [];
         servicesRes.data['data'].forEach((element) {

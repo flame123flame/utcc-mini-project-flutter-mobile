@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:utcc_mobile/screens/work/work_assign.dart';
-
-import '../../components/popup_bottom.dart';
+import 'package:utcc_mobile/screens/work/work_detail.dart';
 import '../../constants/constant_color.dart';
 import '../../service/api_service.dart';
 import '../../utils/size_config.dart';
@@ -132,7 +128,7 @@ class _WorkListState extends State<WorkList> {
               ],
             ),
             title: Text(
-              'รายการจ่ายงาน',
+              'รายการใบจ่ายงาน',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
@@ -153,8 +149,15 @@ class _WorkListState extends State<WorkList> {
   }
 }
 
-converDate(String date) {
+convertDate(String date) {
   return Time().DateTimeToThai(DateTime.parse(date));
+}
+
+String isNullOrEmpty(String? input) {
+  if (input == null || input == "null" || input.toString().trim().isEmpty) {
+    return "รอทำรายการ";
+  }
+  return input;
 }
 
 getPopupDetail(BuildContext context, Worksheet driver) {
@@ -235,7 +238,7 @@ getPopupDetail(BuildContext context, Worksheet driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      converDate(driver.worksheetDate.toString()),
+                      convertDate(driver.worksheetDate.toString()),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -265,7 +268,71 @@ getPopupDetail(BuildContext context, Worksheet driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetTimeEnd ?? "-",
+                      isNullOrEmpty(driver.worksheetTimeEnd),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "นายท่าผู้ตัดเลิก",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      isNullOrEmpty(driver.worksheetTerminalAgent),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13.5,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชั่วโมงการทำงาน",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      isNullOrEmpty(driver.worksheetHours.toString()),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13.5,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชั่วโมงโอที(ล่วงเวลา)",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      isNullOrEmpty(driver.worksheetHoursOt.toString()),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "สายรถเมล์",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busLinesNo ?? "-",
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -281,6 +348,36 @@ getPopupDetail(BuildContext context, Worksheet driver) {
                     ),
                     Text(
                       driver.busVehiclePlateNo ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "เลขข้างรถ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busVehicleNumber ?? "-",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 13.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "กปด.",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 13.5),
+                    ),
+                    Text(
+                      driver.busDivisionName ?? "-",
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -340,7 +437,7 @@ getPopupDetail(BuildContext context, Worksheet driver) {
                           fontWeight: FontWeight.w500, fontSize: 13.5),
                     ),
                     Text(
-                      driver.worksheetBuslinesManager ?? "-",
+                      isNullOrEmpty(driver.worksheetBuslinesManager),
                       style: TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 13.5),
                     ),
@@ -363,6 +460,43 @@ getPopupDetail(BuildContext context, Worksheet driver) {
                 ),
                 SizedBox(
                   height: 18,
+                ),
+                InkWell(
+                  onTap: () => {
+                    Navigator.of(context).pop(),
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: WorkDetail(
+                          worksheet: driver,
+                          busLinesId: driver.busLinesId,
+                          busVehicleId: driver.busVehicleId,
+                          status: "IN_PROGRESS",
+                          worksheetId: driver.worksheetId),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    ).then((value) => {})
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color.fromARGB(255, 29, 45, 170),
+                              Color.fromARGB(255, 34, 50, 174),
+                            ])),
+                    height: 40,
+                    width: double.infinity,
+                    child: Text(
+                      'รายละเอียด',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w800),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -514,7 +648,7 @@ Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
                                                     color: colorTextHeader),
                                               ),
                                               Text(
-                                                '${converDate(list[index].worksheetDate!)}',
+                                                '${convertDate(list[index].worksheetDate!)}',
                                                 style: TextStyle(
                                                     fontSize: 14.5,
                                                     fontWeight: FontWeight.w500,
@@ -697,7 +831,7 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
                                                     color: colorTextHeader),
                                               ),
                                               Text(
-                                                '${converDate(list[index].worksheetDate!)}',
+                                                '${convertDate(list[index].worksheetDate!)}',
                                                 style: TextStyle(
                                                     fontSize: 14.5,
                                                     fontWeight: FontWeight.w500,
@@ -935,7 +1069,7 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
 //                                                                           .w800),
 //                                                             ),
 //                                                             Text(
-//                                                               '${converDate(list[index].worksheetDate!)}',
+//                                                               '${convertDate(list[index].worksheetDate!)}',
 //                                                               textAlign:
 //                                                                   TextAlign
 //                                                                       .left,
@@ -1245,7 +1379,7 @@ Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
 //                                                                           .w800),
 //                                                             ),
 //                                                             Text(
-//                                                               '${converDate(list[index].worksheetDate!)}',
+//                                                               '${convertDate(list[index].worksheetDate!)}',
 //                                                               textAlign:
 //                                                                   TextAlign
 //                                                                       .left,

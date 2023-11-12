@@ -78,7 +78,7 @@ class _FareDeatilState extends State<FareDeatil>
     return input;
   }
 
-  converDate(String date) {
+  convertDate(String date) {
     return Time().DateTimeToThai(DateTime.parse(date));
   }
 
@@ -168,7 +168,7 @@ class _FareDeatilState extends State<FareDeatil>
                                           fontSize: 13.5),
                                     ),
                                     Text(
-                                      converDate(widget.driver.worksheetDate!),
+                                      convertDate(widget.driver.worksheetDate!),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 13.5),
@@ -598,24 +598,54 @@ class _FareDeatilState extends State<FareDeatil>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "ตั๋วรวมขาที่ ${data.trip}",
+                    "เที่ยวที่(ขา) ${index == 0 ? " เริ่มต้น" : (data.trip! - 1)}",
                     style: TextStyle(
                       color: Color.fromARGB(255, 35, 35, 35),
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  Text(
-                    '${formatterTicket.format(data.sumTicket)} ใบ',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 35, 35, 35),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
+                  if (index != 0)
+                    Text(
+                      '${formatterTicket.format(data.sumTicket)} ใบ',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 35, 35, 35),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
+            if (data.busTerminalAgentName != null &&
+                data.busTerminalAgentName!.isNotEmpty)
+              Divider(endIndent: 10, indent: 10),
+            if (data.busTerminalAgentName != null &&
+                data.busTerminalAgentName!.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ชื่อนายท่าลงเวลา",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 35, 35, 35),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    Text(
+                      '${data.busTerminalAgentName}',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 35, 35, 35),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

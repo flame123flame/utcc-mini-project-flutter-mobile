@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:utcc_mobile/screens/driver/model/driver.dart';
 import '../../components/popup_bottom.dart';
 import '../../components/popup_date_picker.dart';
 import '../../constants/constant_color.dart';
@@ -22,46 +23,11 @@ class Overview extends StatefulWidget {
 }
 
 class _OverviewState extends State<Overview> {
-  int tabActive = 0;
-  List<Worksheet> listWorksheetProgress = [];
-  List<Worksheet> listWorksheetSuccess = [];
-  TextEditingController NumberSearchTab1 = new TextEditingController();
-  TextEditingController NumberSearchTab2 = new TextEditingController();
-  String activeSearch = 'code01';
-
-  List<PopupBottomModel> listMenu = [
-    PopupBottomModel(
-      code: 'code01', //ชื่อ
-      title: 'ทั้งหมด',
-      subTitle: 'ค้นหารายการทั้งหมด',
-      icon: Icon(
-        Icons.all_inbox,
-        color: Colors.white,
-      ),
-    ),
-    PopupBottomModel(
-      code: 'code02',
-      title: 'วันที่',
-      subTitle: 'ค้นหารายการด้วยวันที่',
-      icon: Icon(
-        Icons.dataset_linked,
-        color: Colors.white,
-      ),
-    ),
-    PopupBottomModel(
-      code: 'code03',
-      title: 'เลขที่ใบงาน',
-      subTitle: 'ค้นหารายการด้วยเลขที่ใบงาน',
-      icon: Icon(
-        Icons.numbers,
-        color: Colors.white,
-      ),
-    ),
-  ];
-
-  GetListWorksheetProgress() async {
+  List<Driver> listWorksheetProgress = [];
+  List<Driver> listWorksheetSuccess = [];
+  getDataSupervisorEnd() async {
     try {
-      List<Worksheet> temp = await ApiService.apiGetListWorksheetProgress();
+      List<Driver> temp = await ApiService.getDataSupervisorEnd();
       setState(() {
         listWorksheetProgress = temp;
       });
@@ -70,10 +36,9 @@ class _OverviewState extends State<Overview> {
     }
   }
 
-  GetListWorksheetSuccess(String date, int? id) async {
+  getDataSupervisorSuccess() async {
     try {
-      List<Worksheet> temp =
-          await ApiService.apiGetListWorksheetSuccess(date, id);
+      List<Driver> temp = await ApiService.getDataSupervisorSuccess();
       setState(() {
         listWorksheetSuccess = temp;
       });
@@ -84,17 +49,26 @@ class _OverviewState extends State<Overview> {
 
   @override
   void initState() {
-    GetListWorksheetProgress();
-    GetListWorksheetSuccess("", null);
+    getData();
     super.initState();
+  }
+
+  getData() {
+    getDataSupervisorEnd();
+    getDataSupervisorSuccess();
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: Container(
-        child: Scaffold(
+      child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: 'prompt',
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Scaffold(
+          backgroundColor: Color(0xffeaf4ff),
           drawerDragStartBehavior: DragStartBehavior.start,
           appBar: AppBar(
             centerTitle: true,
@@ -107,26 +81,6 @@ class _OverviewState extends State<Overview> {
                 Navigator.of(context).pop();
               },
             ),
-            actions: <Widget>[
-              if (tabActive == 1)
-                PopupFilterBottom(
-                  validate: false,
-                  list: listMenu,
-                  onSelected: (index, code, value) {
-                    DateTime now = new DateTime.now();
-                    DateTime date = new DateTime(now.year, now.month, now.day);
-                    if (value == "วันที่") {
-                      GetListWorksheetSuccess(
-                          date.toString().split(".")[0], null);
-                    } else {
-                      GetListWorksheetSuccess("", null);
-                    }
-                    setState(() {
-                      activeSearch = code.toString();
-                    });
-                  },
-                )
-            ],
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -145,24 +99,22 @@ class _OverviewState extends State<Overview> {
               splashBorderRadius: BorderRadius.circular(2),
               onTap: (index) {
                 if (index == 0) {
-                  GetListWorksheetProgress();
+                  getDataSupervisorEnd();
                 } else {
-                  GetListWorksheetSuccess("", null);
+                  getDataSupervisorSuccess();
                 }
-                setState(() {
-                  tabActive = index;
-                });
+                // Tab index when user select it, it start from zero
               },
               tabs: [
                 Tab(
-                    child: Text('กำลังดำเนินการ',
+                    child: Text('รอการรับรองจบงาน',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
                           fontFamily: 'prompt',
                         ))),
                 Tab(
-                    child: Text('ดำเนินการเสร็จสิ้น',
+                    child: Text('รับรองจบงานแล้ว',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
@@ -171,7 +123,7 @@ class _OverviewState extends State<Overview> {
               ],
             ),
             title: Text(
-              'รายการจ่ายงาน',
+              'รายการเก็บค่าโดยสาร',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
@@ -191,12 +143,20 @@ class _OverviewState extends State<Overview> {
     );
   }
 
-  converDate(String date) {
+  convertDate(String date) {
     return Time().DateTimeToThai(DateTime.parse(date));
   }
 
-  getPopupDetail(BuildContext context) {
+  String isNullOrEmpty(String? input) {
+    if (input == null || input == "null" || input.toString().trim().isEmpty) {
+      return "รอทำรายการ";
+    }
+    return input;
+  }
+
+  getPopupDetail(BuildContext context, Driver driver) {
     showModalBottomSheet<void>(
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(13),
@@ -226,7 +186,12 @@ class _OverviewState extends State<Overview> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Text('รายละเอียด'),
+                  Text('รายละเอียด',
+                      style: TextStyle(
+                          fontFamily: 'prompt',
+                          color: Color.fromARGB(255, 30, 30, 30),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
                   CupertinoButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -239,8 +204,295 @@ class _OverviewState extends State<Overview> {
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "หมายเลขใบงาน ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetId.toString() ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "วันที่ใบจ่ายงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        convertDate(driver.worksheetDate.toString()),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "เวลารับงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.worksheetTimeBegin),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "เวลาตัดเลิก",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.worksheetTimeEnd),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "นายท่าผู้ตัดเลิก",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.worksheetTerminalAgent),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชั่วโมงการทำงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.worksheetHours),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชั่วโมงโอที(ล่วงเวลา)",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.worksheetHoursOt),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "สายรถเมล์",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.busLinesNo),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ทะเบียนรถเมล์",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.busVehiclePlateNo),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "เลขข้างรถ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.busVehicleNumber),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "กปด.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.busDivisionName ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชื่อผู้จ่ายงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.worksheetDispatcher),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชื่อพนักงานขับรถ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.worksheetDriver),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชื่อพนักเก็บค่าโดยสาร",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetFarecollect?.toString() ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "รับรอง(ผู้จัดการสาย)",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        isNullOrEmpty(driver.worksheetBuslinesManager),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "สถานะใบงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        "รอการรับรองใบงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  InkWell(
+                    onTap: () => {
+                      Navigator.of(context).pop(),
+                      PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        screen: OverviewDetail(
+                            driver: driver,
+                            busLinesId: driver.busLinesId,
+                            busVehicleId: driver.busVehicleId,
+                            status: "IN_PROGRESS",
+                            worksheetId: driver.worksheetId),
+                        withNavBar: false,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      ).then((value) => {getData()})
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30)),
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Color.fromARGB(255, 29, 45, 170),
+                                Color.fromARGB(255, 34, 50, 174),
+                              ])),
+                      height: 40,
+                      width: double.infinity,
+                      child: Text(
+                        'ดำเนินการ',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
-              height: 200,
+              height: 30,
             ),
           ],
         );
@@ -248,833 +500,747 @@ class _OverviewState extends State<Overview> {
     );
   }
 
-  void showFlushbar({
-    required String message,
-    required Color backgroundColor,
-    required Icon icon,
-    required Function() onPressed,
-  }) {
-    Flushbar(
-      flushbarPosition: FlushbarPosition.TOP,
-      icon: icon,
-      message: message,
-      margin: EdgeInsets.only(
-        left: 60,
-        right: 60,
-        bottom: 10,
-        top: 10,
+  getPopupDetail2(BuildContext context, Driver driver) {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(13),
+        ),
       ),
-      backgroundColor: backgroundColor,
-      flushbarStyle: FlushbarStyle.FLOATING,
-      borderRadius: BorderRadius.circular(8),
-      padding: EdgeInsets.only(top: 8, bottom: 8, left: 10),
-      duration: Duration(milliseconds: 2000),
-      animationDuration: Duration(milliseconds: 1000),
-      textDirection: Directionality.of(context),
-      isDismissible: false,
-    ).show(context);
-  }
-
-  Widget TabWorkList1(BuildContext context, List<Worksheet> list) {
-    return Container(
-      child: Column(
-        children: [
-          Padding(
-              padding: EdgeInsets.only(
-                  bottom: SizeConfig.defaultSize! * 0.8,
-                  top: SizeConfig.defaultSize! * 1.5,
-                  left: SizeConfig.defaultSize! * 1.5,
-                  right: SizeConfig.defaultSize! * 1.5),
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 4, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (list.length > 0)
-                    Text(
-                      'รายการใบงานในระบบ ${list.length} รายการ',
+                  CupertinoButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      '',
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
+                          fontFamily: 'prompt',
+                          color: Color.fromARGB(255, 12, 54, 151),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Text('รายละเอียด',
+                      style: TextStyle(
+                          fontFamily: 'prompt',
+                          color: Color.fromARGB(255, 30, 30, 30),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
+                  CupertinoButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: Color.fromARGB(255, 12, 54, 151),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "หมายเลขใบงาน ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetId.toString() ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "วันที่ใบจ่ายงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        convertDate(driver.worksheetDate.toString()),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "เวลารับงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetTimeBegin ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "เวลาตัดเลิก",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetTimeEnd ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "นายท่าผู้ตัดเลิก",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetTerminalAgent!.trim().isEmpty
+                            ? '-'
+                            : driver.worksheetTerminalAgent.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชั่วโมงการทำงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        ' ${driver.worksheetHours == null ? 'รอตัดเลิก' : driver.worksheetHours.toString() + ' ชั่วโมง'} ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชั่วโมงโอที(ล่วงเวลา)",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        ' ${driver.worksheetHoursOt == null ? 'รอตัดเลิก' : driver.worksheetHoursOt.toString() + ' ชั่วโมง'} ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "สายรถเมล์",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.busLinesNo ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ทะเบียนรถเมล์",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.busVehiclePlateNo ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "เลขข้างรถ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.busVehicleNumber ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "กปด.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.busDivisionName ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชื่อผู้จ่ายงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetDispatcher ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชื่อพนักงานขับรถ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetDriver?.toString() ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "ชื่อพนักเก็บค่าโดยสาร",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetFarecollect?.toString() ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "รับรอง(ผู้จัดการสาย)",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        driver.worksheetBuslinesManager?.toString() ?? "-",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "สถานะใบงาน",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 13.5),
+                      ),
+                      Text(
+                        "เสร็จสิ้น",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 13.5),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  InkWell(
+                    onTap: () => {
+                      Navigator.of(context).pop(),
+                      PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        screen: OverviewDetail(
+                            driver: driver,
+                            busLinesId: driver.busLinesId,
+                            busVehicleId: driver.busVehicleId,
+                            status: "SUCCESS",
+                            worksheetId: driver.worksheetId),
+                        withNavBar: false,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      ).then((value) => {})
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30)),
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Color.fromARGB(255, 29, 45, 170),
+                                Color.fromARGB(255, 34, 50, 174),
+                              ])),
+                      height: 40,
+                      width: double.infinity,
+                      child: Text(
+                        'รายละเอียด',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w800),
                       ),
                     ),
-                  // Text('data')
+                  ),
                 ],
-              )),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget TabWorkList1(BuildContext context, List<Driver> list) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Column(
+        children: [
           if (list.length <= 0)
             Container(
-              margin: EdgeInsets.only(top: 1),
-              child: Text('ยังไม่มีรายการ'),
+              width: double.infinity,
+              height: SizeConfig.defaultSize! * 14,
+              margin: EdgeInsets.only(top: 1, left: 10, right: 10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.white,
+                  boxShadow: [],
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(255, 255, 255, 255)
+                      ])),
+              child: Center(
+                  child: Text('ยังไม่มีรายการ',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black))),
             ),
           if (list.length > 0)
             Expanded(
-              flex: 1,
-              child: Container(
-                child: Container(
-                  child: GridView.count(
-                    primary: false,
-                    padding: const EdgeInsets.only(bottom: 25, top: 10),
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                    crossAxisCount: 1,
-                    childAspectRatio: 4,
-                    children: [
-                      ...List.generate(list.length, (index) {
-                        return Container(
-                          child: InkWell(
-                              onTap: () => {
-                                    PersistentNavBarNavigator.pushNewScreen(
-                                      context,
-                                      screen: OverviewDetail(
-                                          status: "IN_PROGRESS",
-                                          worksheetId: list[index].worksheetId),
-                                      withNavBar: false,
-                                      pageTransitionAnimation:
-                                          PageTransitionAnimation.cupertino,
-                                    ).then((value) => {
-                                          print(value),
-                                          if (value.toString() == "noti")
-                                            {
-                                              setState(() {
-                                                showFlushbar(
-                                                  icon: Icon(
-                                                    CupertinoIcons
-                                                        .check_mark_circled,
-                                                    size: 23,
-                                                    color: Colors.white,
-                                                  ),
-                                                  message: "ตัดเลิกงานสำเร็จ",
-                                                  backgroundColor:
-                                                      Color.fromARGB(
-                                                          255, 58, 150, 76),
-                                                  onPressed: () {},
-                                                );
-                                              })
-                                            },
-                                          GetListWorksheetProgress(),
-                                        })
-                                  },
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: SizeConfig.defaultSize! * 10,
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.defaultSize! * 0.5,
-                                        bottom: SizeConfig.defaultSize! * 0.5,
-                                        left: SizeConfig.defaultSize! * 1.5,
-                                        right: SizeConfig.defaultSize! * 1.5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.grey.withOpacity(0.14),
-                                            spreadRadius: 5,
-                                            blurRadius: 7,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
+                child: ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  child: InkWell(
+                      onTap: () => {getPopupDetail(context, list[index])},
+                      child: Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.defaultSize! * 0.5,
+                                bottom: SizeConfig.defaultSize! * 0.5,
+                                left: SizeConfig.defaultSize! * 0.8,
+                                right: SizeConfig.defaultSize! * 0.8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                                boxShadow: [],
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromARGB(255, 255, 255, 255),
+                                      Color.fromARGB(255, 255, 255, 255)
+                                    ])),
+                            padding:
+                                EdgeInsets.all(SizeConfig.defaultSize! * 1),
+                            child: Stack(
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: 12, right: 12),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "หมายเลขใบงาน",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  '${list[index].worksheetId}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 2),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "เลขข้างรถ",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  '${list[index].busVehicleNumber}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 2),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "ทะเบียนรถเมล์",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  '${list[index].busVehiclePlateNo}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 2),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "วันที่ใบจ่ายงาน",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  '${convertDate(list[index].worksheetDate!)}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 2),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "สถานะใบงาน",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  'รอรับรองจบใบงาน',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
                                         ],
-                                        gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Color.fromARGB(255, 255, 255, 255)
-                                                  .withOpacity(0.40),
-                                              Color.fromARGB(255, 255, 255, 255)
-                                                  .withOpacity(0.60),
-                                              Color.fromARGB(255, 255, 255, 255)
-                                                  .withOpacity(0.80)
-                                            ])),
-                                    padding: EdgeInsets.all(
-                                        SizeConfig.defaultSize! * 1),
-                                    child: Stack(
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              child: Column(
-                                                children: [
-                                                  Row(children: [
-                                                    Container(
-                                                      width: 40,
-                                                      height: 40,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: colorBar,
-                                                      ),
-                                                      margin: EdgeInsets.only(
-                                                          right: 6, left: 6),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            int.parse((index +
-                                                                        1)
-                                                                    .toString())
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                "  เลขที่ใบงาน : ",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                              Text(
-                                                                '${list[index].worksheetId}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                "  วันที่ : ",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                              Text(
-                                                                '${converDate(list[index].worksheetDate!)}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                "  สถานะใบงาน : ",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            5),
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10,
-                                                                        right:
-                                                                            10),
-                                                                decoration: BoxDecoration(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            207,
-                                                                            114,
-                                                                            38),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            6.0),
-                                                                    border: Border.all(
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            232,
-                                                                            122,
-                                                                            32))),
-                                                                child: Text(
-                                                                  'กำลังดำเนินงาน',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style: TextStyle(
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      color: Color.fromARGB(
-                                                                          255,
-                                                                          244,
-                                                                          231,
-                                                                          231),
-                                                                      fontSize:
-                                                                          12,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w800),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ])
-                                                  ]),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        );
-                      })
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                );
+              },
+            ))
         ],
       ),
     );
   }
 
-  Widget TabWorkList2(BuildContext context, List<Worksheet> list) {
+  Widget TabWorkList2(BuildContext context, List<Driver> list) {
     return Container(
+      margin: EdgeInsets.only(top: 10),
       child: Column(
         children: [
-          Padding(
-              padding: EdgeInsets.only(
-                  bottom: SizeConfig.defaultSize! * 0.8,
-                  top: SizeConfig.defaultSize! * 1.5,
-                  left: SizeConfig.defaultSize! * 1.5,
-                  right: SizeConfig.defaultSize! * 1.5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (list.length > 0)
-                    Text(
-                      'รายการใบงานในระบบ ${list.length} รายการ',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  // Text('data')
-                ],
-              )),
-          Visibility(
-            visible: activeSearch != "code01",
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(9.0),
-                  border: Border.all(color: Colors.white)),
-              padding: EdgeInsets.only(bottom: SizeConfig.defaultSize! * 2.8),
-              margin: EdgeInsets.only(
-                  top: SizeConfig.defaultSize! * 1.5,
-                  left: SizeConfig.defaultSize! * 1.5,
-                  right: SizeConfig.defaultSize! * 1.5),
-              child: Column(
-                children: [
-                  Visibility(
-                    visible: activeSearch == "code02",
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: SizeConfig.defaultSize! * 1.5,
-                              right: SizeConfig.defaultSize! * 1.5),
-                          child: Text(
-                            'วันที่สร้างผู้ใช้งาน',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: SizeConfig.defaultSize! * 1.5,
-                              right: SizeConfig.defaultSize! * 1.5),
-                          child: Container(
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.defaultSize! * 0.1,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: Colors.white,
-                            ),
-                            child: PopupDatePicker(
-                              validate: false,
-                              onSelected: (datetime) {
-                                GetListWorksheetSuccess(
-                                    datetime.toString().split(".")[0], null);
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Visibility(
-                    visible: (activeSearch == 'code03'),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: SizeConfig.defaultSize! * 0.7,
-                              left: SizeConfig.defaultSize! * 1.5,
-                              right: SizeConfig.defaultSize! * 1.5),
-                          child: Text(
-                            'เลขที่ใบงาน',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: SizeConfig.defaultSize! * 1.5,
-                              right: SizeConfig.defaultSize! * 1.5),
-                          child: Container(
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.defaultSize! * 0.4,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                color: Colors.white,
-                              ),
-                              child: Container(
-                                  width: double.infinity,
-                                  height: 42,
-                                  padding: EdgeInsets.only(
-                                      left: 5, right: 1, bottom: 5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6.0),
-                                      border: Border.all(
-                                          color: Color.fromARGB(
-                                              255, 221, 219, 218))),
-                                  child: Focus(
-                                    child: TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        onChanged: (value) => {
-                                              if (value.isEmpty)
-                                                {
-                                                  GetListWorksheetSuccess(
-                                                      "", null)
-                                                }
-                                              else
-                                                {
-                                                  GetListWorksheetSuccess(
-                                                      "", int.parse(value))
-                                                }
-                                            },
-                                        textInputAction: TextInputAction.done,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          prefixIcon: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 0.0,
-                                                top:
-                                                    6), // add padding to adjust icon
-                                            child: Icon(Icons.search_outlined,
-                                                size: 30,
-                                                color: Color.fromARGB(
-                                                    255, 165, 164, 163)),
-                                          ),
-                                        )),
-                                  ))),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
           if (list.length <= 0)
             Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Text('ยังไม่มีรายการ'),
+              width: double.infinity,
+              height: SizeConfig.defaultSize! * 14,
+              margin: EdgeInsets.only(top: 1, left: 10, right: 10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                  boxShadow: [],
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(255, 255, 255, 255)
+                      ])),
+              child: Center(
+                  child: Text('ยังไม่มีรายการ',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black))),
             ),
           if (list.length > 0)
             Expanded(
-              flex: 1,
-              child: Container(
-                child: Container(
-                  child: GridView.count(
-                    primary: false,
-                    padding: const EdgeInsets.only(bottom: 25, top: 10),
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                    crossAxisCount: 1,
-                    childAspectRatio: 4,
-                    children: [
-                      ...List.generate(list.length, (index) {
-                        return Container(
-                          child: InkWell(
-                              onTap: () => {
-                                    PersistentNavBarNavigator.pushNewScreen(
-                                      context,
-                                      screen: OverviewDetail(
-                                          status: "SUCCESS",
-                                          worksheetId: list[index].worksheetId),
-                                      withNavBar: false,
-                                      pageTransitionAnimation:
-                                          PageTransitionAnimation.cupertino,
-                                    ).then((value) => {})
-                                  },
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: SizeConfig.defaultSize! * 10,
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.defaultSize! * 0.5,
-                                        bottom: SizeConfig.defaultSize! * 0.5,
-                                        left: SizeConfig.defaultSize! * 1.5,
-                                        right: SizeConfig.defaultSize! * 1.5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.grey.withOpacity(0.14),
-                                            spreadRadius: 5,
-                                            blurRadius: 7,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
+                child: ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  child: InkWell(
+                      onTap: () => {getPopupDetail2(context, list[index])},
+                      child: Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.defaultSize! * 0.5,
+                                bottom: SizeConfig.defaultSize! * 0.5,
+                                left: SizeConfig.defaultSize! * 1.5,
+                                right: SizeConfig.defaultSize! * 1.5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: Colors.white,
+                                boxShadow: [],
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromARGB(255, 255, 255, 255),
+                                      Color.fromARGB(255, 255, 255, 255)
+                                    ])),
+                            padding:
+                                EdgeInsets.all(SizeConfig.defaultSize! * 1),
+                            child: Stack(
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: 12, right: 12),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "หมายเลขใบงาน",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  '${list[index].worksheetId}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 2),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "เลขข้างรถ",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  '${list[index].busVehicleNumber}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 2),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "ทะเบียนรถเมล์",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  '${list[index].busVehiclePlateNo}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 2),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "วันที่ใบจ่ายงาน",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  '${convertDate(list[index].worksheetDate!)}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
+                                          SizedBox(height: 2),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "สถานะใบงาน",
+                                                  style: TextStyle(
+                                                      fontSize: 13.5,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: colorTextHeader),
+                                                ),
+                                                Text(
+                                                  'เสร็จสิ้น',
+                                                  style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: colorTextValue),
+                                                ),
+                                              ]),
                                         ],
-                                        gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Color.fromARGB(255, 255, 255, 255)
-                                                  .withOpacity(0.40),
-                                              Color.fromARGB(255, 255, 255, 255)
-                                                  .withOpacity(0.60),
-                                              Color.fromARGB(255, 255, 255, 255)
-                                                  .withOpacity(0.80)
-                                            ])),
-                                    padding: EdgeInsets.all(
-                                        SizeConfig.defaultSize! * 1),
-                                    child: Stack(
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              child: Column(
-                                                children: [
-                                                  Row(children: [
-                                                    Container(
-                                                      width: 40,
-                                                      height: 40,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: colorBar,
-                                                      ),
-                                                      margin: EdgeInsets.only(
-                                                          right: 6, left: 6),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            int.parse((index +
-                                                                        1)
-                                                                    .toString())
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                "  เลขที่ใบงาน : ",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                              Text(
-                                                                '${list[index].worksheetId}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                "  วันที่ : ",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                              Text(
-                                                                '${converDate(list[index].worksheetDate!)}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                "  สถานะใบงาน : ",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            48,
-                                                                            47,
-                                                                            47),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            5),
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10,
-                                                                        right:
-                                                                            10),
-                                                                decoration: BoxDecoration(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            99,
-                                                                            161,
-                                                                            6),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            6.0),
-                                                                    border: Border.all(
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            105,
-                                                                            187,
-                                                                            33))),
-                                                                child: Text(
-                                                                  'ดำเนินการเสร็จสิ้น',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style: TextStyle(
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      color: Color.fromARGB(
-                                                                          255,
-                                                                          244,
-                                                                          231,
-                                                                          231),
-                                                                      fontSize:
-                                                                          12,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w800),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ])
-                                                  ]),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        );
-                      })
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                );
+              },
+            ))
         ],
       ),
     );
