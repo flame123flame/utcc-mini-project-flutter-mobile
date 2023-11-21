@@ -43,6 +43,7 @@ class _SettingState extends State<Setting> {
   }
 
   bool faceID = false;
+  bool mode = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,33 +149,26 @@ class _SettingState extends State<Setting> {
                   )
                 },
               ),
-              SettingsTile.navigation(
+              SettingsTile.switchTile(
+                onToggle: (value) {
+                  setState(() {
+                    mode = value;
+                  });
+                },
+                activeSwitchColor: colorBar,
+                initialValue: mode,
                 leading: Icon(
-                  Icons.lock,
+                  Icons.dark_mode,
                   color: colorBar,
                 ),
                 title: Text(
-                  'เปลี่ยนรหัสผ่าน',
+                  'โหมดสีเข้ม',
                   style: TextStyle(
                     fontFamily: 'prompt',
                     fontWeight: FontWeight.w800,
                     fontSize: 12,
                   ),
                 ),
-                value: Text(''),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: colorBar,
-                  size: 16,
-                ),
-                onPressed: (context) => {
-                  PersistentNavBarNavigator.pushNewScreen(
-                    context,
-                    screen: EditPassword(),
-                    withNavBar: false,
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  )
-                },
               ),
               SettingsTile.switchTile(
                 onToggle: (value) {

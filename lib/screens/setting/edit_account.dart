@@ -8,6 +8,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:utcc_mobile/components/popup_picker.dart';
 
+import '../../components/success_alert.dart';
 import '../../constants/constant_color.dart';
 import '../../constants/constant_font_size.dart';
 import '../../model_components/popup_model.dart';
@@ -65,6 +66,12 @@ class _EditAccountState extends State<EditAccount> {
     phoneNumber.text = userLoginProvider!.getUserLogin.phoneNumber!;
 
     super.initState();
+  }
+
+  editAccount(BuildContext context) {
+    userLoginProvider!.editUser(firstName.text, lastName.text, position.text,
+        phoneNumber.text, email.text);
+    SuccessAlert().noti(context, "แก้ไขข้อมูลสำเร็จ");
   }
 
   @override
@@ -361,11 +368,11 @@ class _EditAccountState extends State<EditAccount> {
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(0), topRight: Radius.circular(0)),
       ),
-      child: elememtButtom(),
+      child: elememtButtom(context),
     );
   }
 
-  Widget elememtButtom() {
+  Widget elememtButtom(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -380,7 +387,7 @@ class _EditAccountState extends State<EditAccount> {
                   Expanded(
                     flex: 1,
                     child: InkWell(
-                      onTap: () => {},
+                      onTap: () => {editAccount(context)},
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(

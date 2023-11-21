@@ -199,18 +199,6 @@ class _PinState extends State<Pin> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.white,
-        //   // title: Text(pinText),
-        //   actions: <Widget>[
-        //     IconButton(
-        //       icon: Icon(Icons.close),
-        //       onPressed: () {
-        //         logout();
-        //       },
-        //     )
-        //   ],
-        // ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
