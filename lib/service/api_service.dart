@@ -518,19 +518,27 @@ class ApiService {
     }
   }
 
-  static Future<Response> setTimestampEnd(int terminalTimestampId,
-      int worksheetId, String terminalTimeDeparture) async {
+  static Future<Response> setTimestampEnd(
+      int terminalTimestampId,
+      int worksheetId,
+      String terminalTimeDeparture,
+      int worksheetSumTicket,
+      double worksheetSumIncome) async {
     printJson({
       "terminalTimestampId": terminalTimestampId,
       "terminalTimeDeparture": terminalTimeDeparture,
-      "worksheetId": worksheetId
+      "worksheetId": worksheetId,
+      "worksheetSumTicket": worksheetSumTicket,
+      "worksheetSumIncome": worksheetSumIncome
     });
     try {
       Response response =
           await dioClient!.post('/api/timestamp/set-timestamp-end', data: {
         "terminalTimestampId": terminalTimestampId,
         "terminalTimeDeparture": terminalTimeDeparture,
-        "worksheetId": worksheetId
+        "worksheetId": worksheetId,
+        "worksheetSumTicket": worksheetSumTicket,
+        "worksheetSumIncome": worksheetSumIncome
       });
 
       if (response.statusCode == 200) {

@@ -41,17 +41,19 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
     with SingleTickerProviderStateMixin {
   final valueFormat = new NumberFormat("#,##0.00", "en_US");
   List<int> sumList = [];
-  double sum = 0;
-  int sumCal = 0;
+  double sumIncome = 0;
+  int sumTicket = 0;
   List<TicketTrip> dataList = [];
 
   getData() async {
     try {
       List<TicketTrip> data =
           await ApiService.apiGetTicketByIdTimestamp(widget.worksheetId!);
-      sum = 0;
+      sumIncome = 0;
+      sumTicket = 0;
       for (var i = 0; i < data.length; i++) {
-        sum += data[i].sumPrice!;
+        sumIncome += data[i].sumPrice!;
+        sumTicket += data[i].sumTicket!;
       }
       setState(() {
         dataList = data;
@@ -86,8 +88,8 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
   setTimestampEnd(int terminalTimestampId, int worksheetId,
       String terminalTimeDeparture, BuildContext context) async {
     try {
-      Response data = await ApiService.setTimestampEnd(
-          terminalTimestampId, worksheetId, terminalTimeDeparture);
+      Response data = await ApiService.setTimestampEnd(terminalTimestampId,
+          worksheetId, terminalTimeDeparture, sumTicket, sumIncome);
       notifacontionCustom(
           context, "ตัดเลิกสำเร็จ " + terminalTimeDeparture + " สำเร็จ");
       setState(() {});
@@ -277,8 +279,6 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
     }
     int totalHours = end.difference(start).inHours;
     int remainingMinutes = end.difference(start).inMinutes.remainder(60);
-
-    // Round up if there are remaining minutes
     if (remainingMinutes > 0) {
       totalHours++;
     }
@@ -328,7 +328,7 @@ class _TerminalAgentTimestampState extends State<TerminalAgentTimestamp>
                         height: 10,
                       ),
                       Text(
-                        '${formatterSum.format(sum)}',
+                        '${formatterSum.format(sumIncome)}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color.fromARGB(255, 255, 255, 255),

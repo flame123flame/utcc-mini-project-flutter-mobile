@@ -170,14 +170,54 @@ class _PopupDatePickerState extends State<PopupDatePicker> {
                     ),
                   ),
                   Expanded(
-                    child: CupertinoDatePicker(
-                      mode: widget.mode,
-                      use24hFormat: true,
-                      initialDateTime: dateSelected ?? currentDate,
-                      dateOrder: DatePickerDateOrder.dmy,
-                      onDateTimeChanged: (DateTime newDateTime) {
-                        tempDateSelected = newDateTime;
-                      },
+                    child: CupertinoTheme(
+                      data: CupertinoThemeData(
+                        primaryColor: CupertinoColors.systemBlue,
+                        brightness: Theme.of(context).brightness,
+                        primaryContrastingColor: CupertinoColors.white,
+                        scaffoldBackgroundColor: CupertinoColors.white,
+                        barBackgroundColor: CupertinoColors.systemBlue,
+                        textTheme: CupertinoTextThemeData(
+                          pickerTextStyle: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'prompt',
+                              color: Colors.black),
+                          dateTimePickerTextStyle: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          navTitleTextStyle: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w600,
+                            color: CupertinoColors.black,
+                          ),
+                          navLargeTitleTextStyle: TextStyle(
+                            fontSize: 34.0,
+                            fontWeight: FontWeight.w700,
+                            color: CupertinoColors.black,
+                          ),
+                          actionTextStyle: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            color: CupertinoColors.activeBlue,
+                          ),
+                          tabLabelTextStyle: TextStyle(
+                            fontSize: 10.0,
+                            fontWeight: FontWeight.w400,
+                            color: CupertinoColors.inactiveGray,
+                          ),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        mode: widget.mode,
+                        use24hFormat: true,
+                        initialDateTime: dateSelected ?? currentDate,
+                        dateOrder: DatePickerDateOrder.dmy,
+                        onDateTimeChanged: (DateTime newDateTime) {
+                          tempDateSelected = newDateTime;
+                        },
+                      ),
                     ),
                   ),
                 ],
